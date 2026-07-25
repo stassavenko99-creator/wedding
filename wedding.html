@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Свадьба Артёма и Алисы</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Georgia', 'Times New Roman', serif;
+            background: linear-gradient(135deg, #fdfbfb 0%, #ebedee 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .invitation {
+            max-width: 500px;
+            width: 100%;
+            background: white;
+            border-radius: 24px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.1);
+            overflow: hidden;
+            text-align: center;
+            position: relative;
+            min-height: 600px;
+        }
+
+        .page {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .header {
+            background: linear-gradient(135deg, #2c3e50 0%, #4a6741 40%, #8b7355 100%);
+            padding: 50px 30px;
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: "❦";
+            position: absolute;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 40px;
+            opacity: 0.6;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateX(-50%) translateY(0); }
+            50% { transform: translateX(-50%) translateY(-10px); }
+        }
+
+        .header h2 {
+            font-weight: 400;
+            font-size: 1rem;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            margin-bottom: 30px;
+            margin-top: 30px;
+            opacity: 0.9;
+        }
+
+        .header h1 {
+            font-weight: 700;
+            font-size: 3rem;
+            margin-bottom: 5px;
+            text-shadow: 0 2px 15px rgba(0,0,0,0.3);
+        }
+
+        .header .and {
+            font-style: italic;
+            font-weight: 400;
+            font-size: 1.8rem;
+            display: block;
+            margin: 5px 0;
+        }
+
+        .header .date-badge {
+            display: inline-block;
+            background: rgba(255,255,255,0.25);
+            padding: 10px 25px;
+            border-radius: 50px;
+            font-weight: 600;
+            letter-spacing: 3px;
+            margin-top: 20px;
+            border: 1px solid rgba(255,255,255,0.4);
+            font-size: 0.95rem;
+        }
+
+        .content {
+            padding: 35px 30px;
+            color: #333;
+        }
+
+        .dear-guest {
+            font-size: 1.1rem;
+            color: #555;
+            margin-bottom: 30px;
+            line-height: 1.7;
+            font-style: italic;
+        }
+
+        .details {
+            margin: 25px 0;
+            text-align: left;
+        }
+
+        .detail-item {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 22px;
+            color: #333;
+        }
+
+        .detail-icon {
+            background: #f0ebe4;
+            color: #8b7355;
+            min-width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-right: 18px;
+            font-size: 1.3rem;
+            flex-shrink: 0;
+        }
+
+        .detail-text strong {
+            display: block;
+            font-size: 0.8rem;
+            color: #8b7355;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 4px;
+        }
+
+        .detail-text span {
+            font-size: 1rem;
+            color: #2c3e50;
+            line-height: 1.5;
+        }
+
+        .btn {
+            display: inline-block;
+            background: #8b7355;
+            color: white;
+            text-decoration: none;
+            padding: 16px 35px;
+            border-radius: 50px;
+            font-weight: bold;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            font-size: 0.85rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 20px rgba(139, 115, 85, 0.4);
+            margin: 10px 0 15px;
+            border: none;
+            cursor: pointer;
+            font-family: 'Georgia', serif;
+        }
+
+        .btn:hover {
+            background: #6b5a45;
+            transform: translateY(-2px);
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: #8b7355;
+            border: 2px solid #8b7355;
+            box-shadow: none;
+            margin-left: 10px;
+        }
+
+        .btn-outline:hover {
+            background: #fdf9f5;
+        }
+
+        .form-group {
+            text-align: left;
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 0.85rem;
+            color: #8b7355;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            margin-bottom: 6px;
+            font-weight: bold;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 12px;
+            font-size: 0.95rem;
+            font-family: 'Georgia', serif;
+            background: #fdfcfb;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #8b7355;
+            box-shadow: 0 0 0 3px rgba(139, 115, 85, 0.1);
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+
+        .radio-group {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .radio-group label {
+            display: flex;
+            align-items: center;
+            font-weight: normal;
+            text-transform: none;
+            letter-spacing: 0;
+            color: #333;
+            font-size: 0.9rem;
+            cursor: pointer;
+            background: #fdfcfb;
+            padding: 8px 16px;
+            border-radius: 50px;
+            border: 1px solid #ddd;
+        }
+
+        .radio-group label:hover {
+            border-color: #8b7355;
+            background: #fdf9f5;
+        }
+
+        .radio-group input[type="radio"] {
+            width: auto;
+            margin-right: 6px;
+            accent-color: #8b7355;
+        }
+
+        .thank-you-icon {
+            font-size: 70px;
+            margin: 40px 0 20px;
+            animation: bounce 0.8s ease;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+        }
+
+        .footer {
+            color: #aaa;
+            font-size: 0.8rem;
+            padding: 20px 0 5px;
+            border-top: 1px solid #eee;
+            margin-top: 25px;
+            line-height: 1.6;
+        }
+
+        .footer span {
+            font-style: italic;
+            color: #8b7355;
+        }
+
+        .deadline {
+            color: #999;
+            font-size: 0.8rem;
+            margin-top: 8px;
+        }
+
+        @media (max-width: 480px) {
+            .header h1 {
+                font-size: 2.4rem;
+            }
+            .content {
+                padding: 25px 20px;
+            }
+            .header {
+                padding: 40px 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="invitation">
+        
+        <!-- СТРАНИЦА 1: ПРИГЛАШЕНИЕ -->
+        <div class="page active" id="page-invitation">
+            <div class="header">
+                <h2>Свадебное приглашение</h2>
+                <h1>Артём</h1>
+                <span class="and">&</span>
+                <h1>Алиса</h1>
+                <div class="date-badge">24 · 08 · 2026</div>
+            </div>
+
+            <div class="content">
+                <p class="dear-guest">
+                    Дорогой гость!<br>
+                    Мы счастливы пригласить тебя разделить с нами самый важный день.
+                </p>
+
+                <div class="details">
+                    <div class="detail-item">
+                        <div class="detail-icon">🕒</div>
+                        <div class="detail-text">
+                            <strong>Время</strong>
+                            <span>15:30 — Сбор гостей</span>
+                        </div>
+                    </div>
+                    <div class="detail-item">
+                        <div class="detail-icon">📍</div>
+                        <div class="detail-text">
+                            <strong>Место</strong>
+                            <span>Лесной банкетный зал «Золотая роща»<br>Московская обл., 24-й км Новорижского шоссе</span>
+                        </div>
+                    </div>
+                    <div class="detail-item">
+                        <div class="detail-icon">👗</div>
+                        <div class="detail-text">
+                            <strong>Дресс-код</strong>
+                            <span>Вечерние наряды в природных тонах</span>
+                        </div>
+                    </div>
+                </div>
+
+                <button class="btn" onclick="goToPage('page-form')">
+                    Подтвердить присутствие ✧
+                </button>
+
+                <p class="deadline">
+                    Пожалуйста, ответь до 1 августа 2026
+                </p>
+
+                <div class="footer">
+                    Будем ждать тебя с любовью,<br>
+                    <span>Артём и Алиса</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- СТРАНИЦА 2: ФОРМА -->
+        <div class="page" id="page-form">
+            <div class="header" style="padding: 30px;">
+                <h2 style="margin-top: 20px;">Ответ на приглашение</h2>
+                <p style="opacity:0.9; font-size:0.9rem; margin-top:10px;">Мы будем рады узнать твои пожелания</p>
+            </div>
+
+            <div class="content">
+                <form id="rsvp-form" onsubmit="submitForm(event)">
+                    <div class="form-group">
+                        <label>Твоё имя</label>
+                        <input type="text" id="guest-name" placeholder="Например: Александр" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Сможешь прийти?</label>
+                        <div class="radio-group">
+                            <label>
+                                <input type="radio" name="attending" value="Да, обязательно!" required> Да, обязательно!
+                            </label>
+                            <label>
+                                <input type="radio" name="attending" value="К сожалению, нет"> К сожалению, нет
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Нужен ли трансфер от метро?</label>
+                        <div class="radio-group">
+                            <label>
+                                <input type="radio" name="transfer" value="Да"> Да
+                            </label>
+                            <label>
+                                <input type="radio" name="transfer" value="Нет, доберусь сам"> Нет, доберусь сам
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Есть ли пищевые ограничения?</label>
+                        <textarea id="food" placeholder="Например: аллергия на орехи, не ем мясо..."></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Какую музыку хочешь услышать?</label>
+                        <input type="text" id="music" placeholder="Любимый трек или жанр">
+                    </div>
+
+                    <div style="display: flex; justify-content: center; gap: 10px; flex-wrap: wrap;">
+                        <button type="submit" class="btn">Отправить ответ ✉</button>
+                        <button type="button" class="btn btn-outline" onclick="goToPage('page-invitation')">← Назад</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- СТРАНИЦА 3: СПАСИБО -->
+        <div class="page" id="page-thanks">
+            <div class="header" style="padding: 30px;">
+                <h2 style="margin-top: 20px;">Спасибо!</h2>
+            </div>
+
+            <div class="content">
+                <div class="thank-you-icon">💌</div>
+                <p style="font-size:1.2rem; color:#555; margin-bottom:10px;">
+                    Твой ответ получен!
+                </p>
+                <p style="color:#888; margin-bottom:30px; line-height:1.6;">
+                    Мы очень ждём встречи.<br>
+                    Если планы изменятся — просто напиши нам.
+                </p>
+
+                <div class="details" style="text-align:center;">
+                    <p style="color:#8b7355; font-weight:bold;">Детали ещё раз:</p>
+                    <p style="color:#555; font-size:0.9rem;">
+                        📅 24 августа 2026<br>
+                        🕒 15:30<br>
+                        📍 «Золотая роща», 24-й км Новорижского шоссе
+                    </p>
+                </div>
+
+                <button class="btn btn-outline" onclick="goToPage('page-invitation')">
+                    ← Вернуться к приглашению
+                </button>
+
+                <div class="footer">
+                    С любовью,<br>
+                    <span>Артём и Алиса</span>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        // Переключение страниц
+        function goToPage(pageId) {
+            document.querySelectorAll('.page').forEach(page => {
+                page.classList.remove('active');
+            });
+            document.getElementById(pageId).classList.add('active');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Отправка формы в Google Таблицу
+        function submitForm(event) {
+            event.preventDefault();
+
+            const guestName = document.getElementById('guest-name').value;
+            const attending = document.querySelector('input[name="attending"]:checked')?.value || '';
+            const transfer = document.querySelector('input[name="transfer"]:checked')?.value || '';
+            const food = document.getElementById('food').value;
+            const music = document.getElementById('music').value;
+
+            const answers = {
+                name: guestName,
+                attending: attending,
+                transfer: transfer,
+                food: food,
+                music: music
+            };
+
+            // ⚠️ ВОТ СЮДА ВСТАВЬ СВОЮ ССЫЛКУ (замени всё внутри кавычек) ⚠️
+            const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwWsnfZyorvLjGjiQbOpIWs4z6XE2N_g3lby-eZ5gGCXQZu-FbAXUbUIld5omG5o3OG8A/exec';
+
+            fetch(SCRIPT_URL, {
+                method: 'POST',
+                mode: 'no-cors',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(answers)
+            })
+            .then(() => {
+                goToPage('page-thanks');
+                document.getElementById('rsvp-form').reset();
+            })
+            .catch(error => {
+                console.error('Ошибка:', error);
+                alert('Не удалось отправить. Попробуй ещё раз!');
+            });
+        }
+    </script>
+</body>
+</html>

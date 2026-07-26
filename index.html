@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Свадьба Артёма и Алисы</title>
+    <title>Свадьба Стаса и Насти</title>
     <style>
         * {
             margin: 0;
@@ -12,30 +12,70 @@
         }
 
         body {
-            font-family: 'Georgia', 'Times New Roman', serif;
-            background: linear-gradient(135deg, #fdfbfb 0%, #ebedee 100%);
+            font-family: 'Segoe UI', 'Georgia', 'Times New Roman', serif;
+            background: linear-gradient(135deg, #EEB5CE 0%, #AED6E5 40%, #A8C29A 70%, #EED259 100%);
+            background-attachment: fixed;
             min-height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
             padding: 20px;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* ПАРЯЩИЕ ЭЛЕМЕНТЫ НА ФОНЕ */
+        .floating-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .floating-item {
+            position: absolute;
+            font-size: 30px;
+            opacity: 0.4;
+            animation: floatAround 12s ease-in-out infinite;
+        }
+
+        .floating-item:nth-child(1) { top: 5%; left: 5%; animation-delay: 0s; font-size: 35px; }
+        .floating-item:nth-child(2) { top: 15%; right: 8%; animation-delay: 2s; font-size: 28px; }
+        .floating-item:nth-child(3) { top: 60%; left: 3%; animation-delay: 4s; font-size: 32px; }
+        .floating-item:nth-child(4) { top: 75%; right: 5%; animation-delay: 1s; font-size: 26px; }
+        .floating-item:nth-child(5) { top: 35%; left: 90%; animation-delay: 3s; font-size: 30px; }
+        .floating-item:nth-child(6) { top: 85%; left: 15%; animation-delay: 5s; font-size: 34px; }
+        .floating-item:nth-child(7) { top: 10%; left: 50%; animation-delay: 6s; font-size: 25px; }
+        .floating-item:nth-child(8) { top: 50%; right: 15%; animation-delay: 7s; font-size: 28px; }
+
+        @keyframes floatAround {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            25% { transform: translateY(-25px) rotate(5deg); }
+            50% { transform: translateY(-10px) rotate(-3deg); }
+            75% { transform: translateY(-30px) rotate(4deg); }
         }
 
         .invitation {
             max-width: 500px;
             width: 100%;
-            background: white;
-            border-radius: 24px;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.1);
+            background: rgba(255, 255, 255, 0.75);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-radius: 30px;
+            box-shadow: 0 25px 60px rgba(0,0,0,0.08), 0 5px 20px rgba(0,0,0,0.04);
             overflow: hidden;
             text-align: center;
             position: relative;
-            min-height: 600px;
+            z-index: 1;
+            border: 1px solid rgba(255,255,255,0.6);
         }
 
         .page {
             display: none;
-            animation: fadeIn 0.5s ease;
+            animation: fadeIn 0.6s ease;
         }
 
         .page.active {
@@ -48,74 +88,102 @@
         }
 
         .header {
-            background: linear-gradient(135deg, #2c3e50 0%, #4a6741 40%, #8b7355 100%);
-            padding: 50px 30px;
+            background: linear-gradient(135deg, #A8C29A 0%, #E88E9F 40%, #F2BA6C 80%, #EED259 100%);
+            padding: 50px 30px 40px;
             color: white;
             position: relative;
             overflow: hidden;
         }
 
         .header::before {
-            content: "❦";
+            content: "";
             position: absolute;
-            top: 20px;
-            left: 50%;
-            transform: translateX(-50%);
+            top: -50px;
+            left: -50px;
+            width: 150px;
+            height: 150px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 50%;
+        }
+
+        .header::after {
+            content: "";
+            position: absolute;
+            bottom: -40px;
+            right: -40px;
+            width: 120px;
+            height: 120px;
+            background: rgba(255,255,255,0.08);
+            border-radius: 50%;
+        }
+
+        .header-top-decor {
             font-size: 40px;
-            opacity: 0.6;
+            margin-bottom: 15px;
             animation: float 3s ease-in-out infinite;
+            position: relative;
+            z-index: 1;
         }
 
         @keyframes float {
-            0%, 100% { transform: translateX(-50%) translateY(0); }
-            50% { transform: translateX(-50%) translateY(-10px); }
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
         }
 
         .header h2 {
             font-weight: 400;
-            font-size: 1rem;
-            letter-spacing: 4px;
+            font-size: 0.85rem;
+            letter-spacing: 5px;
             text-transform: uppercase;
-            margin-bottom: 30px;
-            margin-top: 30px;
+            margin-bottom: 25px;
             opacity: 0.9;
+            position: relative;
+            z-index: 1;
         }
 
         .header h1 {
             font-weight: 700;
-            font-size: 3rem;
-            margin-bottom: 5px;
-            text-shadow: 0 2px 15px rgba(0,0,0,0.3);
+            font-size: 3.2rem;
+            margin-bottom: 3px;
+            text-shadow: 0 2px 15px rgba(0,0,0,0.2);
+            position: relative;
+            z-index: 1;
         }
 
         .header .and {
             font-style: italic;
             font-weight: 400;
-            font-size: 1.8rem;
+            font-size: 1.6rem;
             display: block;
-            margin: 5px 0;
+            margin: 2px 0;
+            position: relative;
+            z-index: 1;
         }
 
         .header .date-badge {
             display: inline-block;
-            background: rgba(255,255,255,0.25);
-            padding: 10px 25px;
+            background: rgba(255,255,255,0.3);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            padding: 12px 28px;
             border-radius: 50px;
             font-weight: 600;
             letter-spacing: 3px;
             margin-top: 20px;
             border: 1px solid rgba(255,255,255,0.4);
             font-size: 0.95rem;
+            position: relative;
+            z-index: 1;
         }
 
         .content {
             padding: 35px 30px;
-            color: #333;
+            color: #444;
         }
 
         .dear-guest {
             font-size: 1.1rem;
-            color: #555;
+            color: #666;
             margin-bottom: 30px;
             line-height: 1.7;
             font-style: italic;
@@ -130,72 +198,88 @@
             display: flex;
             align-items: flex-start;
             margin-bottom: 22px;
-            color: #333;
+            color: #444;
+            background: rgba(255,255,255,0.5);
+            padding: 12px 16px;
+            border-radius: 16px;
+            transition: all 0.3s;
+        }
+
+        .detail-item:hover {
+            background: rgba(255,255,255,0.8);
+            transform: translateX(3px);
         }
 
         .detail-icon {
-            background: #f0ebe4;
-            color: #8b7355;
+            background: #F2BA6C;
+            color: white;
             min-width: 45px;
             height: 45px;
-            border-radius: 50%;
+            border-radius: 14px;
             display: flex;
             justify-content: center;
             align-items: center;
-            margin-right: 18px;
+            margin-right: 16px;
             font-size: 1.3rem;
             flex-shrink: 0;
+            box-shadow: 0 4px 12px rgba(242,186,108,0.3);
         }
 
         .detail-text strong {
             display: block;
-            font-size: 0.8rem;
-            color: #8b7355;
+            font-size: 0.75rem;
+            color: #E88E9F;
             text-transform: uppercase;
             letter-spacing: 2px;
-            margin-bottom: 4px;
+            margin-bottom: 3px;
+            font-weight: 700;
         }
 
         .detail-text span {
-            font-size: 1rem;
-            color: #2c3e50;
+            font-size: 0.95rem;
+            color: #444;
             line-height: 1.5;
         }
 
         .btn {
             display: inline-block;
-            background: #8b7355;
+            background: linear-gradient(135deg, #E88E9F 0%, #E695D2 100%);
             color: white;
             text-decoration: none;
             padding: 16px 35px;
             border-radius: 50px;
-            font-weight: bold;
+            font-weight: 600;
             letter-spacing: 1.5px;
             text-transform: uppercase;
             font-size: 0.85rem;
             transition: all 0.3s ease;
-            box-shadow: 0 8px 20px rgba(139, 115, 85, 0.4);
+            box-shadow: 0 8px 25px rgba(232, 142, 159, 0.35);
             margin: 10px 0 15px;
             border: none;
             cursor: pointer;
-            font-family: 'Georgia', serif;
+            font-family: 'Segoe UI', 'Georgia', serif;
         }
 
         .btn:hover {
-            background: #6b5a45;
-            transform: translateY(-2px);
+            transform: translateY(-3px);
+            box-shadow: 0 14px 35px rgba(232, 142, 159, 0.45);
+        }
+
+        .btn:active {
+            transform: translateY(-1px);
         }
 
         .btn-outline {
             background: transparent;
-            color: #8b7355;
-            border: 2px solid #8b7355;
+            color: #E88E9F;
+            border: 2px solid #E88E9F;
             box-shadow: none;
             margin-left: 10px;
         }
 
         .btn-outline:hover {
-            background: #fdf9f5;
+            background: rgba(232, 142, 159, 0.08);
+            box-shadow: 0 8px 25px rgba(232, 142, 159, 0.15);
         }
 
         .form-group {
@@ -205,30 +289,34 @@
 
         .form-group label {
             display: block;
-            font-size: 0.85rem;
-            color: #8b7355;
+            font-size: 0.8rem;
+            color: #E88E9F;
             text-transform: uppercase;
             letter-spacing: 1.5px;
             margin-bottom: 6px;
-            font-weight: bold;
+            font-weight: 700;
         }
 
         .form-group input,
-        .form-group textarea {
+        .form-group textarea,
+        .form-group select {
             width: 100%;
-            padding: 12px 15px;
-            border: 1px solid #ddd;
-            border-radius: 12px;
+            padding: 14px 16px;
+            border: 2px solid #eee;
+            border-radius: 14px;
             font-size: 0.95rem;
-            font-family: 'Georgia', serif;
-            background: #fdfcfb;
+            font-family: 'Segoe UI', 'Georgia', serif;
+            background: rgba(255,255,255,0.7);
+            transition: all 0.3s;
         }
 
         .form-group input:focus,
-        .form-group textarea:focus {
+        .form-group textarea:focus,
+        .form-group select:focus {
             outline: none;
-            border-color: #8b7355;
-            box-shadow: 0 0 0 3px rgba(139, 115, 85, 0.1);
+            border-color: #E88E9F;
+            box-shadow: 0 0 0 4px rgba(232, 142, 159, 0.08);
+            background: white;
         }
 
         .form-group textarea {
@@ -238,93 +326,114 @@
 
         .radio-group {
             display: flex;
-            gap: 15px;
+            gap: 12px;
             flex-wrap: wrap;
         }
 
         .radio-group label {
             display: flex;
             align-items: center;
-            font-weight: normal;
+            font-weight: 500;
             text-transform: none;
             letter-spacing: 0;
-            color: #333;
+            color: #555;
             font-size: 0.9rem;
             cursor: pointer;
-            background: #fdfcfb;
-            padding: 8px 16px;
+            background: rgba(255,255,255,0.7);
+            padding: 10px 18px;
             border-radius: 50px;
-            border: 1px solid #ddd;
+            border: 2px solid #eee;
+            transition: all 0.3s;
         }
 
         .radio-group label:hover {
-            border-color: #8b7355;
-            background: #fdf9f5;
+            border-color: #E88E9F;
+            background: white;
         }
 
         .radio-group input[type="radio"] {
             width: auto;
             margin-right: 6px;
-            accent-color: #8b7355;
+            accent-color: #E88E9F;
         }
 
         .thank-you-icon {
-            font-size: 70px;
+            font-size: 80px;
             margin: 40px 0 20px;
             animation: bounce 0.8s ease;
         }
 
         @keyframes bounce {
             0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.2); }
+            50% { transform: scale(1.15); }
         }
 
         .footer {
-            color: #aaa;
+            color: #bbb;
             font-size: 0.8rem;
             padding: 20px 0 5px;
-            border-top: 1px solid #eee;
+            border-top: 1px solid #f0ece8;
             margin-top: 25px;
             line-height: 1.6;
         }
 
         .footer span {
             font-style: italic;
-            color: #8b7355;
+            color: #E88E9F;
+            font-weight: 600;
         }
 
         .deadline {
-            color: #999;
+            color: #bbb;
             font-size: 0.8rem;
             margin-top: 8px;
         }
 
         @media (max-width: 480px) {
             .header h1 {
-                font-size: 2.4rem;
+                font-size: 2.6rem;
             }
             .content {
                 padding: 25px 20px;
             }
             .header {
-                padding: 40px 20px;
+                padding: 40px 20px 30px;
+            }
+            .floating-item {
+                font-size: 20px !important;
             }
         }
     </style>
 </head>
 <body>
+
+    <!-- ПАРЯЩИЕ ЭЛЕМЕНТЫ ФОНА -->
+    <div class="floating-bg">
+        <span class="floating-item">🌸</span>
+        <span class="floating-item">🌿</span>
+        <span class="floating-item">🦋</span>
+        <span class="floating-item">✨</span>
+        <span class="floating-item">🌼</span>
+        <span class="floating-item">🍃</span>
+        <span class="floating-item">💫</span>
+        <span class="floating-item">🌷</span>
+    </div>
+
+    <!-- ФОНОВАЯ МУЗЫКА -->
+    <audio id="bg-music" loop preload="auto" style="display: none;">
+        <source src="https://raw.githubusercontent.com/stassavenko99-creator/wedding/main/Zdob_si_zdob_-_Videli_noch_(SkySound.cc).mp3" type="audio/mpeg">
+    </audio>
+
     <div class="invitation">
-        <audio id="bg-music" loop preload="auto" style="display: none;">
-            <source src="https://raw.githubusercontent.com/stassavenko99-creator/wedding/main/Zdob_si_zdob_-_Videli_noch_(SkySound.cc).mp3" type="audio/mpeg">
-        </audio>
         
         <!-- СТРАНИЦА 1: ПРИГЛАШЕНИЕ -->
         <div class="page active" id="page-invitation">
             <div class="header">
+                <div class="header-top-decor">💍</div>
                 <h2>Свадебное приглашение</h2>
-                <h1>Артём</h1>
+                <h1>Стас</h1>
                 <span class="and">&</span>
-                <h1>Алиса</h1>
+                <h1>Настя</h1>
                 <div class="date-badge">24 · 08 · 2026</div>
             </div>
 
@@ -357,134 +466,58 @@
                         </div>
                     </div>
                 </div>
-<!-- КАЛЕНДАРЬ -->
-<div style="margin: 30px 0; text-align: center;">
-    <p style="color: #b4846c; font-size: 0.85rem; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 15px;">
-        ✧ Сохраните дату ✧
-    </p>
-    
-    <div style="
-        display: inline-block;
-        background: #fff9f5;
-        border: 2px solid #e8c4b8;
-        border-radius: 20px;
-        padding: 20px 25px;
-        box-shadow: 0 10px 30px rgba(180,132,108,0.15);
-        position: relative;
-    ">
-        <!-- Цветочки-декор -->
-        <div style="position: absolute; top: -15px; left: -10px; font-size: 28px; transform: rotate(-20deg);">🌸</div>
-        <div style="position: absolute; bottom: -15px; right: -10px; font-size: 24px; transform: rotate(15deg);">🌼</div>
-        <div style="position: absolute; top: 30px; right: -18px; font-size: 20px;">✧</div>
-        
-        <!-- Месяц -->
-        <div style="
-            font-size: 1.1rem;
-            font-weight: bold;
-            color: #b4846c;
-            letter-spacing: 3px;
-            text-transform: uppercase;
-            margin-bottom: 12px;
-        ">Август 2026</div>
-        
-        <!-- Дни недели -->
-        <table style="border-collapse: collapse; margin: 0 auto;">
-            <tr style="color: #c9a38b; font-size: 0.7rem; font-weight: bold; text-transform: uppercase;">
-                <td style="padding: 5px 7px;">Пн</td>
-                <td style="padding: 5px 7px;">Вт</td>
-                <td style="padding: 5px 7px;">Ср</td>
-                <td style="padding: 5px 7px;">Чт</td>
-                <td style="padding: 5px 7px;">Пт</td>
-                <td style="padding: 5px 7px;">Сб</td>
-                <td style="padding: 5px 7px;">Вс</td>
-            </tr>
-            <!-- Неделя 1 -->
-            <tr style="color: #bbb; font-size: 0.85rem;">
-                <td></td><td></td><td></td><td></td><td></td>
-                <td style="padding: 6px 8px;">1</td>
-                <td style="padding: 6px 8px;">2</td>
-            </tr>
-            <!-- Неделя 2 -->
-            <tr style="font-size: 0.85rem; color: #8b7355;">
-                <td style="padding: 6px 8px;">3</td>
-                <td style="padding: 6px 8px;">4</td>
-                <td style="padding: 6px 8px;">5</td>
-                <td style="padding: 6px 8px;">6</td>
-                <td style="padding: 6px 8px;">7</td>
-                <td style="padding: 6px 8px;">8</td>
-                <td style="padding: 6px 8px;">9</td>
-            </tr>
-            <!-- Неделя 3 -->
-            <tr style="font-size: 0.85rem; color: #8b7355;">
-                <td style="padding: 6px 8px;">10</td>
-                <td style="padding: 6px 8px;">11</td>
-                <td style="padding: 6px 8px;">12</td>
-                <td style="padding: 6px 8px;">13</td>
-                <td style="padding: 6px 8px;">14</td>
-                <td style="padding: 6px 8px;">15</td>
-                <td style="padding: 6px 8px;">16</td>
-            </tr>
-            <!-- Неделя 4 -->
-            <tr style="font-size: 0.85rem; color: #8b7355;">
-                <td style="padding: 6px 8px;">17</td>
-                <td style="padding: 6px 8px;">18</td>
-                <td style="padding: 6px 8px;">19</td>
-                <td style="padding: 6px 8px;">20</td>
-                <td style="padding: 6px 8px;">21</td>
-                <td style="padding: 6px 8px;">22</td>
-                <td style="padding: 6px 8px;">23</td>
-            </tr>
-            <!-- Неделя 5 -->
-            <tr style="font-size: 0.85rem; color: #8b7355;">
-                <!-- 24-е — ОБВЕДЁННАЯ ДАТА -->
-                <td style="padding: 6px 8px; position: relative; font-weight: bold; color: white;">
-                    <span style="
-                        display: inline-block;
-                        background: #d4a088;
-                        width: 32px;
-                        height: 32px;
-                        line-height: 32px;
-                        border-radius: 50%;
-                        text-align: center;
-                        box-shadow: 0 0 15px rgba(212,160,136,0.6), 0 0 0 4px rgba(212,160,136,0.2);
-                    ">24</span>
-                </td>
-                <td style="padding: 6px 8px;">25</td>
-                <td style="padding: 6px 8px;">26</td>
-                <td style="padding: 6px 8px;">27</td>
-                <td style="padding: 6px 8px;">28</td>
-                <td style="padding: 6px 8px;">29</td>
-                <td style="padding: 6px 8px;">30</td>
-            </tr>
-            <tr style="font-size: 0.85rem; color: #8b7355;">
-                <td style="padding: 6px 8px;">31</td>
-                <td></td><td></td><td></td><td></td><td></td><td></td>
-            </tr>
-        </table>
-        
-        <!-- Подпись -->
-        <div style="
-            margin-top: 14px;
-            font-style: italic;
-            color: #b4846c;
-            font-size: 0.9rem;
-            letter-spacing: 1px;
-        ">
-            ✦ Будем ждать вас! ✦
-        </div>
-    </div>
-</div>
+
+                <!-- КАЛЕНДАРЬ -->
+                <div style="margin: 30px 0; text-align: center;">
+                    <p style="color: #E88E9F; font-size: 0.8rem; letter-spacing: 3px; text-transform: uppercase; margin-bottom: 15px; font-weight: 700;">✧ Сохраните дату ✧</p>
+                    
+                    <div style="display: inline-block; background: rgba(255,255,255,0.7); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border: 2px solid rgba(232,142,159,0.3); border-radius: 24px; padding: 22px 25px; box-shadow: 0 10px 35px rgba(232,142,159,0.12); position: relative;">
+                        <div style="position: absolute; top: -18px; left: -15px; font-size: 30px; transform: rotate(-15deg);">🌸</div>
+                        <div style="position: absolute; bottom: -18px; right: -15px; font-size: 26px; transform: rotate(10deg);">🌿</div>
+                        <div style="position: absolute; top: 35px; right: -20px; font-size: 18px; opacity: 0.6;">✨</div>
+                        
+                        <div style="font-size: 1rem; font-weight: 700; color: #E88E9F; letter-spacing: 3px; text-transform: uppercase; margin-bottom: 14px;">Август 2026</div>
+                        
+                        <table style="border-collapse: collapse; margin: 0 auto;">
+                            <tr style="color: #d4788a; font-size: 0.7rem; font-weight: 700; text-transform: uppercase;">
+                                <td style="padding: 5px 8px;">Пн</td><td style="padding: 5px 8px;">Вт</td><td style="padding: 5px 8px;">Ср</td><td style="padding: 5px 8px;">Чт</td><td style="padding: 5px 8px;">Пт</td><td style="padding: 5px 8px;">Сб</td><td style="padding: 5px 8px;">Вс</td>
+                            </tr>
+                            <tr style="color: #ccc; font-size: 0.85rem;">
+                                <td></td><td></td><td></td><td></td><td></td><td style="padding: 7px 9px;">1</td><td style="padding: 7px 9px;">2</td>
+                            </tr>
+                            <tr style="font-size: 0.85rem; color: #777;">
+                                <td style="padding: 7px 9px;">3</td><td style="padding: 7px 9px;">4</td><td style="padding: 7px 9px;">5</td><td style="padding: 7px 9px;">6</td><td style="padding: 7px 9px;">7</td><td style="padding: 7px 9px;">8</td><td style="padding: 7px 9px;">9</td>
+                            </tr>
+                            <tr style="font-size: 0.85rem; color: #777;">
+                                <td style="padding: 7px 9px;">10</td><td style="padding: 7px 9px;">11</td><td style="padding: 7px 9px;">12</td><td style="padding: 7px 9px;">13</td><td style="padding: 7px 9px;">14</td><td style="padding: 7px 9px;">15</td><td style="padding: 7px 9px;">16</td>
+                            </tr>
+                            <tr style="font-size: 0.85rem; color: #777;">
+                                <td style="padding: 7px 9px;">17</td><td style="padding: 7px 9px;">18</td><td style="padding: 7px 9px;">19</td><td style="padding: 7px 9px;">20</td><td style="padding: 7px 9px;">21</td><td style="padding: 7px 9px;">22</td><td style="padding: 7px 9px;">23</td>
+                            </tr>
+                            <tr style="font-size: 0.85rem; color: #777;">
+                                <td style="padding: 7px 9px; position: relative; font-weight: 700;">
+                                    <span style="display: inline-block; background: linear-gradient(135deg, #E88E9F, #E695D2); color: white; width: 34px; height: 34px; line-height: 34px; border-radius: 50%; text-align: center; box-shadow: 0 0 20px rgba(232,142,159,0.5), 0 0 0 5px rgba(232,142,159,0.15);">24</span>
+                                </td>
+                                <td style="padding: 7px 9px;">25</td><td style="padding: 7px 9px;">26</td><td style="padding: 7px 9px;">27</td><td style="padding: 7px 9px;">28</td><td style="padding: 7px 9px;">29</td><td style="padding: 7px 9px;">30</td>
+                            </tr>
+                            <tr style="font-size: 0.85rem; color: #777;">
+                                <td style="padding: 7px 9px;">31</td><td></td><td></td><td></td><td></td><td></td><td></td>
+                            </tr>
+                        </table>
+                        
+                        <div style="margin-top: 14px; font-style: italic; color: #E88E9F; font-size: 0.9rem; letter-spacing: 1px; font-weight: 500;">✦ Будем ждать вас! ✦</div>
+                    </div>
+                </div>
+
                 <button class="btn" onclick="goToPage('page-form')">
                     Подтвердить присутствие ✧
                 </button>
 
-                <p class="deadline">
-                    Пожалуйста, ответь до 1 августа 2026
-                </p>
+                <p class="deadline">Пожалуйста, ответь до 1 августа 2026</p>
 
                 <div class="footer">
                     Будем ждать тебя с любовью,<br>
-                    <span>Артём и Алиса</span>
+                    <span>Стас и Настя</span>
                 </div>
             </div>
         </div>
@@ -492,53 +525,64 @@
         <!-- СТРАНИЦА 2: ФОРМА -->
         <div class="page" id="page-form">
             <div class="header" style="padding: 30px;">
-                <h2 style="margin-top: 20px;">Ответ на приглашение</h2>
-                <p style="opacity:0.9; font-size:0.9rem; margin-top:10px;">Мы будем рады узнать твои пожелания</p>
+                <div class="header-top-decor" style="font-size: 35px;">💌</div>
+                <h2 style="margin-top: 10px;">Ответ на приглашение</h2>
+                <p style="opacity:0.9; font-size:0.85rem; margin-top:8px;">Мы будем рады узнать твои пожелания</p>
             </div>
 
             <div class="content">
                 <form id="rsvp-form" onsubmit="submitForm(event)">
                     <div class="form-group">
-                        <label>Твоё имя</label>
-                        <input type="text" id="guest-name" placeholder="Например: Александр" required>
+                        <label>👤 Твоё имя и фамилия</label>
+                        <input type="text" id="guest-name" placeholder="Александр Иванов" required>
                     </div>
 
                     <div class="form-group">
-                        <label>Сможешь прийти?</label>
+                        <label>🎉 Сможешь прийти?</label>
                         <div class="radio-group">
-                            <label>
-                                <input type="radio" name="attending" value="Да, обязательно!" required> Да, обязательно!
-                            </label>
-                            <label>
-                                <input type="radio" name="attending" value="К сожалению, нет"> К сожалению, нет
-                            </label>
+                            <label><input type="radio" name="attending" value="Да, обязательно!" required> Да!</label>
+                            <label><input type="radio" name="attending" value="К сожалению, нет"> Нет</label>
                         </div>
                     </div>
 
                     <div class="form-group">
-                        <label>Нужен ли трансфер от метро?</label>
+                        <label>🚗 Нужен ли трансфер?</label>
                         <div class="radio-group">
-                            <label>
-                                <input type="radio" name="transfer" value="Да"> Да
-                            </label>
-                            <label>
-                                <input type="radio" name="transfer" value="Нет, доберусь сам"> Нет, доберусь сам
-                            </label>
+                            <label><input type="radio" name="transfer" value="Да"> Да</label>
+                            <label><input type="radio" name="transfer" value="Нет, доберусь сам"> Сам</label>
                         </div>
                     </div>
 
                     <div class="form-group">
-                        <label>Есть ли пищевые ограничения?</label>
-                        <textarea id="food" placeholder="Например: аллергия на орехи, не ем мясо..."></textarea>
+                        <label>🍽 Пищевые ограничения</label>
+                        <textarea id="food" placeholder="Аллергия, вегетарианство, не ем мясо..."></textarea>
                     </div>
 
                     <div class="form-group">
-                        <label>Какую музыку хочешь услышать?</label>
+                        <label>🎵 Какую музыку хочешь?</label>
                         <input type="text" id="music" placeholder="Любимый трек или жанр">
                     </div>
 
+                    <div class="form-group">
+                        <label>🥂 Любимый напиток</label>
+                        <select id="drink">
+                            <option value="">Выбери...</option>
+                            <option value="Шампанское">🥂 Шампанское</option>
+                            <option value="Вино красное">🍷 Вино красное</option>
+                            <option value="Вино белое">🥂 Вино белое</option>
+                            <option value="Виски/Коньяк">🥃 Виски / Коньяк</option>
+                            <option value="Коктейли">🍹 Коктейли</option>
+                            <option value="Безалкогольное">🧃 Безалкогольное</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>💬 Пожелания молодожёнам</label>
+                        <textarea id="wishes" placeholder="Тёплые слова..."></textarea>
+                    </div>
+
                     <div style="display: flex; justify-content: center; gap: 10px; flex-wrap: wrap;">
-                        <button type="submit" class="btn">Отправить ответ ✉</button>
+                        <button type="submit" class="btn">Отправить ✉</button>
                         <button type="button" class="btn btn-outline" onclick="goToPage('page-invitation')">← Назад</button>
                     </div>
                 </form>
@@ -548,21 +592,17 @@
         <!-- СТРАНИЦА 3: СПАСИБО -->
         <div class="page" id="page-thanks">
             <div class="header" style="padding: 30px;">
-                <h2 style="margin-top: 20px;">Спасибо!</h2>
+                <div class="header-top-decor" style="font-size: 50px;">💖</div>
+                <h2 style="margin-top: 10px;">Спасибо!</h2>
             </div>
 
             <div class="content">
                 <div class="thank-you-icon">💌</div>
-                <p style="font-size:1.2rem; color:#555; margin-bottom:10px;">
-                    Твой ответ получен!
-                </p>
-                <p style="color:#888; margin-bottom:30px; line-height:1.6;">
-                    Мы очень ждём встречи.<br>
-                    Если планы изменятся — просто напиши нам.
-                </p>
+                <p style="font-size:1.2rem; color:#555; margin-bottom:10px; font-weight: 600;">Твой ответ получен!</p>
+                <p style="color:#888; margin-bottom:30px; line-height:1.6;">Мы очень ждём встречи.<br>Если планы изменятся — просто напиши нам.</p>
 
                 <div class="details" style="text-align:center;">
-                    <p style="color:#8b7355; font-weight:bold;">Детали ещё раз:</p>
+                    <p style="color:#E88E9F; font-weight:700; font-size:0.9rem;">🌸 Детали:</p>
                     <p style="color:#555; font-size:0.9rem;">
                         📅 24 августа 2026<br>
                         🕒 15:30<br>
@@ -570,13 +610,11 @@
                     </p>
                 </div>
 
-                <button class="btn btn-outline" onclick="goToPage('page-invitation')">
-                    ← Вернуться к приглашению
-                </button>
+                <button class="btn btn-outline" onclick="goToPage('page-invitation')">← Вернуться к приглашению</button>
 
                 <div class="footer">
                     С любовью,<br>
-                    <span>Артём и Алиса</span>
+                    <span>Стас и Настя</span>
                 </div>
             </div>
         </div>
@@ -584,7 +622,6 @@
     </div>
 
     <script>
-        // Переключение страниц
         function goToPage(pageId) {
             document.querySelectorAll('.page').forEach(page => {
                 page.classList.remove('active');
@@ -593,7 +630,6 @@
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
-        // Отправка формы в Google Таблицу
         function submitForm(event) {
             event.preventDefault();
 
@@ -602,24 +638,26 @@
             const transfer = document.querySelector('input[name="transfer"]:checked')?.value || '';
             const food = document.getElementById('food').value;
             const music = document.getElementById('music').value;
+            const drink = document.getElementById('drink').value;
+            const wishes = document.getElementById('wishes').value;
 
             const answers = {
                 name: guestName,
                 attending: attending,
                 transfer: transfer,
                 food: food,
-                music: music
+                music: music,
+                drink: drink,
+                wishes: wishes
             };
 
-            // ⚠️ ВОТ СЮДА ВСТАВЬ СВОЮ ССЫЛКУ (замени всё внутри кавычек) ⚠️
-            const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwWsnfZyorvLjGjiQbOpIWs4z6XE2N_g3lby-eZ5gGCXQZu-FbAXUbUIld5omG5o3OG8A/exec';
+            // ⚠️ ЗАМЕНИ ССЫЛКУ НА СВОЮ ИЗ GOOGLE APPS SCRIPT ⚠️
+            const SCRIPT_URL = 'https://script.google.com/macros/s/ТВОЙ_КОД_ЗДЕСЬ/exec';
 
             fetch(SCRIPT_URL, {
                 method: 'POST',
                 mode: 'no-cors',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
+                headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(answers)
             })
             .then(() => {
@@ -632,6 +670,7 @@
             });
         }
     </script>
+
     <script>
         var musicStarted = false;
         var audio = document.getElementById('bg-music');

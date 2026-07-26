@@ -314,6 +314,9 @@
 </head>
 <body>
     <div class="invitation">
+        <audio id="bg-music" loop preload="auto" style="display: none;">
+            <source src="https://disk.yandex.ru/d/3RGKxF-YKsrrFQ" type="audio/mpeg">
+        </audio>
         
         <!-- СТРАНИЦА 1: ПРИГЛАШЕНИЕ -->
         <div class="page active" id="page-invitation">
@@ -628,6 +631,24 @@
                 alert('Не удалось отправить. Попробуй ещё раз!');
             });
         }
+    </script>
+    <script>
+        var musicStarted = false;
+        var audio = document.getElementById('bg-music');
+
+        function tryPlayMusic() {
+            if (!musicStarted) {
+                audio.play().then(function() {
+                    audio.volume = 0.3;
+                    musicStarted = true;
+                }).catch(function() {});
+                document.removeEventListener('click', tryPlayMusic);
+                document.removeEventListener('touchstart', tryPlayMusic);
+            }
+        }
+
+        document.addEventListener('click', tryPlayMusic);
+        document.addEventListener('touchstart', tryPlayMusic);
     </script>
 </body>
 </html>

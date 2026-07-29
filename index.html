@@ -55,11 +55,11 @@
             padding: 70px 0 80px;
             position: relative;
             overflow: hidden;
-            z-index: 1;
+            z-index: 2;
         }
 
         /* ==========================================
-           ФОН (с первой части на весь сайт)
+           ФОН (на всё тело)
            ========================================== */
         .bg-grain {
             position: fixed;
@@ -68,7 +68,7 @@
             width: 100vw;
             height: 100vh;
             pointer-events: none;
-            z-index: 1;
+            z-index: 0;
             opacity: 0.035;
             background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='1'/%3E%3C/svg%3E");
             background-repeat: repeat;
@@ -224,7 +224,7 @@
         }
 
         /* ==========================================
-           МУЗЫКАЛЬНЫЕ КНОПКИ (прозрачные)
+           МУЗЫКАЛЬНЫЕ КНОПКИ (очень прозрачные)
            ========================================== */
         .music-controls {
             position: fixed;
@@ -237,9 +237,9 @@
         }
 
         .music-btn {
-            background: rgba(255, 255, 255, 0.15);
-            backdrop-filter: blur(12px);
-            border: 1.5px solid rgba(74, 63, 58, 0.2);
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(4px);
+            border: 1.5px solid rgba(74, 63, 58, 0.15);
             border-radius: 40px;
             padding: 10px 20px;
             font-family: 'Quicksand', sans-serif;
@@ -251,7 +251,6 @@
             align-items: center;
             gap: 8px;
             transition: all 0.3s ease;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.02);
             min-width: 130px;
             justify-content: center;
         }
@@ -259,7 +258,7 @@
         .music-btn .music-icon { font-size: 1rem; color: #F7B7C8; }
         .music-btn:hover {
             transform: scale(1.04);
-            background: rgba(255, 255, 255, 0.3);
+            background: rgba(255, 255, 255, 0.15);
             border-color: #F7B7C8;
         }
         .music-btn.active {
@@ -439,7 +438,7 @@
         .venue-photo-frame {
             width: 675px;
             height: 675px;
-            margin: 0 auto 20px;
+            margin: 0 auto 12px;
             position: relative;
             border-radius: 50%;
             overflow: hidden;
@@ -463,6 +462,14 @@
         @keyframes rotateVenue {
             from { transform: rotate(0deg); }
             to { transform: rotate(360deg); }
+        }
+
+        .venue-hint {
+            font-size: 0.8rem;
+            color: #C4B5AD;
+            font-weight: 300;
+            margin-bottom: 16px;
+            letter-spacing: 2px;
         }
 
         .venue-content h2 {
@@ -507,7 +514,7 @@
         #schedule {
             position: relative;
             z-index: 2;
-            background: #FCF8F0;
+            background: transparent;
         }
 
         .schedule-list {
@@ -575,7 +582,7 @@
         /* ==========================================
            ДРЕСС-КОД
            ========================================== */
-        #dresscode { position: relative; z-index: 2; background: #FCF8F0; }
+        #dresscode { position: relative; z-index: 2; background: transparent; }
 
         .dresscode-sub {
             text-align: center;
@@ -701,7 +708,7 @@
         /* ==========================================
            FAQ
            ========================================== */
-        #faq { position: relative; z-index: 2; background: #FCF8F0; }
+        #faq { position: relative; z-index: 2; background: transparent; }
 
         .faq-grid {
             display: flex;
@@ -780,11 +787,13 @@
         .faq-item .answer .hl-peach { color: #F9B87A; font-weight: 600; }
         .faq-item .answer .hl-mint { color: #8CD4B5; font-weight: 600; }
         .faq-item .answer .hl-yellow { color: #F5D76E; font-weight: 600; }
+        .faq-item .answer .hl-red { color: #FF6B6B; font-weight: 600; }
+        .faq-item .answer .hl-dark { color: #5D4E6D; font-weight: 600; }
 
         /* ==========================================
            RSVP
            ========================================== */
-        #rsvp { position: relative; z-index: 2; background: #FCF8F0; }
+        #rsvp { position: relative; z-index: 2; background: transparent; }
 
         .rsvp-note {
             text-align: center;
@@ -988,7 +997,7 @@
             z-index: 2;
             min-height: 60vh;
             padding: 60px 0 80px;
-            background: #FCF8F0;
+            background: transparent;
         }
 
         .timer {
@@ -1089,6 +1098,7 @@
             .music-btn { padding: 8px 14px; font-size: 0.65rem; min-width: 100px; }
             .hero-date { font-size: 0.9rem; padding: 6px 16px; }
             .scroll-down svg { width: 22px; height: 32px; }
+            .venue-hint { font-size: 0.7rem; }
         }
 
         @media (max-width: 768px) {
@@ -1156,7 +1166,7 @@
     </div>
 
     <!-- ==========================================
-    МУЗЫКАЛЬНЫЕ КНОПКИ (прозрачные)
+    МУЗЫКАЛЬНЫЕ КНОПКИ (очень прозрачные)
     ========================================== -->
     <div class="music-controls" id="musicControls">
         <button class="music-btn" id="stasMusicBtn">
@@ -1245,6 +1255,7 @@
     ========================================== -->
     <section id="venue">
         <div class="venue-content reveal">
+            <p class="venue-hint">покрути меня</p>
             <div class="venue-photo-frame" id="venueFrame">
                 <img src="assets/images/venue-photo.jpg" alt="Отель Высоцкий" />
             </div>
@@ -1265,7 +1276,7 @@
                 <span class="letter letter-color-3" style="--rot:2deg;--y:2px;">й</span>
             </h2>
             <p class="sub">зал «Влади»</p>
-            <a href="https://yandex.ru/maps" target="_blank" class="map-link">Открыть карту →</a>
+            <a href="https://yandex.ru/maps/54/ekaterinburg/hotel/vysotskiy/Z0kYdQ1mT0AEQFtvfXJ3cX9kZA==/?ll=60.606090%2C56.837520&z=17" target="_blank" class="map-link">Открыть карту →</a>
         </div>
     </section>
 
@@ -1436,7 +1447,7 @@
                         <span class="arrow">▼</span>
                     </div>
                     <div class="answer">
-                        <span class="hl-pink">Красный</span>, <span class="hl-peach">тёмные оттенки</span> и, естественно, <span class="hl-mint">белый</span>.
+                        <span class="hl-red">Ярко-красный</span>, <span class="hl-dark">тёмно-зелёный</span> и, естественно, <span class="hl-mint">белый</span>.
                     </div>
                 </div>
 
@@ -1459,7 +1470,7 @@
                         <span class="arrow">▼</span>
                     </div>
                     <div class="answer">
-                        Мы решили провести этот вечер во взрослой компании, чтобы вы могли отдохнуть по-настоящему. Пожалуйста, <span class="hl-pink">оставьте детей дома</span> — мы будем вам очень благодарны!
+                        Пожалуйста, <span class="hl-pink">не берите детей</span> — этот вечер мы проводим во взрослой компании.
                     </div>
                 </div>
 
@@ -1952,6 +1963,7 @@
             menContainer.innerHTML = photos.map(src => 
                 `<img src="${src}" alt="Мужской образ" />`
             ).join('');
+            // Убираем надпись для первого варианта
         });
 
         document.getElementById('menOption2').addEventListener('click', function() {

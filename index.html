@@ -2,211 +2,816 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes" />
     <title>Стас & Настя · 17.10.2026</title>
     
-    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Quicksand:wght@300;400;600;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+    <link href="https://fonts.cdnfonts.com/css/cooper-black" rel="stylesheet" />
+    
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.16/dist/lenis.min.js"></script>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lenis@1.1.16/dist/lenis.css" />
     
     <style>
+        /* ==========================================
+           ОСНОВНЫЕ НАСТРОЙКИ
+           ========================================== */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
 
-        ::-webkit-scrollbar {
-            width: 6px;
+        html {
+            scroll-behavior: smooth;
         }
-        ::-webkit-scrollbar-track { background: #F8F5EB; }
-        ::-webkit-scrollbar-thumb { background: #F7B7C8; border-radius: 10px; }
-
-        html { scroll-behavior: smooth; }
 
         body {
             font-family: 'Quicksand', sans-serif;
-            background: #F8F5EB;
+            background: #FFFFFF;
             color: #4A3F3A;
             overflow-x: hidden;
             line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        @font-face {
+            font-family: 'CooperBlack';
+            src: url('https://fonts.cdnfonts.com/s/23818/CooperBlack.woff') format('woff');
         }
 
         .container {
-            max-width: 1100px;
+            max-width: 600px;
             margin: 0 auto;
-            padding: 0 30px;
+            padding: 0 20px;
             position: relative;
             z-index: 2;
         }
 
-        .section {
+        section {
             min-height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
+            padding: 70px 0 80px;
             position: relative;
-            padding: 80px 0;
             overflow: hidden;
         }
 
-        .section-inner {
-            width: 100%;
-            position: relative;
-            z-index: 2;
+        /* ==========================================
+           КРАФТОВЫЙ ЗАГОЛОВОК (разноцветные буквы)
+           ========================================== */
+        .craft-title {
+            font-family: 'CooperBlack', 'Cooper Black', serif;
+            font-weight: 400;
+            line-height: 1.2;
+            text-align: center;
+            margin-bottom: 10px;
         }
 
-        .serif-title {
-            font-family: 'Playfair Display', serif;
-            font-size: clamp(2.5rem, 6vw, 4.5rem);
-            font-weight: 700;
-            line-height: 1.1;
-            letter-spacing: -1px;
+        .craft-title .letter {
+            display: inline-block;
+            transform: rotate(var(--rot, 0deg)) translateY(var(--y, 0px));
+            font-size: var(--size, 1em);
         }
 
-        .handwritten {
-            font-family: 'DM Serif Display', serif;
-            font-style: italic;
-            font-size: clamp(1.2rem, 2vw, 1.8rem);
-            color: #F7B7C8;
-        }
+        /* Цвета для букв */
+        .letter-color-1 { color: #FF8CA8; }
+        .letter-color-2 { color: #7EC8E3; }
+        .letter-color-3 { color: #B8A6E0; }
+        .letter-color-4 { color: #F9B87A; }
+        .letter-color-5 { color: #8CD4B5; }
+        .letter-color-6 { color: #F5D76E; }
+        .letter-color-7 { color: #FF8CA8; }
+        .letter-color-8 { color: #7EC8E3; }
+        .letter-color-9 { color: #B8A6E0; }
+        .letter-color-10 { color: #F9B87A; }
 
-        .body-text {
-            font-size: clamp(1rem, 1.1vw, 1.15rem);
+        /* ==========================================
+           РУКОПИСНЫЙ ТЕКСТ (пляшущие буквы)
+           ========================================== */
+        .handwritten-craft {
+            font-family: 'Quicksand', sans-serif;
             font-weight: 300;
-            color: #6B5F5A;
-            line-height: 1.8;
-            max-width: 600px;
+            letter-spacing: 0.5px;
+            display: inline-block;
         }
 
-        .organic-card {
-            background: rgba(255, 255, 255, 0.7);
-            backdrop-filter: blur(20px);
-            border-radius: 60px 60px 60px 20px;
-            padding: 50px 45px;
-            box-shadow: 0 30px 80px rgba(74, 63, 58, 0.06);
-            border: 1px solid rgba(255, 255, 255, 0.4);
+        .handwritten-craft .letter {
+            display: inline-block;
+            transform: rotate(var(--rot, 0deg)) translateY(var(--y, 0px));
         }
 
-        .organic-card:nth-child(even) {
-            border-radius: 20px 60px 60px 60px;
+        /* ==========================================
+           ДЕКОРАТИВНЫЕ ЭЛЕМЕНТЫ
+           ========================================== */
+        .deco-line {
+            position: absolute;
+            pointer-events: none;
+            opacity: 0.06;
+            border-radius: 50%;
+            border: 2px solid #F7B7C8;
+            animation: floatDeco 8s ease-in-out infinite;
         }
 
-        /* ===== HERO ===== */
+        .deco-line-1 { top: 5%; left: -30px; width: 150px; height: 150px; }
+        .deco-line-2 { bottom: 10%; right: -30px; width: 100px; height: 100px; border-color: #B9DDF8; animation-delay: 1.5s; }
+        .deco-line-3 { top: 40%; left: -20px; width: 80px; height: 80px; border-color: #C8B6F8; animation-delay: 3s; }
+        .deco-line-4 { bottom: 30%; right: -20px; width: 70px; height: 70px; border-color: #F3B56A; animation-delay: 2s; }
+
+        .deco-wave {
+            position: absolute;
+            pointer-events: none;
+            opacity: 0.05;
+            font-size: 3.5rem;
+            line-height: 1;
+            color: #C8B6F8;
+            animation: floatDeco 9s ease-in-out infinite;
+        }
+
+        .deco-wave-1 { top: 5%; right: 5%; animation-delay: 0s; }
+        .deco-wave-2 { bottom: 8%; left: 3%; font-size: 2.8rem; animation-delay: 2s; color: #F7B7C8; }
+
+        .deco-dots {
+            position: absolute;
+            pointer-events: none;
+            opacity: 0.04;
+            font-size: 1.2rem;
+            letter-spacing: 8px;
+            color: #4A3F3A;
+        }
+
+        .deco-dots-1 { top: 12%; left: 8%; }
+        .deco-dots-2 { bottom: 15%; right: 6%; }
+
+        @keyframes floatDeco {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(8deg); }
+        }
+
+        /* ==========================================
+           HERO
+           ========================================== */
         #hero {
-            background: linear-gradient(170deg, #F8F5EB 0%, #FDF8F3 40%, #FBF0ED 100%);
+            background: #FFFFFF;
             min-height: 100vh;
-            position: relative;
-        }
-
-        #hero .container {
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            min-height: 100vh;
             text-align: center;
-            padding-top: 60px;
-            padding-bottom: 60px;
+            padding: 50px 20px 30px;
+            position: relative;
         }
 
-        .hero-badge {
-            font-size: 0.8rem;
-            letter-spacing: 6px;
-            text-transform: uppercase;
-            color: #C4B5AD;
-            margin-bottom: 20px;
+        .hero-bg {
+            position: absolute;
+            inset: 0;
+            z-index: 0;
+            background: 
+                radial-gradient(ellipse at 20% 50%, rgba(247, 183, 200, 0.08) 0%, transparent 60%),
+                radial-gradient(ellipse at 80% 50%, rgba(185, 221, 248, 0.08) 0%, transparent 60%),
+                radial-gradient(ellipse at 50% 80%, rgba(200, 182, 248, 0.06) 0%, transparent 50%);
+        }
+
+        /* Музыкальные кнопки */
+        .music-controls {
+            position: fixed;
+            top: 16px;
+            right: 16px;
+            z-index: 100;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .music-btn {
+            background: rgba(255, 255, 255, 0.92);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(74, 63, 58, 0.06);
+            border-radius: 30px;
+            padding: 8px 16px 8px 12px;
+            font-family: 'Quicksand', sans-serif;
+            font-size: 0.7rem;
             font-weight: 600;
+            color: #4A3F3A;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.04);
         }
 
+        .music-btn .music-icon {
+            font-size: 1rem;
+            color: #F7B7C8;
+        }
+
+        .music-btn:hover {
+            transform: scale(1.04);
+            box-shadow: 0 8px 25px rgba(247, 183, 200, 0.15);
+        }
+
+        .music-btn.active {
+            background: #F7B7C8;
+            color: white;
+        }
+        .music-btn.active .music-icon { color: white; }
+
+        /* Сердце с фото */
+        .heart-frame {
+            width: 170px;
+            height: 170px;
+            margin: 0 auto 16px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .heart-svg {
+            width: 100%;
+            height: 100%;
+            display: block;
+        }
+
+        /* Имена (разноцветные буквы) */
         .hero-names {
-            font-family: 'Playfair Display', serif;
-            font-size: clamp(3.5rem, 12vw, 10rem);
-            line-height: 0.9;
-            margin: 10px 0;
+            font-family: 'CooperBlack', 'Cooper Black', serif;
+            font-size: clamp(1.8rem, 5vw, 3.2rem);
+            font-weight: 400;
+            line-height: 1.3;
+            position: relative;
+            z-index: 1;
+            margin-bottom: 2px;
+        }
+
+        .hero-names .name-group {
+            display: block;
         }
 
         .hero-names .amp {
-            font-size: 0.4em;
-            color: #F7B7C8;
-            display: block;
-            margin: 15px 0;
-        }
-
-        .hero-date {
-            font-family: 'DM Serif Display', serif;
-            font-style: italic;
-            font-size: clamp(1.3rem, 2.2vw, 2rem);
-            color: #C4B5AD;
-            margin-top: 25px;
-        }
-
-        .hero-cta {
-            margin-top: 50px;
+            font-size: 0.5em;
             display: inline-block;
-            padding: 18px 50px;
+            margin: 0 4px;
+            color: #C4B5AD;
+        }
+
+        /* Дата (рукописная) */
+        .hero-date {
+            font-family: 'Quicksand', sans-serif;
+            font-size: 0.95rem;
+            color: #B5A8A2;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            position: relative;
+            z-index: 1;
+            margin-bottom: 14px;
+        }
+
+        /* Календарь */
+        .calendar-mini {
+            display: flex;
+            gap: 4px;
+            justify-content: center;
+            margin: 8px 0 18px;
+            flex-wrap: wrap;
+            position: relative;
+            z-index: 1;
+        }
+
+        .calendar-mini .day {
+            width: 34px;
+            height: 34px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            font-size: 0.7rem;
+            font-weight: 500;
+            background: transparent;
+            color: #4A3F3A;
+        }
+
+        .calendar-mini .day.weekday {
+            font-size: 0.5rem;
+            font-weight: 600;
+            color: #C4B5AD;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .calendar-mini .day.wedding {
+            position: relative;
+            background: transparent;
+        }
+
+        .calendar-mini .day.wedding .heart-bg {
+            position: absolute;
+            font-size: 1.8rem;
+            color: #F7B7C8;
+            animation: pulseHeart 2s ease-in-out infinite;
+        }
+
+        .calendar-mini .day.wedding .day-number {
+            position: relative;
+            z-index: 2;
+            color: white;
+            font-weight: 700;
+            font-size: 0.75rem;
+        }
+
+        @keyframes pulseHeart {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.12); }
+        }
+
+        /* Стрелка */
+        .scroll-down {
+            position: relative;
+            z-index: 1;
+            margin-top: 6px;
+            cursor: pointer;
+            animation: bounceArrow 2s ease-in-out infinite;
+        }
+
+        .scroll-down svg {
+            display: block;
+            margin: 0 auto;
+            width: 32px;
+            height: 48px;
+        }
+
+        @keyframes bounceArrow {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(8px); }
+        }
+
+        /* ==========================================
+           СЕКЦИИ
+           ========================================== */
+        .section-label {
+            font-family: 'Quicksand', sans-serif;
+            font-size: 0.75rem;
+            font-weight: 300;
+            color: #C4B5AD;
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            text-align: center;
+            margin-bottom: 4px;
+        }
+
+        .section-title-craft {
+            font-family: 'CooperBlack', 'Cooper Black', serif;
+            font-weight: 400;
+            font-size: clamp(2rem, 6vw, 3.2rem);
+            line-height: 1.2;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        /* ==========================================
+           ВРЕМЯ И МЕСТО
+           ========================================== */
+        #venue { background: #FAFAF8; }
+
+        .venue-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+
+        @media (max-width: 480px) {
+            .venue-grid { grid-template-columns: 1fr; gap: 14px; }
+        }
+
+        .venue-card {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(10px);
+            border-radius: 30px;
+            padding: 24px 18px;
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .venue-card .icon { font-size: 1.8rem; display: block; margin-bottom: 6px; }
+        .venue-card h3 {
+            font-family: 'CooperBlack', 'Cooper Black', serif;
+            font-size: 1.1rem;
+            font-weight: 400;
+            margin-bottom: 2px;
+        }
+        .venue-card p { font-size: 0.85rem; color: #6B5F5A; }
+
+        .map-link {
+            display: inline-block;
+            margin-top: 8px;
+            color: #F7B7C8;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.85rem;
+            border-bottom: 2px solid #F7B7C8;
+            padding-bottom: 2px;
+        }
+
+        .venue-card-star .star-frame {
+            width: 110px;
+            height: 110px;
+            margin: 0 auto 10px;
+        }
+
+        .venue-card-star .star-svg {
+            width: 100%;
+            height: 100%;
+            display: block;
+            animation: rotateStar 20s linear infinite;
+        }
+
+        @keyframes rotateStar {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        /* ==========================================
+           ПЛАН ДНЯ
+           ========================================== */
+        #schedule { background: #FFFFFF; }
+
+        .schedule-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        .schedule-item {
+            display: flex;
+            align-items: center;
+            gap: 18px;
+            padding: 18px 22px;
+            background: rgba(255, 255, 255, 0.6);
+            backdrop-filter: blur(10px);
+            border-radius: 30px;
+            border: 1px solid rgba(247, 183, 200, 0.12);
+            transition: all 0.3s ease;
+        }
+
+        .schedule-item-alt { border-color: rgba(243, 181, 106, 0.2); }
+
+        .schedule-item .time {
+            font-family: 'CooperBlack', 'Cooper Black', serif;
+            font-size: 2rem;
+            font-weight: 400;
+            color: #F7B7C8;
+            min-width: 75px;
+        }
+
+        .schedule-item .event { font-size: 1.15rem; font-weight: 500; }
+        .schedule-item .event small {
+            display: block;
+            font-weight: 300;
+            font-size: 0.85rem;
+            color: #6B5F5A;
+        }
+        .schedule-item .event .important { color: #F3B56A; font-weight: 600; }
+
+        /* ==========================================
+           ДРЕСС-КОД
+           ========================================== */
+        #dresscode { background: #FAFAF8; }
+
+        .dresscode-sub {
+            text-align: center;
+            font-size: 1rem;
+            color: #6B5F5A;
+            margin-bottom: 22px;
+        }
+        .dresscode-sub .no-colors {
+            display: block;
+            font-size: 0.8rem;
+            color: #F3B56A;
+            font-weight: 600;
+            margin-top: 2px;
+        }
+
+        .color-palette {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: 18px;
+        }
+
+        .color-dot {
+            width: 52px;
+            height: 52px;
+            border-radius: 50%;
+            border: 3px solid rgba(255, 255, 255, 0.7);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .color-dot:hover {
+            transform: scale(1.1);
+            border-color: white;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.08);
+        }
+        .color-dot.active { transform: scale(1.1); border-color: white; }
+
+        .dresscode-photos {
+            min-height: 100px;
+            background: rgba(255, 255, 255, 0.5);
+            border-radius: 28px;
+            padding: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 18px;
+            border: 2px dashed rgba(74, 63, 58, 0.05);
+            transition: all 0.3s ease;
+        }
+
+        .dresscode-photos .photo-placeholder { color: #C4B5AD; font-size: 0.85rem; }
+        .dresscode-photos img {
+            max-width: 100%;
+            max-height: 180px;
+            border-radius: 20px;
+            object-fit: cover;
+        }
+
+        .men-buttons {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: 14px;
+        }
+
+        .men-btn {
+            padding: 10px 22px;
+            border: 2px solid rgba(74, 63, 58, 0.08);
+            border-radius: 40px;
+            background: white;
+            font-family: 'Quicksand', sans-serif;
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: #4A3F3A;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .men-btn:hover {
+            border-color: #F7B7C8;
+            background: #FFF5F7;
+            transform: translateY(-2px);
+        }
+        .men-btn.active {
+            border-color: #F7B7C8;
+            background: #F7B7C8;
+            color: white;
+        }
+
+        .men-photos {
+            min-height: 100px;
+            background: rgba(255, 255, 255, 0.5);
+            border-radius: 28px;
+            padding: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px dashed rgba(74, 63, 58, 0.05);
+            transition: all 0.3s ease;
+        }
+
+        .men-photos .photo-placeholder { color: #C4B5AD; font-size: 0.85rem; }
+        .men-photos img {
+            max-width: 100%;
+            max-height: 180px;
+            border-radius: 20px;
+            object-fit: cover;
+        }
+
+        /* ==========================================
+           FAQ
+           ========================================== */
+        #faq { background: #FFFFFF; }
+
+        .faq-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            max-width: 550px;
+            margin: 0 auto;
+        }
+
+        .faq-item {
+            background: rgba(255, 255, 255, 0.6);
+            backdrop-filter: blur(10px);
+            border-radius: 28px;
+            padding: 18px 22px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            cursor: pointer;
+            transition: all 0.4s ease;
+        }
+
+        .faq-item:hover {
+            background: rgba(255, 255, 255, 0.85);
+            transform: translateY(-2px);
+        }
+
+        .faq-item .question {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+
+        .faq-item .question .q-icon {
+            color: #F7B7C8;
+            font-weight: 700;
+            font-size: 0.9rem;
+        }
+
+        .faq-item .question .arrow {
+            margin-left: auto;
+            transition: transform 0.4s ease;
+            color: #C4B5AD;
+            font-size: 0.8rem;
+        }
+
+        .faq-item.open .question .arrow { transform: rotate(180deg); }
+
+        .faq-item .answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.4s ease, margin 0.3s ease;
+            opacity: 0;
+            color: #6B5F5A;
+            font-weight: 300;
+            line-height: 1.7;
+            padding: 0 8px;
+            font-size: 1rem;
+        }
+
+        .faq-item.open .answer {
+            max-height: 300px;
+            opacity: 1;
+            margin-top: 12px;
+            padding: 8px 8px 2px;
+        }
+
+        .faq-item .answer strong { color: #F7B7C8; font-weight: 600; }
+
+        /* ==========================================
+           RSVP
+           ========================================== */
+        #rsvp { background: #FAFAF8; }
+
+        .rsvp-note {
+            text-align: center;
+            font-size: 0.9rem;
+            color: #6B5F5A;
+            margin-bottom: 24px;
+            font-weight: 300;
+            padding: 12px 16px;
+            background: rgba(247, 183, 200, 0.06);
+            border-radius: 20px;
+            border: 1px solid rgba(247, 183, 200, 0.08);
+        }
+
+        .rsvp-form {
+            max-width: 500px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .form-group label {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: #4A3F3A;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            padding: 14px 18px;
+            border: 2px solid rgba(74, 63, 58, 0.06);
+            border-radius: 20px;
+            font-family: 'Quicksand', sans-serif;
+            font-size: 0.95rem;
+            background: rgba(255, 255, 255, 0.6);
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+            color: #4A3F3A;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #F7B7C8;
+            background: rgba(255, 255, 255, 0.9);
+            box-shadow: 0 4px 20px rgba(247, 183, 200, 0.08);
+        }
+
+        .form-group textarea { height: 80px; resize: vertical; }
+
+        .radio-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .radio-group-horizontal {
+            flex-direction: row;
+            flex-wrap: wrap;
+        }
+
+        .radio-btn {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 16px;
+            border: 2px solid rgba(74, 63, 58, 0.06);
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: rgba(255, 255, 255, 0.4);
+            font-size: 0.9rem;
+        }
+
+        .radio-btn:hover {
+            border-color: #F7B7C8;
+            background: rgba(247, 183, 200, 0.04);
+        }
+
+        .radio-btn input[type="radio"] { display: none; }
+
+        .radio-btn:has(input:checked) {
+            border-color: #F7B7C8;
+            background: rgba(247, 183, 200, 0.06);
+        }
+
+        .radio-btn-small { padding: 8px 14px; font-size: 0.8rem; }
+
+        .btn-submit {
+            padding: 16px;
             background: linear-gradient(135deg, #F7B7C8, #F3B56A);
             color: white;
             border: none;
-            border-radius: 60px;
+            border-radius: 40px;
             font-family: 'Quicksand', sans-serif;
-            font-size: 1.1rem;
+            font-size: 1rem;
             font-weight: 600;
             cursor: pointer;
-            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-            box-shadow: 0 15px 40px rgba(247, 183, 200, 0.3);
+            transition: all 0.4s ease;
+            box-shadow: 0 8px 30px rgba(247, 183, 200, 0.2);
+            margin-top: 8px;
         }
 
-        .hero-cta:hover {
-            transform: scale(1.04) translateY(-3px);
-            box-shadow: 0 25px 50px rgba(247, 183, 200, 0.4);
+        .btn-submit:hover {
+            transform: scale(1.02) translateY(-2px);
+            box-shadow: 0 12px 40px rgba(247, 183, 200, 0.3);
         }
 
-        /* Плавающие декорации */
-        .floating-decor {
-            position: absolute;
-            pointer-events: none;
-            z-index: 1;
-            opacity: 0.5;
+        /* ==========================================
+           ТАЙМЕР
+           ========================================== */
+        #timer-section {
+            background: #FFFFFF;
+            min-height: 60vh;
+            padding: 60px 0 80px;
         }
 
-        .floating-decor svg { width: 100%; height: 100%; }
-
-        .decor-1 { top: 8%; left: 4%; width: 120px; height: 120px; animation: floatSoft 8s ease-in-out infinite; }
-        .decor-2 { bottom: 12%; right: 3%; width: 100px; height: 100px; animation: floatSoft 10s ease-in-out infinite 1.5s; }
-        .decor-3 { top: 20%; right: 8%; width: 80px; height: 80px; animation: floatSoft 7s ease-in-out infinite 0.8s; }
-        .decor-4 { bottom: 20%; left: 5%; width: 90px; height: 90px; animation: floatSoft 9s ease-in-out infinite 2.2s; }
-
-        @keyframes floatSoft {
-            0%, 100% { transform: translateY(0) rotate(0deg); }
-            50% { transform: translateY(-25px) rotate(8deg); }
-        }
-
-        /* ===== ТАЙМЕР В HERO ===== */
-        .hero-timer {
+        .timer {
             display: flex;
-            gap: 20px;
-            margin-top: 40px;
+            gap: 16px;
             justify-content: center;
             flex-wrap: wrap;
         }
 
         .timer-unit {
             text-align: center;
-            background: rgba(255,255,255,0.5);
+            background: rgba(255, 255, 255, 0.6);
             backdrop-filter: blur(10px);
-            padding: 12px 18px;
-            border-radius: 30px;
-            min-width: 60px;
-            border: 1px solid rgba(255,255,255,0.3);
+            padding: 16px 20px;
+            border-radius: 24px;
+            min-width: 65px;
+            border: 1px solid rgba(247, 183, 200, 0.08);
         }
 
         .timer-unit .number {
-            font-family: 'Playfair Display', serif;
-            font-size: clamp(1.6rem, 2.5vw, 2.8rem);
-            font-weight: 700;
+            font-family: 'CooperBlack', 'Cooper Black', serif;
+            font-size: clamp(1.8rem, 4vw, 2.8rem);
+            font-weight: 400;
             color: #4A3F3A;
         }
 
@@ -218,422 +823,68 @@
             margin-top: 4px;
         }
 
-        /* ===== КАЛЕНДАРЬ (только 12-18) ===== */
-        .calendar-mini {
-            display: flex;
-            gap: 12px;
-            justify-content: center;
-            margin: 20px 0 10px;
-            flex-wrap: wrap;
-        }
-
-        .calendar-mini .day {
-            width: 44px;
-            height: 44px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 50%;
-            font-size: 0.9rem;
-            font-weight: 500;
-            background: rgba(255,255,255,0.3);
-            backdrop-filter: blur(5px);
-            transition: all 0.3s;
-            border: 1px solid rgba(255,255,255,0.2);
-            color: #6B5F5A;
-        }
-
-        .calendar-mini .day.weekday {
-            font-size: 0.65rem;
-            font-weight: 600;
-            color: #C4B5AD;
-            background: transparent;
-            border: none;
-            backdrop-filter: none;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        .calendar-mini .day.wedding {
-            background: #F7B7C8;
-            color: white;
-            border-color: #F7B7C8;
-            box-shadow: 0 8px 25px rgba(247, 183, 200, 0.35);
-            font-weight: 700;
-            font-size: 1rem;
-            transform: scale(1.1);
-            animation: pulseHeart 2s ease-in-out infinite;
-        }
-
-        @keyframes pulseHeart {
-            0%, 100% { transform: scale(1.1); }
-            50% { transform: scale(1.2); }
-        }
-
-        /* ===== СТОРИ ===== */
-        #story {
-            background: linear-gradient(180deg, #FBF0ED, #FDF8F3);
-        }
-
-        #story .container {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 60px;
-            align-items: center;
-        }
-
-        @media (max-width: 768px) {
-            #story .container {
-                grid-template-columns: 1fr;
-                gap: 40px;
-                text-align: center;
-            }
-        }
-
-        /* ===== ВЕНЮ ===== */
-        #venue {
-            background: linear-gradient(170deg, #F8F5EB, #F5F0EA);
-        }
-
-        .venue-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 40px;
-            margin-top: 30px;
-        }
-
-        @media (max-width: 768px) {
-            .venue-grid { grid-template-columns: 1fr; gap: 25px; }
-        }
-
-        .venue-card {
-            background: rgba(255,255,255,0.5);
-            backdrop-filter: blur(10px);
-            border-radius: 50px 50px 50px 20px;
-            padding: 35px 30px;
-            border: 1px solid rgba(255,255,255,0.3);
-            transition: all 0.4s ease;
-        }
-
-        .venue-card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 30px 60px rgba(74, 63, 58, 0.06);
-        }
-
-        .venue-card .icon { font-size: 2.5rem; margin-bottom: 12px; display: block; }
-        .venue-card h3 { font-family: 'Playfair Display', serif; font-size: 1.6rem; margin-bottom: 6px; }
-        .venue-card p { color: #6B5F5A; font-weight: 300; }
-
-        /* ===== ТАЙМИНГ (новый) ===== */
-        #schedule {
-            background: #FDF8F3;
-        }
-
-        .schedule-list {
-            display: flex;
-            flex-direction: column;
-            gap: 18px;
-            max-width: 650px;
-            margin: 30px auto 0;
-        }
-
-        .schedule-item {
-            display: flex;
-            align-items: center;
-            gap: 25px;
-            padding: 20px 28px;
-            background: rgba(255,255,255,0.6);
-            backdrop-filter: blur(10px);
-            border-radius: 40px;
-            border: 1px solid rgba(255,255,255,0.3);
-            transition: all 0.3s ease;
-        }
-
-        .schedule-item:hover {
-            transform: translateX(8px);
-            background: rgba(255,255,255,0.8);
-        }
-
-        @media (max-width: 600px) {
-            .schedule-item {
-                flex-direction: column;
-                text-align: center;
-                gap: 8px;
-                padding: 22px 18px;
-            }
-        }
-
-        .schedule-item .time {
-            font-family: 'Playfair Display', serif;
-            font-size: 1.6rem;
-            font-weight: 700;
-            color: #F7B7C8;
-            min-width: 90px;
-        }
-
-        .schedule-item .event { font-size: 1.05rem; }
-        .schedule-item .event small {
-            display: block;
-            color: #F3B56A;
-            font-size: 0.8rem;
-            font-weight: 600;
-        }
-
-        /* ===== ДРЕСС-КОД ===== */
-        #dresscode {
-            background: linear-gradient(180deg, #F5F0EA, #F8F5EB);
-        }
-
-        .dresscode-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 50px;
-            align-items: center;
-        }
-
-        @media (max-width: 768px) {
-            .dresscode-grid { grid-template-columns: 1fr; gap: 30px; text-align: center; }
-        }
-
-        .color-palette {
-            display: flex;
-            gap: 16px;
-            flex-wrap: wrap;
-        }
-
-        .color-dot {
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-            border: 3px solid rgba(255,255,255,0.6);
-            box-shadow: 0 10px 30px rgba(74, 63, 58, 0.06);
-            transition: all 0.4s ease;
-            cursor: pointer;
-        }
-
-        .color-dot:hover {
-            transform: scale(1.15) rotate(-6deg);
-            border-color: white;
-        }
-
-        .color-dot:nth-child(1) { background: #F7B7C8; }
-        .color-dot:nth-child(2) { background: #B9DDF8; }
-        .color-dot:nth-child(3) { background: #C8B6F8; }
-        .color-dot:nth-child(4) { background: #F6C18D; }
-        .color-dot:nth-child(5) { background: #F3B56A; }
-        .color-dot:nth-child(6) { background: #A8BE75; }
-
-        /* ===== FAQ (новый блок) ===== */
-        #faq {
-            background: #FDF8F3;
-        }
-
-        .faq-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 20px;
-            margin-top: 30px;
-        }
-
-        @media (max-width: 700px) {
-            .faq-grid { grid-template-columns: 1fr; }
-        }
-
-        .faq-item {
-            background: rgba(255,255,255,0.5);
-            backdrop-filter: blur(10px);
-            border-radius: 40px;
-            padding: 20px 25px;
-            border: 1px solid rgba(255,255,255,0.3);
-            cursor: pointer;
-            transition: all 0.4s ease;
-        }
-
-        .faq-item:hover {
-            background: rgba(255,255,255,0.8);
-            transform: translateY(-4px);
-        }
-
-        .faq-item .question {
-            display: flex;
-            align-items: center;
-            gap: 14px;
-            font-weight: 600;
-            font-size: 1.05rem;
-        }
-
-        .faq-item .question .icon {
-            font-size: 1.6rem;
-            transition: transform 0.4s ease;
-        }
-
-        .faq-item .question .arrow {
-            margin-left: auto;
-            transition: transform 0.4s ease;
-            color: #C4B5AD;
-        }
-
-        .faq-item.open .question .arrow {
-            transform: rotate(180deg);
-        }
-
-        .faq-item .answer {
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.5s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.4s ease, margin 0.3s ease;
-            opacity: 0;
-            color: #6B5F5A;
-            font-weight: 300;
-            line-height: 1.7;
-            padding: 0 10px;
-        }
-
-        .faq-item.open .answer {
-            max-height: 300px;
-            opacity: 1;
-            margin-top: 14px;
-            padding: 10px 10px 5px;
-        }
-
-        .faq-item .answer strong {
-            color: #F7B7C8;
-            font-weight: 600;
-        }
-
-        /* ===== RSVP ===== */
-        #rsvp {
-            background: linear-gradient(170deg, #FDF8F3, #FBF0ED);
-        }
-
-        .rsvp-form {
-            max-width: 520px;
-            margin: 0 auto;
-            display: flex;
-            flex-direction: column;
-            gap: 16px;
-        }
-
-        .rsvp-form input,
-        .rsvp-form textarea {
-            padding: 18px 22px;
-            border: 2px solid rgba(255,255,255,0.5);
-            border-radius: 40px;
-            font-family: 'Quicksand', sans-serif;
-            font-size: 1rem;
-            background: rgba(255,255,255,0.5);
-            backdrop-filter: blur(10px);
-            transition: all 0.3s ease;
-            color: #4A3F3A;
-        }
-
-        .rsvp-form input:focus,
-        .rsvp-form textarea:focus {
-            outline: none;
-            border-color: #F7B7C8;
-            background: rgba(255,255,255,0.8);
-            transform: scale(1.01);
-            box-shadow: 0 10px 40px rgba(247, 183, 200, 0.1);
-        }
-
-        .rsvp-form textarea {
-            height: 100px;
-            resize: vertical;
-            border-radius: 30px;
-        }
-
-        .rsvp-form .btn-group {
-            display: flex;
-            gap: 12px;
-        }
-
-        .rsvp-form .btn-group button {
-            flex: 1;
-            padding: 15px;
-            border: 2px solid rgba(255,255,255,0.5);
-            border-radius: 40px;
-            background: rgba(255,255,255,0.3);
-            backdrop-filter: blur(10px);
-            font-family: 'Quicksand', sans-serif;
-            font-size: 1rem;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            color: #4A3F3A;
-        }
-
-        .rsvp-form .btn-group button:hover {
-            border-color: #F7B7C8;
-            background: #F7B7C8;
-            color: white;
-            transform: scale(1.02);
-        }
-
-        .rsvp-form .btn-submit {
-            padding: 18px;
-            background: linear-gradient(135deg, #F7B7C8, #F3B56A);
-            color: white;
-            border: none;
-            border-radius: 60px;
-            font-family: 'Quicksand', sans-serif;
-            font-size: 1.1rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.4s ease;
-            box-shadow: 0 15px 40px rgba(247, 183, 200, 0.25);
-        }
-
-        .rsvp-form .btn-submit:hover {
-            transform: scale(1.02) translateY(-3px);
-            box-shadow: 0 25px 50px rgba(247, 183, 200, 0.35);
-        }
-
-        /* ===== FOOTER ===== */
+        /* ==========================================
+           FOOTER
+           ========================================== */
         footer {
-            background: #F8F5EB;
-            padding: 50px 30px 35px;
+            background: #FFFFFF;
+            padding: 40px 20px 30px;
             text-align: center;
-            position: relative;
-            overflow: hidden;
-        }
-
-        footer .big-heart {
-            font-size: 3.5rem;
-            display: block;
-            animation: pulseHeart 2s ease-in-out infinite;
+            border-top: 1px solid rgba(74, 63, 58, 0.04);
         }
 
         footer p {
-            font-family: 'Playfair Display', serif;
-            font-size: 1.6rem;
-            margin-top: 12px;
+            font-family: 'CooperBlack', 'Cooper Black', serif;
+            font-size: 1.4rem;
             color: #4A3F3A;
         }
 
+        footer .heart-symbol { color: #F7B7C8; }
         footer .sub {
             font-family: 'Quicksand', sans-serif;
-            font-size: 0.95rem;
+            font-size: 0.85rem;
             color: #C4B5AD;
-            margin-top: 6px;
+            margin-top: 4px;
             font-weight: 300;
         }
 
-        /* ===== REVEAL ===== */
-        .reveal { opacity: 0; transform: translateY(50px) scale(0.96); }
-        .reveal-left { opacity: 0; transform: translateX(-60px); }
-        .reveal-right { opacity: 0; transform: translateX(60px); }
+        .footer-tags {
+            margin-top: 10px;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            font-size: 0.75rem;
+            color: #C4B5AD;
+            letter-spacing: 1px;
+        }
 
-        @media (max-width: 600px) {
-            .container { padding: 0 18px; }
-            .section { padding: 50px 0; }
-            .organic-card { padding: 28px 22px; border-radius: 40px; }
-            .hero-timer { gap: 10px; }
-            .timer-unit { padding: 10px 14px; min-width: 50px; }
-            .timer-unit .number { font-size: 1.4rem; }
-            .calendar-mini .day { width: 36px; height: 36px; font-size: 0.75rem; }
-            .calendar-mini .day.weekday { font-size: 0.55rem; }
-            .schedule-item .time { font-size: 1.3rem; min-width: 70px; }
-            .color-dot { width: 48px; height: 48px; }
-            .faq-item { padding: 16px 18px; }
-            .faq-item .question { font-size: 0.95rem; }
+        /* ==========================================
+           GSAP REVEAL
+           ========================================== */
+        .reveal {
+            opacity: 0;
+            transform: translateY(40px) scale(0.96);
+        }
+
+        .reveal-left {
+            opacity: 0;
+            transform: translateX(-40px);
+        }
+
+        .reveal-right {
+            opacity: 0;
+            transform: translateX(40px);
+        }
+
+        @media (max-width: 480px) {
+            section { padding: 50px 0 60px; }
+            .hero-names { font-size: clamp(1.4rem, 4vw, 2.2rem); }
+            .heart-frame { width: 140px; height: 140px; }
+            .calendar-mini .day { width: 30px; height: 30px; font-size: 0.65rem; }
+            .schedule-item .time { font-size: 1.6rem; min-width: 60px; }
+            .schedule-item .event { font-size: 1rem; }
+            .color-dot { width: 44px; height: 44px; }
+            .faq-item .question { font-size: 1rem; }
         }
     </style>
 </head>
@@ -643,93 +894,123 @@
     <!-- ==========================================
     HERO
     ========================================== -->
-    <section id="hero" class="section">
-        <div class="floating-decor decor-1">
-            <svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="30" fill="#F7B7C8" opacity="0.3"/><circle cx="50" cy="50" r="20" fill="#F7B7C8" opacity="0.5"/><circle cx="50" cy="50" r="10" fill="#F7B7C8" opacity="0.7"/><path d="M50 10 L55 40 L85 45 L55 50 L50 80 L45 50 L15 45 L45 40 L50 10Z" fill="#F7B7C8" opacity="0.4"/></svg>
-        </div>
-        <div class="floating-decor decor-2">
-            <svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="25" fill="#B9DDF8" opacity="0.3"/><circle cx="50" cy="50" r="15" fill="#B9DDF8" opacity="0.5"/><path d="M50 20 L53 47 L80 50 L53 53 L50 80 L47 53 L20 50 L47 47 L50 20Z" fill="#B9DDF8" opacity="0.4"/></svg>
-        </div>
-        <div class="floating-decor decor-3">
-            <svg viewBox="0 0 80 80"><circle cx="40" cy="40" r="15" fill="#C8B6F8" opacity="0.3"/><path d="M40 10 L43 37 L70 40 L43 43 L40 70 L37 43 L10 40 L37 37 L40 10Z" fill="#C8B6F8" opacity="0.3"/></svg>
-        </div>
-        <div class="floating-decor decor-4">
-            <svg viewBox="0 0 80 80"><circle cx="40" cy="40" r="18" fill="#A8BE75" opacity="0.25"/><path d="M40 15 L42 38 L65 40 L42 42 L40 65 L38 42 L15 40 L38 38 L40 15Z" fill="#A8BE75" opacity="0.25"/></svg>
+    <section id="hero">
+        <div class="hero-bg"></div>
+        
+        <div class="deco-line deco-line-1"></div>
+        <div class="deco-line deco-line-2"></div>
+        <div class="deco-line deco-line-3"></div>
+        <div class="deco-line deco-line-4"></div>
+        <div class="deco-wave deco-wave-1">~</div>
+        <div class="deco-wave deco-wave-2">~</div>
+        <div class="deco-dots deco-dots-1">· · ·</div>
+        <div class="deco-dots deco-dots-2">· · ·</div>
+
+        <!-- Музыкальные кнопки -->
+        <div class="music-controls">
+            <button class="music-btn" id="stasMusicBtn">
+                <span class="music-icon">♪</span>
+                Музыка Стаса
+            </button>
+            <button class="music-btn" id="nastyaMusicBtn">
+                <span class="music-icon">♪</span>
+                Музыка Насти
+            </button>
         </div>
 
-        <div class="container">
-            <span class="hero-badge reveal">Приглашение</span>
-            
-            <h1 class="hero-names reveal">
-                <span>Стас</span>
-                <span class="amp">&</span>
-                <span>Настя</span>
-            </h1>
-            
-            <p class="hero-date reveal">17 октября 2026</p>
-
-            <!-- КАЛЕНДАРЬ: только 12-18 -->
-            <div class="calendar-mini reveal">
-                <span class="day weekday">Пн</span>
-                <span class="day weekday">Вт</span>
-                <span class="day weekday">Ср</span>
-                <span class="day weekday">Чт</span>
-                <span class="day weekday">Пт</span>
-                <span class="day weekday">Сб</span>
-                <span class="day weekday">Вс</span>
-
-                <span class="day">12</span>
-                <span class="day">13</span>
-                <span class="day">14</span>
-                <span class="day">15</span>
-                <span class="day">16</span>
-                <span class="day wedding">❤️ 17</span>
-                <span class="day">18</span>
-            </div>
-            
-            <div class="hero-timer reveal">
-                <div class="timer-unit"><div class="number" id="days">00</div><div class="label">дней</div></div>
-                <div class="timer-unit"><div class="number" id="hours">00</div><div class="label">часов</div></div>
-                <div class="timer-unit"><div class="number" id="minutes">00</div><div class="label">минут</div></div>
-                <div class="timer-unit"><div class="number" id="seconds">00</div><div class="label">секунд</div></div>
-            </div>
-            
-            <button class="hero-cta reveal" id="scrollDown">Открыть приглашение ↓</button>
+        <!-- Сердце с фото -->
+        <div class="heart-frame reveal">
+            <svg viewBox="0 0 200 200" class="heart-svg">
+                <defs>
+                    <clipPath id="heartClip">
+                        <path d="M100 180 C40 120 0 90 0 60 C0 25 25 0 60 0 C75 0 90 10 100 30 C110 10 125 0 140 0 C175 0 200 25 200 60 C200 90 160 120 100 180Z" />
+                    </clipPath>
+                </defs>
+                <image 
+                    href="assets/images/hero-photo.jpg" 
+                    x="0" y="0" 
+                    width="200" height="200" 
+                    clip-path="url(#heartClip)"
+                    preserveAspectRatio="xMidYMid slice"
+                />
+                <path 
+                    d="M100 180 C40 120 0 90 0 60 C0 25 25 0 60 0 C75 0 90 10 100 30 C110 10 125 0 140 0 C175 0 200 25 200 60 C200 90 160 120 100 180Z" 
+                    fill="none" 
+                    stroke="#F7B7C8" 
+                    stroke-width="3"
+                />
+            </svg>
         </div>
-    </section>
 
-    <!-- ==========================================
-    НАША ИСТОРИЯ
-    ========================================== -->
-    <section id="story" class="section">
-        <div class="container">
-            <div class="organic-card reveal-left">
-                <span class="handwritten">Немного о нас</span>
-                <h2 class="serif-title" style="margin: 15px 0 20px;">
-                    Наша <span style="color: #F7B7C8;">история</span>
-                </h2>
-                <p class="body-text">
-                    Мы встретились случайно, а теперь не представляем жизни друг без друга.
-                    Этот день станет началом нашей новой главы, и мы хотим разделить его с вами.
-                </p>
-                <p class="body-text" style="margin-top: 15px;">Спасибо, что вы с нами. ❤️</p>
-            </div>
-            <div class="reveal-right" style="text-align: center;">
-                <div style="font-size: 5rem; line-height: 1.2; background: rgba(255,255,255,0.3); border-radius: 100px; padding: 30px; backdrop-filter: blur(10px);">💍</div>
-                <p style="margin-top: 15px; color: #C4B5AD; font-size: 0.9rem;">#СтасНастя2026</p>
-            </div>
+        <!-- Имена — каждая буква своего цвета -->
+        <h1 class="hero-names reveal">
+            <span class="name-group">
+                <span class="letter letter-color-1" style="--rot:-2deg;--y:-3px;">С</span>
+                <span class="letter letter-color-2" style="--rot:1deg;--y:2px;">т</span>
+                <span class="letter letter-color-3" style="--rot:-1deg;--y:-1px;">а</span>
+                <span class="letter letter-color-4" style="--rot:2deg;--y:4px;">с</span>
+            </span>
+            <span class="amp"> &amp; </span>
+            <span class="name-group">
+                <span class="letter letter-color-5" style="--rot:-1deg;--y:-2px;">Н</span>
+                <span class="letter letter-color-6" style="--rot:2deg;--y:3px;">а</span>
+                <span class="letter letter-color-7" style="--rot:-2deg;--y:-4px;">с</span>
+                <span class="letter letter-color-8" style="--rot:1deg;--y:1px;">т</span>
+                <span class="letter letter-color-9" style="--rot:-1deg;--y:-2px;">я</span>
+            </span>
+        </h1>
+
+        <p class="hero-date reveal">17 октября 2026</p>
+
+        <!-- Календарь -->
+        <div class="calendar-mini reveal">
+            <span class="day weekday">Пн</span>
+            <span class="day weekday">Вт</span>
+            <span class="day weekday">Ср</span>
+            <span class="day weekday">Чт</span>
+            <span class="day weekday">Пт</span>
+            <span class="day weekday">Сб</span>
+            <span class="day weekday">Вс</span>
+            
+            <span class="day">12</span>
+            <span class="day">13</span>
+            <span class="day">14</span>
+            <span class="day">15</span>
+            <span class="day">16</span>
+            <span class="day wedding">
+                <span class="heart-bg">❤</span>
+                <span class="day-number">17</span>
+            </span>
+            <span class="day">18</span>
+        </div>
+
+        <!-- Стрелка -->
+        <div class="scroll-down" id="scrollDown">
+            <svg width="32" height="48" viewBox="0 0 40 60">
+                <path d="M20 5 L20 50 M10 40 L20 55 L30 40" stroke="#4A3F3A" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
         </div>
     </section>
 
     <!-- ==========================================
     ВРЕМЯ И МЕСТО
     ========================================== -->
-    <section id="venue" class="section">
+    <section id="venue">
         <div class="container">
-            <div style="text-align: center; margin-bottom: 30px;">
-                <span class="handwritten">Сохраните дату</span>
-                <h2 class="serif-title">Где и когда</h2>
-            </div>
+            <p class="section-label reveal">Сохраните дату</p>
+            <h2 class="section-title-craft reveal">
+                <span class="letter letter-color-1" style="--rot:-1deg;--y:-2px;">Г</span>
+                <span class="letter letter-color-2" style="--rot:2deg;--y:3px;">д</span>
+                <span class="letter letter-color-3" style="--rot:-2deg;--y:-1px;">е</span>
+                <span class="letter letter-color-1" style="--rot:1deg;--y:2px;"> </span>
+                <span class="letter letter-color-4" style="--rot:-1deg;--y:-3px;">и</span>
+                <span class="letter letter-color-5" style="--rot:2deg;--y:1px;"> </span>
+                <span class="letter letter-color-6" style="--rot:-2deg;--y:-2px;">к</span>
+                <span class="letter letter-color-7" style="--rot:1deg;--y:3px;">о</span>
+                <span class="letter letter-color-8" style="--rot:-1deg;--y:-1px;">г</span>
+                <span class="letter letter-color-9" style="--rot:2deg;--y:2px;">д</span>
+                <span class="letter letter-color-10" style="--rot:-1deg;--y:-2px;">а</span>
+            </h2>
             
             <div class="venue-grid">
                 <div class="venue-card reveal">
@@ -737,46 +1018,74 @@
                     <h3>17 октября 2026</h3>
                     <p>Суббота, начало в 15:00</p>
                 </div>
-                <div class="venue-card reveal" style="border-radius: 20px 50px 50px 50px;">
-                    <span class="icon">📍</span>
+                <div class="venue-card venue-card-star reveal" style="border-radius: 20px 30px 30px 30px;">
+                    <div class="star-frame">
+                        <svg viewBox="0 0 200 200" class="star-svg">
+                            <defs>
+                                <clipPath id="starClip">
+                                    <path d="M100 0 L122 65 L190 65 L135 105 L155 170 L100 135 L45 170 L65 105 L10 65 L78 65 Z" />
+                                </clipPath>
+                            </defs>
+                            <image 
+                                href="assets/images/venue-photo.jpg" 
+                                x="0" y="0" 
+                                width="200" height="200" 
+                                clip-path="url(#starClip)"
+                                preserveAspectRatio="xMidYMid slice"
+                            />
+                            <path 
+                                d="M100 0 L122 65 L190 65 L135 105 L155 170 L100 135 L45 170 L65 105 L10 65 L78 65 Z" 
+                                fill="none" 
+                                stroke="#F3B56A" 
+                                stroke-width="3"
+                            />
+                        </svg>
+                    </div>
                     <h3>Отель Высоцкий</h3>
                     <p>Екатеринбург</p>
-                    <a href="#" style="color: #F7B7C8; text-decoration: none; font-weight: 600; margin-top: 10px; display: inline-block;">Открыть карту →</a>
+                    <a href="https://yandex.ru/maps" target="_blank" class="map-link">Открыть карту →</a>
                 </div>
             </div>
         </div>
     </section>
 
     <!-- ==========================================
-    ТАЙМИНГ (НОВЫЙ)
+    ПЛАН ДНЯ
     ========================================== -->
-    <section id="schedule" class="section">
+    <section id="schedule">
         <div class="container">
-            <div style="text-align: center; margin-bottom: 30px;">
-                <span class="handwritten">Как всё пройдёт</span>
-                <h2 class="serif-title">План дня</h2>
-            </div>
+            <p class="section-label reveal">Как всё пройдёт</p>
+            <h2 class="section-title-craft reveal">
+                <span class="letter letter-color-2" style="--rot:-1deg;--y:-2px;">П</span>
+                <span class="letter letter-color-3" style="--rot:2deg;--y:3px;">л</span>
+                <span class="letter letter-color-4" style="--rot:-2deg;--y:-1px;">а</span>
+                <span class="letter letter-color-5" style="--rot:1deg;--y:2px;">н</span>
+                <span class="letter letter-color-1" style="--rot:-1deg;--y:-3px;"> </span>
+                <span class="letter letter-color-6" style="--rot:2deg;--y:1px;">д</span>
+                <span class="letter letter-color-7" style="--rot:-2deg;--y:-2px;">н</span>
+                <span class="letter letter-color-8" style="--rot:1deg;--y:3px;">я</span>
+            </h2>
             
             <div class="schedule-list">
                 <div class="schedule-item reveal">
                     <span class="time">16:00</span>
                     <div class="event">
                         Фуршет
-                        <small>🥂 Лёгкие закуски и шампанское</small>
+                        <small>Лёгкие закуски и шампанское</small>
                     </div>
                 </div>
-                <div class="schedule-item reveal" style="border-radius: 20px 40px 40px 40px;">
+                <div class="schedule-item schedule-item-alt reveal">
                     <span class="time">16:30</span>
                     <div class="event">
                         Выездная регистрация
-                        <small>⏰ Не опаздывать!!</small>
+                        <small class="important">Не опаздывать!!</small>
                     </div>
                 </div>
                 <div class="schedule-item reveal">
                     <span class="time">17:00</span>
                     <div class="event">
                         Банкет
-                        <small>🍽️ Праздничный ужин и танцы</small>
+                        <small>Праздничный ужин и танцы</small>
                     </div>
                 </div>
             </div>
@@ -786,90 +1095,122 @@
     <!-- ==========================================
     ДРЕСС-КОД
     ========================================== -->
-    <section id="dresscode" class="section">
+    <section id="dresscode">
         <div class="container">
-            <div class="dresscode-grid">
-                <div class="reveal">
-                    <span class="handwritten">Вдохновение</span>
-                    <h2 class="serif-title" style="margin: 15px 0 20px;">Дресс-код</h2>
-                    <p class="body-text">
-                        Наша свадьба — <strong>дофаминовая</strong>.<br />
-                        Пастельные, нежные, сочные оттенки.
-                    </p>
-                    <p class="body-text" style="margin-top: 10px; font-size: 0.95rem; color: #F3B56A;">
-                        ✨ Без красного и тёмно-зелёного
-                    </p>
-                </div>
-                <div class="color-palette reveal">
-                    <div class="color-dot"></div>
-                    <div class="color-dot"></div>
-                    <div class="color-dot"></div>
-                    <div class="color-dot"></div>
-                    <div class="color-dot"></div>
-                    <div class="color-dot"></div>
-                </div>
+            <p class="section-label reveal">Вдохновение</p>
+            <h2 class="section-title-craft reveal">
+                <span class="letter letter-color-3" style="--rot:-1deg;--y:-2px;">Д</span>
+                <span class="letter letter-color-4" style="--rot:2deg;--y:3px;">р</span>
+                <span class="letter letter-color-5" style="--rot:-2deg;--y:-1px;">е</span>
+                <span class="letter letter-color-6" style="--rot:1deg;--y:2px;">с</span>
+                <span class="letter letter-color-7" style="--rot:-1deg;--y:-3px;">с</span>
+                <span class="letter letter-color-8" style="--rot:2deg;--y:1px;">-</span>
+                <span class="letter letter-color-1" style="--rot:-2deg;--y:-2px;">к</span>
+                <span class="letter letter-color-2" style="--rot:1deg;--y:3px;">о</span>
+                <span class="letter letter-color-9" style="--rot:-1deg;--y:-1px;">д</span>
+            </h2>
+            
+            <p class="dresscode-sub reveal">
+                Пастельные, дофаминовые оттенки
+                <span class="no-colors">Без красного и тёмно-зелёного</span>
+            </p>
+
+            <div class="color-palette reveal">
+                <div class="color-dot" data-color="pink" style="background: #FF8CA8;"></div>
+                <div class="color-dot" data-color="blue" style="background: #7EC8E3;"></div>
+                <div class="color-dot" data-color="lavender" style="background: #B8A6E0;"></div>
+                <div class="color-dot" data-color="peach" style="background: #F9B87A;"></div>
+                <div class="color-dot" data-color="mint" style="background: #8CD4B5;"></div>
+            </div>
+
+            <div class="dresscode-photos reveal" id="dresscodePhotos">
+                <span class="photo-placeholder">Нажми на цвет</span>
+            </div>
+
+            <div class="men-buttons reveal">
+                <button class="men-btn" id="menOption1">Мужчины, по возможности так</button>
+                <button class="men-btn" id="menOption2">Если возможности нет</button>
+            </div>
+            <div class="men-photos reveal" id="menPhotos">
+                <span class="photo-placeholder">Нажми на вариант</span>
             </div>
         </div>
     </section>
 
     <!-- ==========================================
-    FAQ (НОВЫЙ БЛОК)
+    FAQ
     ========================================== -->
-    <section id="faq" class="section">
+    <section id="faq">
         <div class="container">
-            <div style="text-align: center; margin-bottom: 25px;">
-                <span class="handwritten">Важные мелочи</span>
-                <h2 class="serif-title">Ответы на вопросы</h2>
-            </div>
+            <p class="section-label reveal">Важные мелочи</p>
+            <h2 class="section-title-craft reveal">
+                <span class="letter letter-color-4" style="--rot:-1deg;--y:-2px;">О</span>
+                <span class="letter letter-color-5" style="--rot:2deg;--y:3px;">т</span>
+                <span class="letter letter-color-6" style="--rot:-2deg;--y:-1px;">в</span>
+                <span class="letter letter-color-7" style="--rot:1deg;--y:2px;">е</span>
+                <span class="letter letter-color-8" style="--rot:-1deg;--y:-3px;">т</span>
+                <span class="letter letter-color-1" style="--rot:2deg;--y:1px;">ы</span>
+                <span class="letter letter-color-2" style="--rot:-2deg;--y:-2px;"> </span>
+                <span class="letter letter-color-3" style="--rot:1deg;--y:3px;">н</span>
+                <span class="letter letter-color-4" style="--rot:-1deg;--y:-1px;">а</span>
+                <span class="letter letter-color-9" style="--rot:2deg;--y:2px;"> </span>
+                <span class="letter letter-color-10" style="--rot:-1deg;--y:-2px;">в</span>
+                <span class="letter letter-color-1" style="--rot:1deg;--y:1px;">о</span>
+                <span class="letter letter-color-2" style="--rot:-2deg;--y:-3px;">п</span>
+                <span class="letter letter-color-3" style="--rot:2deg;--y:2px;">р</span>
+                <span class="letter letter-color-4" style="--rot:-1deg;--y:-1px;">о</span>
+                <span class="letter letter-color-5" style="--rot:1deg;--y:3px;">с</span>
+                <span class="letter letter-color-6" style="--rot:-2deg;--y:-2px;">ы</span>
+            </h2>
 
             <div class="faq-grid">
-                <div class="faq-item reveal" onclick="this.classList.toggle('open')">
+                <div class="faq-item reveal" data-faq="1">
                     <div class="question">
-                        <span class="icon">💝</span>
+                        <span class="q-icon">Q</span>
                         <span>Что дарить?</span>
                         <span class="arrow">▼</span>
                     </div>
                     <div class="answer">
-                        <strong>Деньги</strong> — нам от вас больше ничего не нужно, мы вылетаем на следующий день. <br />
-                        Дополнительно принимаем только <strong>шоколад</strong> и <strong>мармелад</strong> 🍫
+                        Деньги — нам от вас больше ничего не нужно, мы вылетаем на следующий день.
+                        Дополнительно принимаем только шоколад и мармелад.
                     </div>
                 </div>
 
-                <div class="faq-item reveal" onclick="this.classList.toggle('open')">
+                <div class="faq-item reveal" data-faq="2">
                     <div class="question">
-                        <span class="icon">👗</span>
+                        <span class="q-icon">Q</span>
                         <span>Что надеть?</span>
                         <span class="arrow">▼</span>
                     </div>
                     <div class="answer">
-                        Пастельные, дофаминовые оттенки — <strong>розовый, голубой, лаванда, персик, мята</strong>.<br />
+                        Пастельные, дофаминовые оттенки — розовый, голубой, лаванда, персик, мята.
                         Без красного и тёмно-зелёного.
                     </div>
                 </div>
 
-                <div class="faq-item reveal" onclick="this.classList.toggle('open')">
+                <div class="faq-item reveal" data-faq="3">
                     <div class="question">
-                        <span class="icon">🚗</span>
+                        <span class="q-icon">Q</span>
                         <span>Как добраться?</span>
                         <span class="arrow">▼</span>
                     </div>
                     <div class="answer">
-                        Отель Высоцкий в центре Екатеринбурга. <br />
-                        Парковка есть, такси легко поймать. <br />
-                        <strong>Подъезд к отелю</strong> — с улицы Ленина.
+                        Отель Высоцкий в центре Екатеринбурга.
+                        Парковка есть, такси легко поймать.
+                        Подъезд к отелю — с улицы Ленина.
                     </div>
                 </div>
 
-                <div class="faq-item reveal" onclick="this.classList.toggle('open')">
+                <div class="faq-item reveal" data-faq="4">
                     <div class="question">
-                        <span class="icon">📸</span>
+                        <span class="q-icon">Q</span>
                         <span>Можно фотографировать?</span>
                         <span class="arrow">▼</span>
                     </div>
                     <div class="answer">
-                        <strong>Да!</strong> Фотографируйте, выкладывайте, отмечайте нас. <br />
-                        Мы будем рады вашим кадрам 📸 <br />
-                        Хештег: <strong>#СтасНастя2026</strong>
+                        Да! Фотографируйте, выкладывайте, отмечайте нас.
+                        Мы будем рады вашим кадрам.
+                        Хештег: СтасНастя2026
                     </div>
                 </div>
             </div>
@@ -879,27 +1220,160 @@
     <!-- ==========================================
     RSVP
     ========================================== -->
-    <section id="rsvp" class="section">
+    <section id="rsvp">
         <div class="container">
-            <div style="text-align: center; margin-bottom: 25px;">
-                <span class="handwritten">Ждём вас!</span>
-                <h2 class="serif-title">Подтвердите присутствие</h2>
-            </div>
+            <p class="section-label reveal">Ждём вас!</p>
+            <h2 class="section-title-craft reveal">
+                <span class="letter letter-color-5" style="--rot:-1deg;--y:-2px;">П</span>
+                <span class="letter letter-color-6" style="--rot:2deg;--y:3px;">о</span>
+                <span class="letter letter-color-7" style="--rot:-2deg;--y:-1px;">д</span>
+                <span class="letter letter-color-8" style="--rot:1deg;--y:2px;">т</span>
+                <span class="letter letter-color-1" style="--rot:-1deg;--y:-3px;">в</span>
+                <span class="letter letter-color-2" style="--rot:2deg;--y:1px;">е</span>
+                <span class="letter letter-color-3" style="--rot:-2deg;--y:-2px;">р</span>
+                <span class="letter letter-color-4" style="--rot:1deg;--y:3px;">д</span>
+                <span class="letter letter-color-9" style="--rot:-1deg;--y:-1px;">и</span>
+                <span class="letter letter-color-10" style="--rot:2deg;--y:2px;">т</span>
+                <span class="letter letter-color-1" style="--rot:-1deg;--y:-2px;">е</span>
+            </h2>
             
+            <p class="rsvp-note reveal">
+                Даже если не сможете, всё равно нужно заполнить для нашего понимания, что вы посмотрели.
+            </p>
+
             <form class="rsvp-form" id="rsvpForm">
-                <input type="text" placeholder="Ваше имя" required class="reveal" />
-                <input type="text" placeholder="Город" class="reveal" />
-                <input type="tel" placeholder="Телефон" class="reveal" />
-                
-                <div class="btn-group reveal">
-                    <button type="button" onclick="alert('❤️ Ждём вас с нетерпением!')">Да, буду ❤️</button>
-                    <button type="button" onclick="alert('😢 Будем скучать!')">Не смогу</button>
+                <div class="form-group reveal">
+                    <label>Как вас зовут?</label>
+                    <input type="text" placeholder="Имя и фамилия" required />
                 </div>
-                
-                <textarea placeholder="Ваши пожелания или предпочтения..." class="reveal"></textarea>
-                
+
+                <div class="form-group reveal">
+                    <label>Получится приехать?</label>
+                    <div class="radio-group">
+                        <label class="radio-btn">
+                            <input type="radio" name="attendance" value="yes" />
+                            <span>Конечно, будем!</span>
+                        </label>
+                        <label class="radio-btn">
+                            <input type="radio" name="attendance" value="no" />
+                            <span>К сожалению, не получится</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="form-group reveal">
+                    <label>Из какого вы города?</label>
+                    <input type="text" placeholder="Город" />
+                </div>
+
+                <div class="form-group reveal">
+                    <label>Что предпочитаете из еды?</label>
+                    <div class="radio-group radio-group-horizontal">
+                        <label class="radio-btn radio-btn-small">
+                            <input type="radio" name="food" value="meat" />
+                            <span>Мясо</span>
+                        </label>
+                        <label class="radio-btn radio-btn-small">
+                            <input type="radio" name="food" value="fish" />
+                            <span>Рыба</span>
+                        </label>
+                        <label class="radio-btn radio-btn-small">
+                            <input type="radio" name="food" value="vegan" />
+                            <span>Вегетарианское</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="form-group reveal">
+                    <label>Что будете пить?</label>
+                    <div class="radio-group radio-group-horizontal">
+                        <label class="radio-btn radio-btn-small">
+                            <input type="radio" name="drink" value="wine" />
+                            <span>Вино</span>
+                        </label>
+                        <label class="radio-btn radio-btn-small">
+                            <input type="radio" name="drink" value="sparkling" />
+                            <span>Игристое</span>
+                        </label>
+                        <label class="radio-btn radio-btn-small">
+                            <input type="radio" name="drink" value="cocktails" />
+                            <span>Коктейли</span>
+                        </label>
+                        <label class="radio-btn radio-btn-small">
+                            <input type="radio" name="drink" value="strong" />
+                            <span>Крепкий</span>
+                        </label>
+                        <label class="radio-btn radio-btn-small">
+                            <input type="radio" name="drink" value="no" />
+                            <span>Не пью</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="form-group reveal">
+                    <label>Любимые безалкогольные напитки</label>
+                    <input type="text" placeholder="Напишите ваши любимые напитки" />
+                </div>
+
+                <div class="form-group reveal">
+                    <label>Телефон для связи</label>
+                    <input type="tel" placeholder="+7 (___) ___-__-__" required />
+                </div>
+
+                <div class="form-group reveal">
+                    <label>Есть ли у вас аллергии или особенности питания?</label>
+                    <textarea placeholder="Напишите, если есть (необязательно)"></textarea>
+                </div>
+
                 <button type="submit" class="btn-submit reveal">Отправить →</button>
             </form>
+        </div>
+    </section>
+
+    <!-- ==========================================
+    ТАЙМЕР (в самом конце)
+    ========================================== -->
+    <section id="timer-section">
+        <div class="container">
+            <p class="section-label reveal">Скоро</p>
+            <h2 class="section-title-craft reveal">
+                <span class="letter letter-color-6" style="--rot:-1deg;--y:-2px;">Д</span>
+                <span class="letter letter-color-7" style="--rot:2deg;--y:3px;">о</span>
+                <span class="letter letter-color-8" style="--rot:-2deg;--y:-1px;"> </span>
+                <span class="letter letter-color-1" style="--rot:1deg;--y:2px;">н</span>
+                <span class="letter letter-color-2" style="--rot:-1deg;--y:-3px;">а</span>
+                <span class="letter letter-color-3" style="--rot:2deg;--y:1px;">ч</span>
+                <span class="letter letter-color-4" style="--rot:-2deg;--y:-2px;">а</span>
+                <span class="letter letter-color-5" style="--rot:1deg;--y:3px;">л</span>
+                <span class="letter letter-color-6" style="--rot:-1deg;--y:-1px;">а</span>
+                <span class="letter letter-color-7" style="--rot:2deg;--y:2px;"> </span>
+                <span class="letter letter-color-8" style="--rot:-2deg;--y:-2px;">с</span>
+                <span class="letter letter-color-1" style="--rot:1deg;--y:1px;">в</span>
+                <span class="letter letter-color-2" style="--rot:-1deg;--y:-3px;">а</span>
+                <span class="letter letter-color-3" style="--rot:2deg;--y:2px;">д</span>
+                <span class="letter letter-color-4" style="--rot:-2deg;--y:-1px;">ь</span>
+                <span class="letter letter-color-5" style="--rot:1deg;--y:3px;">б</span>
+                <span class="letter letter-color-6" style="--rot:-1deg;--y:-2px;">ы</span>
+            </h2>
+            
+            <div class="timer">
+                <div class="timer-unit reveal">
+                    <div class="number" id="days">00</div>
+                    <div class="label">дней</div>
+                </div>
+                <div class="timer-unit reveal">
+                    <div class="number" id="hours">00</div>
+                    <div class="label">часов</div>
+                </div>
+                <div class="timer-unit reveal">
+                    <div class="number" id="minutes">00</div>
+                    <div class="label">минут</div>
+                </div>
+                <div class="timer-unit reveal">
+                    <div class="number" id="seconds">00</div>
+                    <div class="label">секунд</div>
+                </div>
+            </div>
         </div>
     </section>
 
@@ -907,76 +1381,110 @@
     FOOTER
     ========================================== -->
     <footer>
-        <span class="big-heart">❤️</span>
-        <p>Стас & Настя</p>
-        <p class="sub">See you at our wedding!</p>
-        <div style="margin-top: 16px; display: flex; justify-content: center; gap: 25px; flex-wrap: wrap; font-size: 0.8rem; color: #C4B5AD;">
-            <span>#СтасНастя2026</span>
-            <span>17 октября 2026</span>
+        <p>
+            <span class="letter letter-color-1" style="--rot:-1deg;--y:-2px;">С</span>
+            <span class="letter letter-color-2" style="--rot:2deg;--y:3px;">т</span>
+            <span class="letter letter-color-3" style="--rot:-2deg;--y:-1px;">а</span>
+            <span class="letter letter-color-4" style="--rot:1deg;--y:2px;">с</span>
+            <span class="heart-symbol"> ♥ </span>
+            <span class="letter letter-color-5" style="--rot:-1deg;--y:-2px;">Н</span>
+            <span class="letter letter-color-6" style="--rot:2deg;--y:3px;">а</span>
+            <span class="letter letter-color-7" style="--rot:-2deg;--y:-1px;">с</span>
+            <span class="letter letter-color-8" style="--rot:1deg;--y:2px;">т</span>
+            <span class="letter letter-color-9" style="--rot:-1deg;--y:-3px;">я</span>
+        </p>
+        <p class="sub">17 октября 2026</p>
+        <div class="footer-tags">
+            <span>СтасНастя2026</span>
         </div>
     </footer>
 
-    <!-- ==========================================
-    СКРИПТЫ
-    ========================================== -->
     <script>
-        // Lenis
-        const lenis = new Lenis({ duration: 1.2, easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), smoothWheel: true });
-        lenis.on('scroll', ScrollTrigger.update);
-        function raf(time) { lenis.raf(time); requestAnimationFrame(raf); }
-        requestAnimationFrame(raf);
-
-        // GSAP + ScrollTrigger
+        // ==========================================
+        // GSAP + SCROLLTRIGGER
+        // ==========================================
         gsap.registerPlugin(ScrollTrigger);
 
-        document.querySelectorAll('.reveal').forEach((el) => {
-            gsap.fromTo(el, { opacity: 0, y: 50, scale: 0.96 }, {
-                opacity: 1, y: 0, scale: 1,
-                duration: 1.2, ease: 'power3.out',
-                scrollTrigger: { trigger: el, start: 'top 85%', toggleActions: 'play none none none' }
-            });
+        // Анимация появления при скролле (работает в обе стороны)
+        document.querySelectorAll('.reveal, .reveal-left, .reveal-right').forEach((el) => {
+            gsap.fromTo(el,
+                { opacity: 0, y: 40, scale: 0.96 },
+                {
+                    opacity: 1,
+                    y: 0,
+                    scale: 1,
+                    duration: 1,
+                    ease: 'power3.out',
+                    scrollTrigger: {
+                        trigger: el,
+                        start: 'top 90%',
+                        end: 'top 20%',
+                        toggleActions: 'play none play reverse',
+                        once: false
+                    }
+                }
+            );
         });
 
         document.querySelectorAll('.reveal-left').forEach((el) => {
-            gsap.fromTo(el, { opacity: 0, x: -60 }, {
-                opacity: 1, x: 0,
-                duration: 1.2, ease: 'power3.out',
-                scrollTrigger: { trigger: el, start: 'top 85%', toggleActions: 'play none none none' }
-            });
+            gsap.fromTo(el,
+                { opacity: 0, x: -40 },
+                {
+                    opacity: 1,
+                    x: 0,
+                    duration: 1,
+                    ease: 'power3.out',
+                    scrollTrigger: {
+                        trigger: el,
+                        start: 'top 90%',
+                        end: 'top 20%',
+                        toggleActions: 'play none play reverse',
+                        once: false
+                    }
+                }
+            );
         });
 
         document.querySelectorAll('.reveal-right').forEach((el) => {
-            gsap.fromTo(el, { opacity: 0, x: 60 }, {
-                opacity: 1, x: 0,
-                duration: 1.2, ease: 'power3.out',
-                scrollTrigger: { trigger: el, start: 'top 85%', toggleActions: 'play none none none' }
-            });
+            gsap.fromTo(el,
+                { opacity: 0, x: 40 },
+                {
+                    opacity: 1,
+                    x: 0,
+                    duration: 1,
+                    ease: 'power3.out',
+                    scrollTrigger: {
+                        trigger: el,
+                        start: 'top 90%',
+                        end: 'top 20%',
+                        toggleActions: 'play none play reverse',
+                        once: false
+                    }
+                }
+            );
         });
 
-        // Параллакс для декораций
-        document.querySelectorAll('.floating-decor').forEach((decor) => {
-            gsap.to(decor, {
-                y: 60, rotation: 8,
-                duration: 2.5,
-                ease: 'none',
-                scrollTrigger: { trigger: '#hero', start: 'top top', end: 'bottom top', scrub: 1.5 }
-            });
-        });
-
-        // Таймер
+        // ==========================================
+        // ТАЙМЕР
+        // ==========================================
         const targetDate = new Date('2026-10-17T15:00:00').getTime();
 
         function updateTimer() {
             const now = Date.now();
             const diff = targetDate - now;
+
             if (diff <= 0) {
-                ['days', 'hours', 'minutes', 'seconds'].forEach(id => document.getElementById(id).textContent = '🎉');
+                ['days', 'hours', 'minutes', 'seconds'].forEach(id => {
+                    document.getElementById(id).textContent = '🎉';
+                });
                 return;
             }
-            const d = Math.floor(diff / (1000*60*60*24));
-            const h = Math.floor((diff % (1000*60*60*24)) / (1000*60*60));
-            const m = Math.floor((diff % (1000*60*60)) / (1000*60));
-            const s = Math.floor((diff % (1000*60)) / 1000);
+
+            const d = Math.floor(diff / (1000 * 60 * 60 * 24));
+            const h = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const m = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+            const s = Math.floor((diff % (1000 * 60)) / 1000);
+
             document.getElementById('days').textContent = String(d).padStart(2, '0');
             document.getElementById('hours').textContent = String(h).padStart(2, '0');
             document.getElementById('minutes').textContent = String(m).padStart(2, '0');
@@ -986,27 +1494,150 @@
         updateTimer();
         setInterval(updateTimer, 1000);
 
-        // Скролл к стори
+        // ==========================================
+        // СТРЕЛКА ВНИЗ
+        // ==========================================
         document.getElementById('scrollDown').addEventListener('click', () => {
-            lenis.scrollTo(document.getElementById('story'), { duration: 1.5 });
+            const venue = document.getElementById('venue');
+            venue.scrollIntoView({ behavior: 'smooth' });
         });
 
-        // RSVP форма
-        document.getElementById('rsvpForm').addEventListener('submit', (e) => {
+        // ==========================================
+        // МУЗЫКА (заглушка)
+        // ==========================================
+        let stasAudio = null;
+        let nastyaAudio = null;
+        let stasPlaying = false;
+        let nastyaPlaying = false;
+
+        document.getElementById('stasMusicBtn').addEventListener('click', function() {
+            if (!stasAudio) {
+                stasAudio = new Audio('assets/audio/stas-music.mp3');
+                stasAudio.loop = true;
+            }
+            if (stasPlaying) {
+                stasAudio.pause();
+                stasPlaying = false;
+                this.classList.remove('active');
+            } else {
+                if (nastyaPlaying) {
+                    nastyaAudio.pause();
+                    nastyaPlaying = false;
+                    document.getElementById('nastyaMusicBtn').classList.remove('active');
+                }
+                stasAudio.play().catch(() => {});
+                stasPlaying = true;
+                this.classList.add('active');
+            }
+        });
+
+        document.getElementById('nastyaMusicBtn').addEventListener('click', function() {
+            if (!nastyaAudio) {
+                nastyaAudio = new Audio('assets/audio/nastya-music.mp3');
+                nastyaAudio.loop = true;
+            }
+            if (nastyaPlaying) {
+                nastyaAudio.pause();
+                nastyaPlaying = false;
+                this.classList.remove('active');
+            } else {
+                if (stasPlaying) {
+                    stasAudio.pause();
+                    stasPlaying = false;
+                    document.getElementById('stasMusicBtn').classList.remove('active');
+                }
+                nastyaAudio.play().catch(() => {});
+                nastyaPlaying = true;
+                this.classList.add('active');
+            }
+        });
+
+        // ==========================================
+        // ДРЕСС-КОД: ЦВЕТА → ФОТО
+        // ==========================================
+        const dresscodePhotos = {
+            pink: ['assets/images/dresscode/pink-1.jpg', 'assets/images/dresscode/pink-2.jpg'],
+            blue: ['assets/images/dresscode/blue-1.jpg', 'assets/images/dresscode/blue-2.jpg'],
+            lavender: ['assets/images/dresscode/lavender-1.jpg', 'assets/images/dresscode/lavender-2.jpg'],
+            peach: ['assets/images/dresscode/peach-1.jpg', 'assets/images/dresscode/peach-2.jpg'],
+            mint: ['assets/images/dresscode/mint-1.jpg', 'assets/images/dresscode/mint-2.jpg']
+        };
+
+        const dresscodeContainer = document.getElementById('dresscodePhotos');
+
+        document.querySelectorAll('.color-dot').forEach(dot => {
+            dot.addEventListener('click', function() {
+                document.querySelectorAll('.color-dot').forEach(d => d.classList.remove('active'));
+                this.classList.add('active');
+
+                const color = this.dataset.color;
+                const photos = dresscodePhotos[color] || [];
+
+                if (photos.length > 0) {
+                    dresscodeContainer.innerHTML = photos.map(src => 
+                        `<img src="${src}" alt="Образ в цвете" />`
+                    ).join('');
+                } else {
+                    dresscodeContainer.innerHTML = '<span class="photo-placeholder">Фото скоро появятся</span>';
+                }
+            });
+        });
+
+        // ==========================================
+        // ДРЕСС-КОД: МУЖСКИЕ ВАРИАНТЫ
+        // ==========================================
+        const menPhotos = {
+            option1: ['assets/images/dresscode/men-1.jpg', 'assets/images/dresscode/men-2.jpg'],
+            option2: ['assets/images/dresscode/men-alt-1.jpg', 'assets/images/dresscode/men-alt-2.jpg']
+        };
+
+        const menContainer = document.getElementById('menPhotos');
+
+        document.getElementById('menOption1').addEventListener('click', function() {
+            document.querySelectorAll('.men-btn').forEach(b => b.classList.remove('active'));
+            this.classList.add('active');
+            const photos = menPhotos.option1 || [];
+            menContainer.innerHTML = photos.map(src => 
+                `<img src="${src}" alt="Мужской образ" />`
+            ).join('');
+        });
+
+        document.getElementById('menOption2').addEventListener('click', function() {
+            document.querySelectorAll('.men-btn').forEach(b => b.classList.remove('active'));
+            this.classList.add('active');
+            const photos = menPhotos.option2 || [];
+            menContainer.innerHTML = photos.map(src => 
+                `<img src="${src}" alt="Мужской образ (альтернатива)" />`
+            ).join('');
+        });
+
+        // ==========================================
+        // FAQ (раскрытие)
+        // ==========================================
+        document.querySelectorAll('.faq-item').forEach(item => {
+            item.addEventListener('click', function() {
+                this.classList.toggle('open');
+            });
+        });
+
+        // ==========================================
+        // RSVP ФОРМА
+        // ==========================================
+        document.getElementById('rsvpForm').addEventListener('submit', function(e) {
             e.preventDefault();
-            const btn = e.target.querySelector('.btn-submit');
+            const btn = this.querySelector('.btn-submit');
             btn.textContent = '✨ Отправлено!';
-            btn.style.background = 'linear-gradient(135deg, #A8BE75, #6BCB77)';
+            btn.style.background = 'linear-gradient(135deg, #8CD4B5, #7EC8E3)';
             setTimeout(() => {
                 btn.textContent = 'Отправить →';
                 btn.style.background = 'linear-gradient(135deg, #F7B7C8, #F3B56A)';
-                e.target.reset();
-                alert('❤️ Спасибо! Мы будем ждать вас!');
+                this.reset();
+                alert('Спасибо! Мы будем ждать вас!');
             }, 2000);
         });
 
-        console.log('💍 Свадебный сайт готов!');
-        console.log('✨ Дизайн: Premium Storybook Style');
+        console.log('💍 Свадебный сайт загружен!');
+        console.log('🎨 Дизайн: крафтовый, с разноцветными буквами');
     </script>
 </body>
 </html>

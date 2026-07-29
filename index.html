@@ -59,7 +59,7 @@
         }
 
         /* ==========================================
-           ФОН (возвращаем с предыдущего этапа)
+           ФОН
            ========================================== */
         .bg-grain {
             position: fixed;
@@ -269,7 +269,7 @@
         .music-btn.music-off.active { background: #C4B5AD; }
 
         /* ==========================================
-           HERO — сердце с фото (крупнее в 1.5 раза)
+           HERO
            ========================================== */
         #hero {
             min-height: 100vh;
@@ -322,13 +322,19 @@
 
         .hero-date {
             font-family: 'Quicksand', sans-serif;
-            font-size: 1rem;
-            color: #B5A8A2;
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #4A3F3A;
             letter-spacing: 4px;
             text-transform: uppercase;
             position: relative;
             z-index: 2;
             margin-bottom: 10px;
+            background: rgba(255,255,255,0.3);
+            padding: 8px 24px;
+            border-radius: 40px;
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255,255,255,0.2);
         }
 
         .calendar-mini {
@@ -386,8 +392,20 @@
             animation: bounceArrow 2s ease-in-out infinite;
         }
 
+        .scroll-down svg {
+            display: block;
+            margin: 0 auto;
+        }
+
         .scroll-down svg path {
             stroke: #4A3F3A;
+            stroke-width: 2.5;
+            opacity: 0.5;
+            transition: opacity 0.3s ease;
+        }
+
+        .scroll-down:hover svg path {
+            opacity: 0.9;
         }
 
         @keyframes bounceArrow {
@@ -396,7 +414,7 @@
         }
 
         /* ==========================================
-           МЕСТО — звезда с фото (крупнее в 1.5 раза)
+           МЕСТО — звезда
            ========================================== */
         #venue {
             min-height: 100vh;
@@ -470,7 +488,7 @@
         }
 
         /* ==========================================
-           ПЛАН ДНЯ — с переносами слов
+           ПЛАН ДНЯ
            ========================================== */
         #schedule {
             position: relative;
@@ -536,7 +554,7 @@
         }
 
         .schedule-item .event .important {
-            color: #F3B56A;
+            color: #D4686A;
             font-weight: 600;
         }
 
@@ -550,14 +568,6 @@
             font-size: 1rem;
             color: #6B5F5A;
             margin-bottom: 22px;
-        }
-
-        .dresscode-sub .no-colors {
-            display: block;
-            font-size: 0.8rem;
-            color: #F3B56A;
-            font-weight: 600;
-            margin-top: 2px;
         }
 
         .color-palette {
@@ -662,7 +672,7 @@
         }
 
         /* ==========================================
-           FAQ — с переносами
+           FAQ
            ========================================== */
         #faq { position: relative; z-index: 2; background: #FCF8F0; }
 
@@ -698,11 +708,15 @@
         }
 
         .faq-item .question .q-number {
-            color: #F7B7C8;
             font-weight: 700;
             font-size: 0.8rem;
             min-width: 24px;
         }
+
+        .faq-item .question .q-number.color-1 { color: #FF8CA8; }
+        .faq-item .question .q-number.color-2 { color: #7EC8E3; }
+        .faq-item .question .q-number.color-3 { color: #B8A6E0; }
+        .faq-item .question .q-number.color-4 { color: #F9B87A; }
 
         .faq-item .question .arrow {
             margin-left: auto;
@@ -732,10 +746,15 @@
             padding: 6px 8px 2px;
         }
 
-        .faq-item .answer strong { color: #F7B7C8; font-weight: 600; }
+        .faq-item .answer .hl-pink { color: #FF8CA8; font-weight: 600; }
+        .faq-item .answer .hl-blue { color: #7EC8E3; font-weight: 600; }
+        .faq-item .answer .hl-lavender { color: #B8A6E0; font-weight: 600; }
+        .faq-item .answer .hl-peach { color: #F9B87A; font-weight: 600; }
+        .faq-item .answer .hl-mint { color: #8CD4B5; font-weight: 600; }
+        .faq-item .answer .hl-yellow { color: #F5D76E; font-weight: 600; }
 
         /* ==========================================
-           RSVP — цветные вопросы и ответы
+           RSVP — цветные ответы
            ========================================== */
         #rsvp { position: relative; z-index: 2; background: #FCF8F0; }
 
@@ -769,26 +788,6 @@
             font-size: 0.85rem;
             font-weight: 600;
             color: #4A3F3A;
-        }
-
-        .form-group label .highlight {
-            color: #F7B7C8;
-        }
-
-        .form-group label .highlight-blue {
-            color: #7EC8E3;
-        }
-
-        .form-group label .highlight-lavender {
-            color: #B8A6E0;
-        }
-
-        .form-group label .highlight-peach {
-            color: #F9B87A;
-        }
-
-        .form-group label .highlight-mint {
-            color: #8CD4B5;
         }
 
         .form-group input,
@@ -851,16 +850,35 @@
         }
 
         .radio-btn:hover {
-            border-color: #F7B7C8;
-            background: rgba(247, 183, 200, 0.04);
+            transform: scale(1.02);
         }
 
         .radio-btn input[type="radio"] { display: none; }
 
         .radio-btn:has(input:checked) {
-            border-color: #F7B7C8;
-            background: rgba(247, 183, 200, 0.06);
+            border-color: currentColor;
+            background: currentColor;
+            color: white;
         }
+
+        /* Цветные кнопки ответов */
+        .radio-btn.color-pink { color: #FF8CA8; border-color: #FF8CA8; }
+        .radio-btn.color-pink:has(input:checked) { background: #FF8CA8; color: white; }
+
+        .radio-btn.color-blue { color: #7EC8E3; border-color: #7EC8E3; }
+        .radio-btn.color-blue:has(input:checked) { background: #7EC8E3; color: white; }
+
+        .radio-btn.color-lavender { color: #B8A6E0; border-color: #B8A6E0; }
+        .radio-btn.color-lavender:has(input:checked) { background: #B8A6E0; color: white; }
+
+        .radio-btn.color-peach { color: #F9B87A; border-color: #F9B87A; }
+        .radio-btn.color-peach:has(input:checked) { background: #F9B87A; color: white; }
+
+        .radio-btn.color-mint { color: #8CD4B5; border-color: #8CD4B5; }
+        .radio-btn.color-mint:has(input:checked) { background: #8CD4B5; color: white; }
+
+        .radio-btn.color-yellow { color: #F5D76E; border-color: #F5D76E; }
+        .radio-btn.color-yellow:has(input:checked) { background: #F5D76E; color: white; }
 
         .radio-btn-small { padding: 8px 14px; font-size: 0.8rem; }
 
@@ -1040,6 +1058,7 @@
             .rsvp-buttons { flex-direction: column; align-items: center; }
             .music-controls { top: 12px; right: 12px; gap: 6px; }
             .music-btn { padding: 8px 14px; font-size: 0.65rem; min-width: 100px; }
+            .hero-date { font-size: 0.9rem; padding: 6px 16px; }
         }
 
         @media (max-width: 768px) {
@@ -1122,7 +1141,7 @@
     </div>
 
     <!-- ==========================================
-    HERO — сердце с фото (крупнее в 1.5 раза)
+    HERO
     ========================================== -->
     <section id="hero">
         <div class="heart-frame reveal">
@@ -1185,14 +1204,14 @@
         </div>
 
         <div class="scroll-down" id="scrollDown">
-            <svg width="32" height="48" viewBox="0 0 40 60">
-                <path d="M20 5 L20 50 M10 40 L20 55 L30 40" stroke="#4A3F3A" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+            <svg width="36" height="54" viewBox="0 0 40 60">
+                <path d="M20 5 L20 50 M10 40 L20 55 L30 40" stroke="#4A3F3A" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round" opacity="0.5"/>
             </svg>
         </div>
     </section>
 
     <!-- ==========================================
-    МЕСТО — звезда с фото (крупнее в 1.5 раза)
+    МЕСТО — звезда
     ========================================== -->
     <section id="venue">
         <div class="venue-content reveal">
@@ -1225,7 +1244,7 @@
     </section>
 
     <!-- ==========================================
-    ПЛАН ДНЯ — с переносами слов
+    ПЛАН ДНЯ
     ========================================== -->
     <section id="schedule">
         <div class="container">
@@ -1281,7 +1300,7 @@
                             <span class="letter letter-color-5" style="--rot:-2deg;--y:-1px;">и</span>
                             <span class="letter letter-color-6" style="--rot:2deg;--y:3px;">я</span>
                         </span>
-                        <small class="important">Не опаздывать!!</small>
+                        <small><span class="important">Не опаздывать!!</span></small>
                     </div>
                 </div>
 
@@ -1306,7 +1325,7 @@
     ========================================== -->
     <section id="dresscode">
         <div class="container">
-            <p class="section-label reveal">Вдохновение</p>
+            <p class="section-label reveal">Dress-code</p>
             <h2 class="craft-title reveal">
                 <span class="letter letter-color-3" style="--rot:-1deg;--y:-2px;">Д</span>
                 <span class="letter letter-color-4" style="--rot:2deg;--y:3px;">р</span>
@@ -1321,7 +1340,6 @@
             
             <p class="dresscode-sub reveal">
                 Пастельные, дофаминовые оттенки
-                <span class="no-colors">Без красного и тёмно-зелёного</span>
             </p>
 
             <div class="color-palette reveal">
@@ -1347,7 +1365,7 @@
     </section>
 
     <!-- ==========================================
-    FAQ — с переносами
+    FAQ
     ========================================== -->
     <section id="faq">
         <div class="container">
@@ -1359,63 +1377,64 @@
                 <span class="letter letter-color-7" style="--rot:1deg;--y:2px;">е</span>
                 <span class="letter letter-color-8" style="--rot:-1deg;--y:-3px;">т</span>
                 <span class="letter letter-color-1" style="--rot:2deg;--y:1px;">ы</span>
-                <span class="letter letter-color-2" style="--rot:-2deg;--y:-2px;"> </span>
-                <span class="letter letter-color-3" style="--rot:1deg;--y:3px;">н</span>
-                <span class="letter letter-color-4" style="--rot:-1deg;--y:-1px;">а</span>
-                <span class="letter letter-color-9" style="--rot:2deg;--y:2px;"> </span>
-                <span class="letter letter-color-10" style="--rot:-1deg;--y:-2px;">в</span>
-                <span class="letter letter-color-1" style="--rot:1deg;--y:1px;">о</span>
-                <span class="letter letter-color-2" style="--rot:-2deg;--y:-3px;">п</span>
-                <span class="letter letter-color-3" style="--rot:2deg;--y:2px;">р</span>
-                <span class="letter letter-color-4" style="--rot:-1deg;--y:-1px;">о</span>
-                <span class="letter letter-color-5" style="--rot:1deg;--y:3px;">с</span>
-                <span class="letter letter-color-6" style="--rot:-2deg;--y:-2px;">ы</span>
+                <span class="line-break">
+                    <span class="letter letter-color-2" style="--rot:-2deg;--y:-2px;">н</span>
+                    <span class="letter letter-color-3" style="--rot:1deg;--y:3px;">а</span>
+                    <span class="letter letter-color-9" style="--rot:2deg;--y:2px;"> </span>
+                    <span class="letter letter-color-10" style="--rot:-1deg;--y:-2px;">в</span>
+                    <span class="letter letter-color-1" style="--rot:1deg;--y:1px;">о</span>
+                    <span class="letter letter-color-2" style="--rot:-2deg;--y:-3px;">п</span>
+                    <span class="letter letter-color-3" style="--rot:2deg;--y:2px;">р</span>
+                    <span class="letter letter-color-4" style="--rot:-1deg;--y:-1px;">о</span>
+                    <span class="letter letter-color-5" style="--rot:1deg;--y:3px;">с</span>
+                    <span class="letter letter-color-6" style="--rot:-2deg;--y:-2px;">ы</span>
+                </span>
             </h2>
 
             <div class="faq-grid">
                 <div class="faq-item reveal" data-faq="1">
                     <div class="question">
-                        <span class="q-number">1</span>
+                        <span class="q-number color-1">1</span>
                         <span>Что дарить?</span>
                         <span class="arrow">▼</span>
                     </div>
                     <div class="answer">
-                        Деньги — нам от вас больше ничего не нужно, мы вылетаем на следующий день.
-                        Дополнительно принимаем только шоколад и мармелад.
+                        <span class="hl-pink">Деньги</span> — нам от вас больше ничего не нужно, мы вылетаем на следующий день.
+                        Дополнительно принимаем только <span class="hl-blue">шоколад</span> и <span class="hl-lavender">мармелад</span>.
                     </div>
                 </div>
 
                 <div class="faq-item reveal" data-faq="2">
                     <div class="question">
-                        <span class="q-number">2</span>
+                        <span class="q-number color-2">2</span>
                         <span>Что надевать нельзя?</span>
                         <span class="arrow">▼</span>
                     </div>
                     <div class="answer">
-                        <strong>Красный</strong>, <strong>тёмные оттенки</strong> и, естественно, <strong>белый</strong>.
+                        <span class="hl-pink">Красный</span>, <span class="hl-peach">тёмные оттенки</span> и, естественно, <span class="hl-mint">белый</span>.
                     </div>
                 </div>
 
                 <div class="faq-item reveal" data-faq="3">
                     <div class="question">
-                        <span class="q-number">3</span>
+                        <span class="q-number color-3">3</span>
                         <span>Как добраться?</span>
                         <span class="arrow">▼</span>
                     </div>
                     <div class="answer">
-                        Отель Высоцкий в центре Екатеринбурга. Такси легко поймать.
+                        <span class="hl-lavender">Отель Высоцкий</span> в центре Екатеринбурга. Такси легко поймать.
                         Подъезд к отелю — с улицы Ленина.
                     </div>
                 </div>
 
                 <div class="faq-item reveal" data-faq="4">
                     <div class="question">
-                        <span class="q-number">4</span>
+                        <span class="q-number color-4">4</span>
                         <span>Взять ли мне свой пленочный фотоаппарат?</span>
                         <span class="arrow">▼</span>
                     </div>
                     <div class="answer">
-                        Не, ну если у вас совести нет, <strong>КОСТЯ и АНЯ</strong>, то можете и не брать..
+                        Не, ну если у вас совести нет, <span class="hl-pink">КОСТЯ</span> и <span class="hl-blue">АНЯ</span>, то можете и не брать..
                     </div>
                 </div>
             </div>
@@ -1423,7 +1442,7 @@
     </section>
 
     <!-- ==========================================
-    RSVP — цветные вопросы и ответы
+    RSVP
     ========================================== -->
     <section id="rsvp">
         <div class="container">
@@ -1448,7 +1467,7 @@
 
             <form class="rsvp-form" id="rsvpForm">
                 <div class="form-group reveal">
-                    <label><span class="highlight">Как</span> <span class="highlight-blue">вас</span> <span class="highlight-lavender">зовут?</span></label>
+                    <label>Как вас зовут?</label>
                     <input type="text" placeholder="Имя и фамилия" required id="rsvpName" />
                 </div>
 
@@ -1459,13 +1478,13 @@
 
                 <div class="rsvp-extra" id="rsvpExtra">
                     <div class="form-group">
-                        <label><span class="highlight-peach">Получится</span> <span class="highlight-mint">приехать?</span></label>
+                        <label>Получится приехать?</label>
                         <div class="radio-group">
-                            <label class="radio-btn">
+                            <label class="radio-btn color-pink">
                                 <input type="radio" name="attendance" value="yes" checked />
                                 <span>Конечно, будем!</span>
                             </label>
-                            <label class="radio-btn">
+                            <label class="radio-btn color-blue">
                                 <input type="radio" name="attendance" value="no" />
                                 <span>К сожалению, не получится</span>
                             </label>
@@ -1473,22 +1492,22 @@
                     </div>
 
                     <div class="form-group">
-                        <label><span class="highlight">Из какого</span> <span class="highlight-blue">вы</span> <span class="highlight-lavender">города?</span></label>
+                        <label>Из какого вы города?</label>
                         <input type="text" placeholder="Город" />
                     </div>
 
                     <div class="form-group">
-                        <label><span class="highlight-peach">Что предпочитаете</span> <span class="highlight-mint">из еды?</span></label>
+                        <label>Что предпочитаете из еды?</label>
                         <div class="radio-group radio-group-horizontal">
-                            <label class="radio-btn radio-btn-small">
+                            <label class="radio-btn color-lavender radio-btn-small">
                                 <input type="radio" name="food" value="meat" />
                                 <span>Мясо</span>
                             </label>
-                            <label class="radio-btn radio-btn-small">
+                            <label class="radio-btn color-peach radio-btn-small">
                                 <input type="radio" name="food" value="fish" />
                                 <span>Рыба</span>
                             </label>
-                            <label class="radio-btn radio-btn-small">
+                            <label class="radio-btn color-mint radio-btn-small">
                                 <input type="radio" name="food" value="vegan" />
                                 <span>Вегетарианское</span>
                             </label>
@@ -1496,25 +1515,25 @@
                     </div>
 
                     <div class="form-group">
-                        <label><span class="highlight">Что</span> <span class="highlight-blue">будете</span> <span class="highlight-lavender">пить?</span></label>
+                        <label>Что будете пить?</label>
                         <div class="radio-group radio-group-horizontal">
-                            <label class="radio-btn radio-btn-small">
+                            <label class="radio-btn color-pink radio-btn-small">
                                 <input type="radio" name="drink" value="wine" />
                                 <span>Вино</span>
                             </label>
-                            <label class="radio-btn radio-btn-small">
+                            <label class="radio-btn color-blue radio-btn-small">
                                 <input type="radio" name="drink" value="sparkling" />
                                 <span>Игристое</span>
                             </label>
-                            <label class="radio-btn radio-btn-small">
+                            <label class="radio-btn color-lavender radio-btn-small">
                                 <input type="radio" name="drink" value="cocktails" />
                                 <span>Коктейли</span>
                             </label>
-                            <label class="radio-btn radio-btn-small">
+                            <label class="radio-btn color-peach radio-btn-small">
                                 <input type="radio" name="drink" value="strong" />
                                 <span>Крепкий</span>
                             </label>
-                            <label class="radio-btn radio-btn-small">
+                            <label class="radio-btn color-mint radio-btn-small">
                                 <input type="radio" name="drink" value="no" />
                                 <span>Не пью</span>
                             </label>
@@ -1522,17 +1541,17 @@
                     </div>
 
                     <div class="form-group">
-                        <label><span class="highlight-peach">Любимые</span> <span class="highlight-mint">безалкогольные</span> <span class="highlight">напитки</span></label>
+                        <label>Любимые безалкогольные напитки</label>
                         <input type="text" placeholder="Напишите ваши любимые напитки" />
                     </div>
 
                     <div class="form-group">
-                        <label><span class="highlight">Телефон</span> <span class="highlight-blue">для</span> <span class="highlight-lavender">связи</span></label>
+                        <label>Телефон для связи</label>
                         <input type="tel" placeholder="+7 (___) ___-__-__" required />
                     </div>
 
                     <div class="form-group">
-                        <label><span class="highlight-peach">Есть ли у вас</span> <span class="highlight-mint">аллергии или особенности</span> <span class="highlight">питания?</span></label>
+                        <label>Есть ли у вас аллергии или особенности питания?</label>
                         <textarea placeholder="Напишите, если есть (необязательно)"></textarea>
                     </div>
 

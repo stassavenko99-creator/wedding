@@ -59,7 +59,7 @@
         }
 
         /* ==========================================
-           ФОН
+           ФОН (возвращаем с предыдущего этапа)
            ========================================== */
         .bg-grain {
             position: fixed;
@@ -196,6 +196,11 @@
             transform: rotate(var(--rot, 0deg)) translateY(var(--y, 0px));
         }
 
+        .craft-title .line-break {
+            display: block;
+            margin-top: -5px;
+        }
+
         .letter-color-1 { color: #FF8CA8; }
         .letter-color-2 { color: #7EC8E3; }
         .letter-color-3 { color: #B8A6E0; }
@@ -219,7 +224,7 @@
         }
 
         /* ==========================================
-           МУЗЫКАЛЬНЫЕ КНОПКИ (всегда справа вверху)
+           МУЗЫКАЛЬНЫЕ КНОПКИ
            ========================================== */
         .music-controls {
             position: fixed;
@@ -264,7 +269,7 @@
         .music-btn.music-off.active { background: #C4B5AD; }
 
         /* ==========================================
-           HERO
+           HERO — сердце с фото (крупнее в 1.5 раза)
            ========================================== */
         #hero {
             min-height: 100vh;
@@ -273,73 +278,57 @@
             align-items: center;
             justify-content: center;
             text-align: center;
-            padding: 20px 20px 30px;
+            padding: 40px 20px 30px;
             position: relative;
             z-index: 2;
         }
 
-        /* Фото — почти на весь экран */
-        .hero-photo-full {
-            position: absolute;
-            inset: 0;
-            z-index: 0;
-            overflow: hidden;
-        }
-
-        .hero-photo-full img {
-            width: 100%;
-            height: 100vh;
-            object-fit: cover;
-            filter: brightness(0.7) saturate(0.9);
-        }
-
-        .hero-overlay {
+        .heart-frame {
+            width: 420px;
+            height: 420px;
+            margin: 0 auto 16px;
             position: relative;
             z-index: 2;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            padding: 20px;
-            width: 100%;
         }
 
-        /* Имена поверх фото */
+        .heart-svg {
+            width: 100%;
+            height: 100%;
+            display: block;
+        }
+
         .hero-names {
             font-family: 'Rubik Bubbles', cursive;
-            font-size: clamp(3rem, 10vw, 6rem);
+            font-size: clamp(2.5rem, 7vw, 4.5rem);
             font-weight: 400;
-            line-height: 1.2;
-            color: white;
-            text-shadow: 0 4px 40px rgba(0,0,0,0.3);
-            margin-bottom: 4px;
+            line-height: 1.3;
+            position: relative;
+            z-index: 2;
+            margin-bottom: 2px;
         }
 
         .hero-names .name-group { display: inline-block; }
         .hero-names .amp {
             font-size: 0.5em;
             display: inline-block;
-            margin: 0 8px;
-            color: rgba(255,255,255,0.5);
+            margin: 0 6px;
+            color: #C4B5AD;
         }
 
         .hero-names .letter {
             display: inline-block;
             transform: rotate(var(--rot, 0deg)) translateY(var(--y, 0px));
-            color: white;
         }
 
         .hero-date {
             font-family: 'Quicksand', sans-serif;
             font-size: 1rem;
-            color: rgba(255,255,255,0.8);
+            color: #B5A8A2;
             letter-spacing: 4px;
             text-transform: uppercase;
             position: relative;
             z-index: 2;
-            margin-bottom: 14px;
-            text-shadow: 0 2px 20px rgba(0,0,0,0.2);
+            margin-bottom: 10px;
         }
 
         .calendar-mini {
@@ -361,7 +350,7 @@
             font-size: 0.9rem;
             font-weight: 500;
             background: transparent;
-            color: rgba(255,255,255,0.8);
+            color: #4A3F3A;
             padding: 6px 0;
             aspect-ratio: 1;
         }
@@ -369,7 +358,7 @@
         .calendar-mini .day.weekday {
             font-size: 0.6rem;
             font-weight: 600;
-            color: rgba(255,255,255,0.4);
+            color: #C4B5AD;
             text-transform: uppercase;
             letter-spacing: 0.5px;
         }
@@ -398,7 +387,7 @@
         }
 
         .scroll-down svg path {
-            stroke: rgba(255,255,255,0.6);
+            stroke: #4A3F3A;
         }
 
         @keyframes bounceArrow {
@@ -407,76 +396,81 @@
         }
 
         /* ==========================================
-           МЕСТО — фото крупно
+           МЕСТО — звезда с фото (крупнее в 1.5 раза)
            ========================================== */
         #venue {
             min-height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 0;
+            padding: 60px 20px;
             position: relative;
             z-index: 2;
-            overflow: hidden;
         }
 
-        .venue-full {
-            position: absolute;
-            inset: 0;
-            z-index: 0;
-        }
-
-        .venue-full img {
-            width: 100%;
-            height: 100vh;
-            object-fit: cover;
-        }
-
-        .venue-overlay {
-            position: relative;
-            z-index: 2;
+        .venue-content {
             text-align: center;
-            padding: 30px 40px;
-            background: rgba(255,255,255,0.15);
-            backdrop-filter: blur(8px);
-            border-radius: 40px;
-            border: 1px solid rgba(255,255,255,0.1);
             max-width: 500px;
-            margin: 20px;
+            width: 100%;
         }
 
-        .venue-overlay h2 {
+        .star-frame {
+            width: 450px;
+            height: 450px;
+            margin: 0 auto 20px;
+            position: relative;
+            cursor: pointer;
+        }
+
+        .star-svg {
+            width: 100%;
+            height: 100%;
+            display: block;
+            animation: rotateStar 25s linear infinite;
+            transition: animation-duration 0.5s ease;
+        }
+
+        .star-frame.speed .star-svg {
+            animation-duration: 12.5s;
+        }
+
+        @keyframes rotateStar {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .venue-content h2 {
             font-family: 'Rubik Bubbles', cursive;
-            font-size: clamp(2.5rem, 7vw, 4rem);
+            font-size: clamp(2rem, 6vw, 3.5rem);
             font-weight: 400;
-            color: white;
-            text-shadow: 0 2px 30px rgba(0,0,0,0.2);
+            color: #4A3F3A;
         }
 
-        .venue-overlay .sub {
+        .venue-content .sub {
             font-size: 1.2rem;
             font-weight: 300;
-            color: rgba(255,255,255,0.9);
+            color: #6B5F5A;
         }
 
-        .venue-overlay .map-link {
+        .venue-content .map-link {
             display: inline-block;
             margin-top: 12px;
-            color: white;
+            color: #F7B7C8;
             text-decoration: none;
             font-weight: 600;
             font-size: 0.95rem;
-            border-bottom: 2px solid rgba(255,255,255,0.3);
+            border-bottom: 2px solid #F7B7C8;
             padding-bottom: 4px;
             transition: all 0.3s;
         }
 
-        .venue-overlay .map-link:hover {
-            border-color: white;
+        .venue-content .map-link:hover {
+            color: #4A3F3A;
+            border-color: #4A3F3A;
         }
 
         /* ==========================================
-           ПЛАН ДНЯ
+           ПЛАН ДНЯ — с переносами слов
            ========================================== */
         #schedule {
             position: relative;
@@ -494,7 +488,7 @@
 
         .schedule-item {
             display: flex;
-            align-items: center;
+            align-items: flex-start;
             gap: 18px;
             padding: 20px 24px;
             background: rgba(255, 255, 255, 0.5);
@@ -512,6 +506,7 @@
             font-weight: 400;
             color: #F7B7C8;
             min-width: 80px;
+            line-height: 1.2;
         }
 
         .schedule-item .event {
@@ -519,9 +514,10 @@
             font-size: 1.4rem;
             font-weight: 400;
             text-align: left;
+            line-height: 1.3;
         }
 
-        .schedule-item .event .letter {
+        .schedule-item .event .word {
             display: inline-block;
         }
 
@@ -536,6 +532,7 @@
             font-weight: 300;
             font-size: 0.85rem;
             color: #6B5F5A;
+            margin-top: 4px;
         }
 
         .schedule-item .event .important {
@@ -665,7 +662,7 @@
         }
 
         /* ==========================================
-           FAQ
+           FAQ — с переносами
            ========================================== */
         #faq { position: relative; z-index: 2; background: #FCF8F0; }
 
@@ -738,7 +735,7 @@
         .faq-item .answer strong { color: #F7B7C8; font-weight: 600; }
 
         /* ==========================================
-           RSVP
+           RSVP — цветные вопросы и ответы
            ========================================== */
         #rsvp { position: relative; z-index: 2; background: #FCF8F0; }
 
@@ -772,6 +769,26 @@
             font-size: 0.85rem;
             font-weight: 600;
             color: #4A3F3A;
+        }
+
+        .form-group label .highlight {
+            color: #F7B7C8;
+        }
+
+        .form-group label .highlight-blue {
+            color: #7EC8E3;
+        }
+
+        .form-group label .highlight-lavender {
+            color: #B8A6E0;
+        }
+
+        .form-group label .highlight-peach {
+            color: #F9B87A;
+        }
+
+        .form-group label .highlight-mint {
+            color: #8CD4B5;
         }
 
         .form-group input,
@@ -1010,24 +1027,31 @@
            ========================================== */
         @media (max-width: 480px) {
             section { padding: 50px 0 60px; }
-            .hero-names { font-size: clamp(2.5rem, 8vw, 4rem); }
+            .hero-names { font-size: clamp(2rem, 6vw, 3rem); }
+            .heart-frame { width: 240px; height: 240px; }
+            .star-frame { width: 250px; height: 250px; }
             .calendar-mini { max-width: 280px; gap: 4px; }
             .calendar-mini .day { font-size: 0.75rem; }
             .schedule-item .time { font-size: 1.8rem; min-width: 60px; }
             .schedule-item .event { font-size: 1.1rem; }
+            .schedule-item { flex-direction: column; align-items: flex-start; gap: 8px; }
             .color-dot { width: 44px; height: 44px; }
             .faq-item .question { font-size: 0.95rem; }
             .rsvp-buttons { flex-direction: column; align-items: center; }
             .music-controls { top: 12px; right: 12px; gap: 6px; }
             .music-btn { padding: 8px 14px; font-size: 0.65rem; min-width: 100px; }
-            .venue-overlay { padding: 20px; margin: 10px; }
-            .blob-1 { width: 300px; height: 300px; }
-            .blob-2 { width: 250px; height: 250px; }
         }
 
         @media (max-width: 768px) {
+            .heart-frame { width: 300px; height: 300px; }
+            .star-frame { width: 300px; height: 300px; }
             .blob-1 { width: 400px; height: 400px; }
             .blob-2 { width: 350px; height: 350px; }
+        }
+
+        @media (min-width: 1200px) {
+            .heart-frame { width: 480px; height: 480px; }
+            .star-frame { width: 520px; height: 520px; }
         }
     </style>
 </head>
@@ -1083,7 +1107,7 @@
     </div>
 
     <!-- ==========================================
-    МУЗЫКАЛЬНЫЕ КНОПКИ (всегда справа вверху)
+    МУЗЫКАЛЬНЫЕ КНОПКИ
     ========================================== -->
     <div class="music-controls" id="musicControls">
         <button class="music-btn" id="stasMusicBtn">
@@ -1098,66 +1122,102 @@
     </div>
 
     <!-- ==========================================
-    HERO — фото крупно на весь экран
+    HERO — сердце с фото (крупнее в 1.5 раза)
     ========================================== -->
     <section id="hero">
-        <div class="hero-photo-full">
-            <img src="assets/images/hero-photo.jpg" alt="Стас и Настя" />
+        <div class="heart-frame reveal">
+            <svg viewBox="0 0 200 200" class="heart-svg">
+                <defs>
+                    <clipPath id="heartClip">
+                        <path d="M100 180 C40 120 0 90 0 60 C0 25 25 0 60 0 C75 0 90 10 100 30 C110 10 125 0 140 0 C175 0 200 25 200 60 C200 90 160 120 100 180Z" />
+                    </clipPath>
+                </defs>
+                <image 
+                    href="assets/images/hero-photo.jpg" 
+                    x="0" y="0" 
+                    width="200" height="200" 
+                    clip-path="url(#heartClip)"
+                    preserveAspectRatio="xMidYMid slice"
+                />
+                <path 
+                    d="M100 180 C40 120 0 90 0 60 C0 25 25 0 60 0 C75 0 90 10 100 30 C110 10 125 0 140 0 C175 0 200 25 200 60 C200 90 160 120 100 180Z" 
+                    fill="none" 
+                    stroke="#F7B7C8" 
+                    stroke-width="3"
+                />
+            </svg>
         </div>
-        
-        <div class="hero-overlay">
-            <h1 class="hero-names reveal">
-                <span class="name-group">
-                    <span class="letter" style="--rot:-2deg;--y:-3px;">С</span>
-                    <span class="letter" style="--rot:1deg;--y:2px;">т</span>
-                    <span class="letter" style="--rot:-1deg;--y:-1px;">а</span>
-                    <span class="letter" style="--rot:2deg;--y:4px;">с</span>
-                </span>
-                <span class="amp"> &amp; </span>
-                <span class="name-group">
-                    <span class="letter" style="--rot:-1deg;--y:-2px;">Н</span>
-                    <span class="letter" style="--rot:2deg;--y:3px;">а</span>
-                    <span class="letter" style="--rot:-2deg;--y:-4px;">с</span>
-                    <span class="letter" style="--rot:1deg;--y:1px;">т</span>
-                    <span class="letter" style="--rot:-1deg;--y:-2px;">я</span>
-                </span>
-            </h1>
 
-            <p class="hero-date reveal">17 октября 2026</p>
+        <h1 class="hero-names reveal">
+            <span class="name-group">
+                <span class="letter" style="--rot:-2deg;--y:-3px; color:#FF8CA8;">С</span>
+                <span class="letter" style="--rot:1deg;--y:2px; color:#7EC8E3;">т</span>
+                <span class="letter" style="--rot:-1deg;--y:-1px; color:#B8A6E0;">а</span>
+                <span class="letter" style="--rot:2deg;--y:4px; color:#F9B87A;">с</span>
+            </span>
+            <span class="amp"> &amp; </span>
+            <span class="name-group">
+                <span class="letter" style="--rot:-1deg;--y:-2px; color:#8CD4B5;">Н</span>
+                <span class="letter" style="--rot:2deg;--y:3px; color:#F5D76E;">а</span>
+                <span class="letter" style="--rot:-2deg;--y:-4px; color:#FF8CA8;">с</span>
+                <span class="letter" style="--rot:1deg;--y:1px; color:#7EC8E3;">т</span>
+                <span class="letter" style="--rot:-1deg;--y:-2px; color:#B8A6E0;">я</span>
+            </span>
+        </h1>
 
-            <div class="calendar-mini reveal">
-                <span class="day weekday">Пн</span>
-                <span class="day weekday">Вт</span>
-                <span class="day weekday">Ср</span>
-                <span class="day weekday">Чт</span>
-                <span class="day weekday">Пт</span>
-                <span class="day weekday">Сб</span>
-                <span class="day weekday">Вс</span>
-                <span class="day">12</span>
-                <span class="day">13</span>
-                <span class="day">14</span>
-                <span class="day">15</span>
-                <span class="day">16</span>
-                <span class="day wedding">17</span>
-                <span class="day">18</span>
-            </div>
+        <p class="hero-date reveal">17 октября 2026</p>
 
-            <div class="scroll-down" id="scrollDown">
-                <svg width="32" height="48" viewBox="0 0 40 60">
-                    <path d="M20 5 L20 50 M10 40 L20 55 L30 40" stroke="rgba(255,255,255,0.6)" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
-            </div>
+        <div class="calendar-mini reveal">
+            <span class="day weekday">Пн</span>
+            <span class="day weekday">Вт</span>
+            <span class="day weekday">Ср</span>
+            <span class="day weekday">Чт</span>
+            <span class="day weekday">Пт</span>
+            <span class="day weekday">Сб</span>
+            <span class="day weekday">Вс</span>
+            <span class="day">12</span>
+            <span class="day">13</span>
+            <span class="day">14</span>
+            <span class="day">15</span>
+            <span class="day">16</span>
+            <span class="day wedding">17</span>
+            <span class="day">18</span>
+        </div>
+
+        <div class="scroll-down" id="scrollDown">
+            <svg width="32" height="48" viewBox="0 0 40 60">
+                <path d="M20 5 L20 50 M10 40 L20 55 L30 40" stroke="#4A3F3A" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
         </div>
     </section>
 
     <!-- ==========================================
-    МЕСТО — фото крупно
+    МЕСТО — звезда с фото (крупнее в 1.5 раза)
     ========================================== -->
     <section id="venue">
-        <div class="venue-full">
-            <img src="assets/images/venue-photo.jpg" alt="Отель Высоцкий" />
-        </div>
-        <div class="venue-overlay reveal">
+        <div class="venue-content reveal">
+            <div class="star-frame" id="starFrame">
+                <svg viewBox="0 0 200 200" class="star-svg">
+                    <defs>
+                        <clipPath id="starClip">
+                            <path d="M100 0 L122 65 L190 65 L135 105 L155 170 L100 135 L45 170 L65 105 L10 65 L78 65 Z" />
+                        </clipPath>
+                    </defs>
+                    <image 
+                        href="assets/images/venue-photo.jpg" 
+                        x="0" y="0" 
+                        width="200" height="200" 
+                        clip-path="url(#starClip)"
+                        preserveAspectRatio="xMidYMid slice"
+                    />
+                    <path 
+                        d="M100 0 L122 65 L190 65 L135 105 L155 170 L100 135 L45 170 L65 105 L10 65 L78 65 Z" 
+                        fill="none" 
+                        stroke="#F3B56A" 
+                        stroke-width="3"
+                    />
+                </svg>
+            </div>
             <h2>Отель Высоцкий</h2>
             <p class="sub">зал «Влади»</p>
             <a href="https://yandex.ru/maps" target="_blank" class="map-link">Открыть карту →</a>
@@ -1165,7 +1225,7 @@
     </section>
 
     <!-- ==========================================
-    ПЛАН ДНЯ
+    ПЛАН ДНЯ — с переносами слов
     ========================================== -->
     <section id="schedule">
         <div class="container">
@@ -1198,26 +1258,29 @@
                 <div class="schedule-item schedule-item-alt reveal">
                     <span class="time">16:30</span>
                     <div class="event">
-                        <span class="letter letter-color-3" style="--rot:-2deg;--y:-2px;">В</span>
-                        <span class="letter letter-color-4" style="--rot:1deg;--y:2px;">ы</span>
-                        <span class="letter letter-color-5" style="--rot:-1deg;--y:-1px;">е</span>
-                        <span class="letter letter-color-6" style="--rot:2deg;--y:3px;">з</span>
-                        <span class="letter letter-color-7" style="--rot:-2deg;--y:-2px;">д</span>
-                        <span class="letter letter-color-8" style="--rot:1deg;--y:1px;">н</span>
-                        <span class="letter letter-color-1" style="--rot:-1deg;--y:-1px;">а</span>
-                        <span class="letter letter-color-2" style="--rot:2deg;--y:2px;">я</span>
-                        <span class="letter letter-color-3" style="--rot:-1deg;--y:-2px;"> </span>
-                        <span class="letter letter-color-4" style="--rot:1deg;--y:1px;">р</span>
-                        <span class="letter letter-color-5" style="--rot:-2deg;--y:-1px;">е</span>
-                        <span class="letter letter-color-6" style="--rot:2deg;--y:3px;">г</span>
-                        <span class="letter letter-color-7" style="--rot:-1deg;--y:-2px;">и</span>
-                        <span class="letter letter-color-8" style="--rot:1deg;--y:1px;">с</span>
-                        <span class="letter letter-color-1" style="--rot:-2deg;--y:-1px;">т</span>
-                        <span class="letter letter-color-2" style="--rot:2deg;--y:2px;">р</span>
-                        <span class="letter letter-color-3" style="--rot:-1deg;--y:-2px;">а</span>
-                        <span class="letter letter-color-4" style="--rot:1deg;--y:1px;">ц</span>
-                        <span class="letter letter-color-5" style="--rot:-2deg;--y:-1px;">и</span>
-                        <span class="letter letter-color-6" style="--rot:2deg;--y:3px;">я</span>
+                        <span class="word">
+                            <span class="letter letter-color-3" style="--rot:-2deg;--y:-2px;">В</span>
+                            <span class="letter letter-color-4" style="--rot:1deg;--y:2px;">ы</span>
+                            <span class="letter letter-color-5" style="--rot:-1deg;--y:-1px;">е</span>
+                            <span class="letter letter-color-6" style="--rot:2deg;--y:3px;">з</span>
+                            <span class="letter letter-color-7" style="--rot:-2deg;--y:-2px;">д</span>
+                            <span class="letter letter-color-8" style="--rot:1deg;--y:1px;">н</span>
+                            <span class="letter letter-color-1" style="--rot:-1deg;--y:-1px;">а</span>
+                            <span class="letter letter-color-2" style="--rot:2deg;--y:2px;">я</span>
+                        </span>
+                        <span class="line-break">
+                            <span class="letter letter-color-4" style="--rot:1deg;--y:1px;">р</span>
+                            <span class="letter letter-color-5" style="--rot:-2deg;--y:-1px;">е</span>
+                            <span class="letter letter-color-6" style="--rot:2deg;--y:3px;">г</span>
+                            <span class="letter letter-color-7" style="--rot:-1deg;--y:-2px;">и</span>
+                            <span class="letter letter-color-8" style="--rot:1deg;--y:1px;">с</span>
+                            <span class="letter letter-color-1" style="--rot:-2deg;--y:-1px;">т</span>
+                            <span class="letter letter-color-2" style="--rot:2deg;--y:2px;">р</span>
+                            <span class="letter letter-color-3" style="--rot:-1deg;--y:-2px;">а</span>
+                            <span class="letter letter-color-4" style="--rot:1deg;--y:1px;">ц</span>
+                            <span class="letter letter-color-5" style="--rot:-2deg;--y:-1px;">и</span>
+                            <span class="letter letter-color-6" style="--rot:2deg;--y:3px;">я</span>
+                        </span>
                         <small class="important">Не опаздывать!!</small>
                     </div>
                 </div>
@@ -1284,7 +1347,7 @@
     </section>
 
     <!-- ==========================================
-    FAQ
+    FAQ — с переносами
     ========================================== -->
     <section id="faq">
         <div class="container">
@@ -1348,7 +1411,7 @@
                 <div class="faq-item reveal" data-faq="4">
                     <div class="question">
                         <span class="q-number">4</span>
-                        <span>Можно фотографировать?</span>
+                        <span>Взять ли мне свой пленочный фотоаппарат?</span>
                         <span class="arrow">▼</span>
                     </div>
                     <div class="answer">
@@ -1360,7 +1423,7 @@
     </section>
 
     <!-- ==========================================
-    RSVP
+    RSVP — цветные вопросы и ответы
     ========================================== -->
     <section id="rsvp">
         <div class="container">
@@ -1385,7 +1448,7 @@
 
             <form class="rsvp-form" id="rsvpForm">
                 <div class="form-group reveal">
-                    <label>Как вас зовут?</label>
+                    <label><span class="highlight">Как</span> <span class="highlight-blue">вас</span> <span class="highlight-lavender">зовут?</span></label>
                     <input type="text" placeholder="Имя и фамилия" required id="rsvpName" />
                 </div>
 
@@ -1396,7 +1459,7 @@
 
                 <div class="rsvp-extra" id="rsvpExtra">
                     <div class="form-group">
-                        <label>Получится приехать?</label>
+                        <label><span class="highlight-peach">Получится</span> <span class="highlight-mint">приехать?</span></label>
                         <div class="radio-group">
                             <label class="radio-btn">
                                 <input type="radio" name="attendance" value="yes" checked />
@@ -1410,12 +1473,12 @@
                     </div>
 
                     <div class="form-group">
-                        <label>Из какого вы города?</label>
+                        <label><span class="highlight">Из какого</span> <span class="highlight-blue">вы</span> <span class="highlight-lavender">города?</span></label>
                         <input type="text" placeholder="Город" />
                     </div>
 
                     <div class="form-group">
-                        <label>Что предпочитаете из еды?</label>
+                        <label><span class="highlight-peach">Что предпочитаете</span> <span class="highlight-mint">из еды?</span></label>
                         <div class="radio-group radio-group-horizontal">
                             <label class="radio-btn radio-btn-small">
                                 <input type="radio" name="food" value="meat" />
@@ -1433,7 +1496,7 @@
                     </div>
 
                     <div class="form-group">
-                        <label>Что будете пить?</label>
+                        <label><span class="highlight">Что</span> <span class="highlight-blue">будете</span> <span class="highlight-lavender">пить?</span></label>
                         <div class="radio-group radio-group-horizontal">
                             <label class="radio-btn radio-btn-small">
                                 <input type="radio" name="drink" value="wine" />
@@ -1459,17 +1522,17 @@
                     </div>
 
                     <div class="form-group">
-                        <label>Любимые безалкогольные напитки</label>
+                        <label><span class="highlight-peach">Любимые</span> <span class="highlight-mint">безалкогольные</span> <span class="highlight">напитки</span></label>
                         <input type="text" placeholder="Напишите ваши любимые напитки" />
                     </div>
 
                     <div class="form-group">
-                        <label>Телефон для связи</label>
+                        <label><span class="highlight">Телефон</span> <span class="highlight-blue">для</span> <span class="highlight-lavender">связи</span></label>
                         <input type="tel" placeholder="+7 (___) ___-__-__" required />
                     </div>
 
                     <div class="form-group">
-                        <label>Есть ли у вас аллергии или особенности питания?</label>
+                        <label><span class="highlight-peach">Есть ли у вас</span> <span class="highlight-mint">аллергии или особенности</span> <span class="highlight">питания?</span></label>
                         <textarea placeholder="Напишите, если есть (необязательно)"></textarea>
                     </div>
 
@@ -1485,7 +1548,7 @@
     <section id="timer-section">
         <div class="container">
             <p class="section-label reveal">Скоро</p>
-            <h2 class="craft-title reveal" style="font-size: clamp(2rem, 6vw, 3.5rem);">
+            <h2 class="craft-title reveal">
                 <span class="letter letter-color-6" style="--rot:-1deg;--y:-2px;">Д</span>
                 <span class="letter letter-color-7" style="--rot:2deg;--y:3px;">о</span>
                 <span class="letter letter-color-8" style="--rot:-2deg;--y:-1px;"> </span>
@@ -1496,7 +1559,7 @@
                 <span class="letter letter-color-5" style="--rot:1deg;--y:3px;">л</span>
                 <span class="letter letter-color-6" style="--rot:-1deg;--y:-1px;">а</span>
             </h2>
-            <h2 class="craft-title reveal" style="font-size: clamp(2rem, 6vw, 3.5rem); margin-top: -15px;">
+            <h2 class="craft-title reveal" style="margin-top: -15px;">
                 <span class="letter letter-color-7" style="--rot:2deg;--y:2px;">с</span>
                 <span class="letter letter-color-8" style="--rot:-2deg;--y:-2px;">в</span>
                 <span class="letter letter-color-1" style="--rot:1deg;--y:1px;">а</span>
@@ -1633,6 +1696,17 @@
         });
 
         // ==========================================
+        // ЗВЕЗДА — ускорение при клике
+        // ==========================================
+        const starFrame = document.getElementById('starFrame');
+        let starSpeed = false;
+
+        starFrame.addEventListener('click', function() {
+            starSpeed = !starSpeed;
+            this.classList.toggle('speed');
+        });
+
+        // ==========================================
         // ТАЙМЕР
         // ==========================================
         const targetDate = new Date('2026-10-17T15:00:00').getTime();
@@ -1670,7 +1744,7 @@
         });
 
         // ==========================================
-        // МУЗЫКА (3 кнопки)
+        // МУЗЫКА
         // ==========================================
         let stasAudio = null;
         let nastyaAudio = null;

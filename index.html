@@ -5,8 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes" />
     <title>Стас & Настя · 17.10.2026</title>
     
+    <!-- Шрифты -->
     <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
-    <link href="https://fonts.cdnfonts.com/css/cooper-black" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Rubik+Bubbles&display=swap" rel="stylesheet" />
     
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
@@ -21,9 +22,7 @@
             box-sizing: border-box;
         }
 
-        html {
-            scroll-behavior: smooth;
-        }
+        html { scroll-behavior: smooth; }
 
         body {
             font-family: 'Quicksand', sans-serif;
@@ -34,9 +33,8 @@
             -webkit-font-smoothing: antialiased;
         }
 
-        @font-face {
-            font-family: 'CooperBlack';
-            src: url('https://fonts.cdnfonts.com/s/23818/CooperBlack.woff') format('woff');
+        .rubik {
+            font-family: 'Rubik Bubbles', cursive;
         }
 
         .container {
@@ -58,23 +56,22 @@
         }
 
         /* ==========================================
-           КРАФТОВЫЙ ЗАГОЛОВОК (разноцветные буквы)
+           КРАФТОВЫЙ ЗАГОЛОВОК
            ========================================== */
         .craft-title {
-            font-family: 'CooperBlack', 'Cooper Black', serif;
+            font-family: 'Rubik Bubbles', cursive;
             font-weight: 400;
             line-height: 1.2;
             text-align: center;
             margin-bottom: 10px;
+            font-size: clamp(2.2rem, 7vw, 3.8rem);
         }
 
         .craft-title .letter {
             display: inline-block;
             transform: rotate(var(--rot, 0deg)) translateY(var(--y, 0px));
-            font-size: var(--size, 1em);
         }
 
-        /* Цвета для букв */
         .letter-color-1 { color: #FF8CA8; }
         .letter-color-2 { color: #7EC8E3; }
         .letter-color-3 { color: #B8A6E0; }
@@ -87,22 +84,7 @@
         .letter-color-10 { color: #F9B87A; }
 
         /* ==========================================
-           РУКОПИСНЫЙ ТЕКСТ (пляшущие буквы)
-           ========================================== */
-        .handwritten-craft {
-            font-family: 'Quicksand', sans-serif;
-            font-weight: 300;
-            letter-spacing: 0.5px;
-            display: inline-block;
-        }
-
-        .handwritten-craft .letter {
-            display: inline-block;
-            transform: rotate(var(--rot, 0deg)) translateY(var(--y, 0px));
-        }
-
-        /* ==========================================
-           ДЕКОРАТИВНЫЕ ЭЛЕМЕНТЫ
+           ДЕКОР
            ========================================== */
         .deco-line {
             position: absolute;
@@ -131,18 +113,6 @@
         .deco-wave-1 { top: 5%; right: 5%; animation-delay: 0s; }
         .deco-wave-2 { bottom: 8%; left: 3%; font-size: 2.8rem; animation-delay: 2s; color: #F7B7C8; }
 
-        .deco-dots {
-            position: absolute;
-            pointer-events: none;
-            opacity: 0.04;
-            font-size: 1.2rem;
-            letter-spacing: 8px;
-            color: #4A3F3A;
-        }
-
-        .deco-dots-1 { top: 12%; left: 8%; }
-        .deco-dots-2 { bottom: 15%; right: 6%; }
-
         @keyframes floatDeco {
             0%, 100% { transform: translateY(0) rotate(0deg); }
             50% { transform: translateY(-20px) rotate(8deg); }
@@ -169,8 +139,7 @@
             z-index: 0;
             background: 
                 radial-gradient(ellipse at 20% 50%, rgba(247, 183, 200, 0.08) 0%, transparent 60%),
-                radial-gradient(ellipse at 80% 50%, rgba(185, 221, 248, 0.08) 0%, transparent 60%),
-                radial-gradient(ellipse at 50% 80%, rgba(200, 182, 248, 0.06) 0%, transparent 50%);
+                radial-gradient(ellipse at 80% 50%, rgba(185, 221, 248, 0.08) 0%, transparent 60%);
         }
 
         /* Музыкальные кнопки */
@@ -202,16 +171,11 @@
             box-shadow: 0 4px 15px rgba(0,0,0,0.04);
         }
 
-        .music-btn .music-icon {
-            font-size: 1rem;
-            color: #F7B7C8;
-        }
-
+        .music-btn .music-icon { font-size: 1rem; color: #F7B7C8; }
         .music-btn:hover {
             transform: scale(1.04);
             box-shadow: 0 8px 25px rgba(247, 183, 200, 0.15);
         }
-
         .music-btn.active {
             background: #F7B7C8;
             color: white;
@@ -233,10 +197,10 @@
             display: block;
         }
 
-        /* Имена (разноцветные буквы) */
+        /* Имена */
         .hero-names {
-            font-family: 'CooperBlack', 'Cooper Black', serif;
-            font-size: clamp(1.8rem, 5vw, 3.2rem);
+            font-family: 'Rubik Bubbles', cursive;
+            font-size: clamp(2rem, 6vw, 3.5rem);
             font-weight: 400;
             line-height: 1.3;
             position: relative;
@@ -244,10 +208,7 @@
             margin-bottom: 2px;
         }
 
-        .hero-names .name-group {
-            display: block;
-        }
-
+        .hero-names .name-group { display: block; }
         .hero-names .amp {
             font-size: 0.5em;
             display: inline-block;
@@ -255,10 +216,9 @@
             color: #C4B5AD;
         }
 
-        /* Дата (рукописная) */
         .hero-date {
             font-family: 'Quicksand', sans-serif;
-            font-size: 0.95rem;
+            font-size: 1rem;
             color: #B5A8A2;
             letter-spacing: 4px;
             text-transform: uppercase;
@@ -267,32 +227,32 @@
             margin-bottom: 14px;
         }
 
-        /* Календарь */
+        /* Календарь — дни недели НАД числами */
         .calendar-mini {
-            display: flex;
-            gap: 4px;
-            justify-content: center;
-            margin: 8px 0 18px;
-            flex-wrap: wrap;
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 3px;
+            max-width: 280px;
+            margin: 8px auto 18px;
             position: relative;
             z-index: 1;
         }
 
         .calendar-mini .day {
-            width: 34px;
-            height: 34px;
             display: flex;
             align-items: center;
             justify-content: center;
             border-radius: 50%;
-            font-size: 0.7rem;
+            font-size: 0.75rem;
             font-weight: 500;
             background: transparent;
             color: #4A3F3A;
+            padding: 4px 0;
+            aspect-ratio: 1;
         }
 
         .calendar-mini .day.weekday {
-            font-size: 0.5rem;
+            font-size: 0.55rem;
             font-weight: 600;
             color: #C4B5AD;
             text-transform: uppercase;
@@ -306,7 +266,7 @@
 
         .calendar-mini .day.wedding .heart-bg {
             position: absolute;
-            font-size: 1.8rem;
+            font-size: 2rem;
             color: #F7B7C8;
             animation: pulseHeart 2s ease-in-out infinite;
         }
@@ -316,7 +276,7 @@
             z-index: 2;
             color: white;
             font-weight: 700;
-            font-size: 0.75rem;
+            font-size: 0.8rem;
         }
 
         @keyframes pulseHeart {
@@ -345,9 +305,6 @@
             50% { transform: translateY(8px); }
         }
 
-        /* ==========================================
-           СЕКЦИИ
-           ========================================== */
         .section-label {
             font-family: 'Quicksand', sans-serif;
             font-size: 0.75rem;
@@ -359,87 +316,98 @@
             margin-bottom: 4px;
         }
 
-        .section-title-craft {
-            font-family: 'CooperBlack', 'Cooper Black', serif;
-            font-weight: 400;
-            font-size: clamp(2rem, 6vw, 3.2rem);
-            line-height: 1.2;
-            text-align: center;
-            margin-bottom: 20px;
-        }
-
         /* ==========================================
-           ВРЕМЯ И МЕСТО
+           МЕСТО (фото почти во весь экран)
            ========================================== */
-        #venue { background: #FAFAF8; }
-
-        .venue-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 16px;
+        #venue {
+            background: #FAFAF8;
+            padding: 0;
+            min-height: 100vh;
+            display: flex;
+            align-items: stretch;
         }
 
-        @media (max-width: 480px) {
-            .venue-grid { grid-template-columns: 1fr; gap: 14px; }
+        #venue .container {
+            max-width: 100%;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            width: 100%;
         }
 
-        .venue-card {
-            background: rgba(255, 255, 255, 0.7);
-            backdrop-filter: blur(10px);
-            border-radius: 30px;
-            padding: 24px 18px;
-            border: 1px solid rgba(255, 255, 255, 0.4);
+        .venue-full {
+            position: relative;
+            width: 100%;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .venue-full img {
+            width: 100%;
+            height: 100vh;
+            object-fit: cover;
+            position: absolute;
+            inset: 0;
+        }
+
+        .venue-overlay {
+            position: relative;
+            z-index: 2;
             text-align: center;
-            transition: all 0.3s ease;
+            color: white;
+            padding: 30px;
+            background: rgba(0,0,0,0.25);
+            backdrop-filter: blur(4px);
+            border-radius: 30px;
+            margin: 20px;
         }
 
-        .venue-card .icon { font-size: 1.8rem; display: block; margin-bottom: 6px; }
-        .venue-card h3 {
-            font-family: 'CooperBlack', 'Cooper Black', serif;
-            font-size: 1.1rem;
+        .venue-overlay h2 {
+            font-family: 'Rubik Bubbles', cursive;
+            font-size: clamp(2rem, 6vw, 3.5rem);
             font-weight: 400;
-            margin-bottom: 2px;
+            color: white;
+            text-shadow: 0 4px 30px rgba(0,0,0,0.3);
         }
-        .venue-card p { font-size: 0.85rem; color: #6B5F5A; }
 
-        .map-link {
+        .venue-overlay .sub {
+            font-size: 1.2rem;
+            font-weight: 300;
+            opacity: 0.9;
+            margin-top: 4px;
+        }
+
+        .venue-overlay .map-link {
             display: inline-block;
-            margin-top: 8px;
-            color: #F7B7C8;
+            margin-top: 12px;
+            color: white;
             text-decoration: none;
             font-weight: 600;
-            font-size: 0.85rem;
-            border-bottom: 2px solid #F7B7C8;
-            padding-bottom: 2px;
+            font-size: 0.95rem;
+            border-bottom: 2px solid rgba(255,255,255,0.5);
+            padding-bottom: 4px;
+            transition: all 0.3s;
         }
 
-        .venue-card-star .star-frame {
-            width: 110px;
-            height: 110px;
-            margin: 0 auto 10px;
-        }
-
-        .venue-card-star .star-svg {
-            width: 100%;
-            height: 100%;
-            display: block;
-            animation: rotateStar 20s linear infinite;
-        }
-
-        @keyframes rotateStar {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
+        .venue-overlay .map-link:hover {
+            border-color: white;
         }
 
         /* ==========================================
-           ПЛАН ДНЯ
+           ПЛАН ДНЯ (крупный шрифт)
            ========================================== */
-        #schedule { background: #FFFFFF; }
+        #schedule {
+            background: #FFFFFF;
+        }
 
         .schedule-list {
             display: flex;
             flex-direction: column;
-            gap: 12px;
+            gap: 14px;
             max-width: 500px;
             margin: 0 auto;
         }
@@ -448,7 +416,7 @@
             display: flex;
             align-items: center;
             gap: 18px;
-            padding: 18px 22px;
+            padding: 20px 24px;
             background: rgba(255, 255, 255, 0.6);
             backdrop-filter: blur(10px);
             border-radius: 30px;
@@ -459,21 +427,31 @@
         .schedule-item-alt { border-color: rgba(243, 181, 106, 0.2); }
 
         .schedule-item .time {
-            font-family: 'CooperBlack', 'Cooper Black', serif;
-            font-size: 2rem;
+            font-family: 'Rubik Bubbles', cursive;
+            font-size: 2.2rem;
             font-weight: 400;
             color: #F7B7C8;
-            min-width: 75px;
+            min-width: 80px;
         }
 
-        .schedule-item .event { font-size: 1.15rem; font-weight: 500; }
+        .schedule-item .event {
+            font-family: 'Rubik Bubbles', cursive;
+            font-size: 1.4rem;
+            font-weight: 400;
+        }
+
         .schedule-item .event small {
             display: block;
+            font-family: 'Quicksand', sans-serif;
             font-weight: 300;
             font-size: 0.85rem;
             color: #6B5F5A;
         }
-        .schedule-item .event .important { color: #F3B56A; font-weight: 600; }
+
+        .schedule-item .event .important {
+            color: #F3B56A;
+            font-weight: 600;
+        }
 
         /* ==========================================
            ДРЕСС-КОД
@@ -486,6 +464,7 @@
             color: #6B5F5A;
             margin-bottom: 22px;
         }
+
         .dresscode-sub .no-colors {
             display: block;
             font-size: 0.8rem;
@@ -665,7 +644,7 @@
         .faq-item .answer strong { color: #F7B7C8; font-weight: 600; }
 
         /* ==========================================
-           RSVP
+           RSVP (сначала только имя + 2 кнопки)
            ========================================== */
         #rsvp { background: #FAFAF8; }
 
@@ -723,6 +702,21 @@
         }
 
         .form-group textarea { height: 80px; resize: vertical; }
+
+        /* Скрытые вопросы (появляются после выбора "Да" */
+        .rsvp-extra {
+            display: none;
+            animation: fadeInUp 0.5s ease;
+        }
+
+        .rsvp-extra.visible {
+            display: block;
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
 
         .radio-group {
             display: flex;
@@ -782,6 +776,61 @@
             box-shadow: 0 12px 40px rgba(247, 183, 200, 0.3);
         }
 
+        .btn-rsvp-yes {
+            padding: 14px 28px;
+            border: 2px solid #8CD4B5;
+            border-radius: 40px;
+            background: transparent;
+            font-family: 'Quicksand', sans-serif;
+            font-size: 1rem;
+            font-weight: 600;
+            color: #4A3F3A;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-rsvp-yes:hover {
+            background: #8CD4B5;
+            color: white;
+            transform: scale(1.04);
+        }
+
+        .btn-rsvp-yes.active {
+            background: #8CD4B5;
+            color: white;
+        }
+
+        .btn-rsvp-no {
+            padding: 14px 28px;
+            border: 2px solid #F7B7C8;
+            border-radius: 40px;
+            background: transparent;
+            font-family: 'Quicksand', sans-serif;
+            font-size: 1rem;
+            font-weight: 600;
+            color: #4A3F3A;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-rsvp-no:hover {
+            background: #F7B7C8;
+            color: white;
+            transform: scale(1.04);
+        }
+
+        .btn-rsvp-no.active {
+            background: #F7B7C8;
+            color: white;
+        }
+
+        .rsvp-buttons {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            margin: 8px 0;
+        }
+
         /* ==========================================
            ТАЙМЕР
            ========================================== */
@@ -809,8 +858,8 @@
         }
 
         .timer-unit .number {
-            font-family: 'CooperBlack', 'Cooper Black', serif;
-            font-size: clamp(1.8rem, 4vw, 2.8rem);
+            font-family: 'Rubik Bubbles', cursive;
+            font-size: clamp(2rem, 4.5vw, 3rem);
             font-weight: 400;
             color: #4A3F3A;
         }
@@ -834,8 +883,8 @@
         }
 
         footer p {
-            font-family: 'CooperBlack', 'Cooper Black', serif;
-            font-size: 1.4rem;
+            font-family: 'Rubik Bubbles', cursive;
+            font-size: 1.6rem;
             color: #4A3F3A;
         }
 
@@ -866,25 +915,19 @@
             transform: translateY(40px) scale(0.96);
         }
 
-        .reveal-left {
-            opacity: 0;
-            transform: translateX(-40px);
-        }
-
-        .reveal-right {
-            opacity: 0;
-            transform: translateX(40px);
-        }
-
         @media (max-width: 480px) {
             section { padding: 50px 0 60px; }
-            .hero-names { font-size: clamp(1.4rem, 4vw, 2.2rem); }
+            .hero-names { font-size: clamp(1.6rem, 5vw, 2.4rem); }
             .heart-frame { width: 140px; height: 140px; }
-            .calendar-mini .day { width: 30px; height: 30px; font-size: 0.65rem; }
-            .schedule-item .time { font-size: 1.6rem; min-width: 60px; }
-            .schedule-item .event { font-size: 1rem; }
+            .calendar-mini { max-width: 240px; }
+            .calendar-mini .day { font-size: 0.65rem; }
+            .schedule-item .time { font-size: 1.8rem; min-width: 60px; }
+            .schedule-item .event { font-size: 1.1rem; }
             .color-dot { width: 44px; height: 44px; }
             .faq-item .question { font-size: 1rem; }
+            .venue-overlay { margin: 15px; padding: 20px; }
+            .venue-overlay h2 { font-size: 1.8rem; }
+            .rsvp-buttons { flex-direction: column; align-items: center; }
         }
     </style>
 </head>
@@ -903,22 +946,18 @@
         <div class="deco-line deco-line-4"></div>
         <div class="deco-wave deco-wave-1">~</div>
         <div class="deco-wave deco-wave-2">~</div>
-        <div class="deco-dots deco-dots-1">· · ·</div>
-        <div class="deco-dots deco-dots-2">· · ·</div>
 
-        <!-- Музыкальные кнопки -->
+        <!-- Музыка -->
         <div class="music-controls">
             <button class="music-btn" id="stasMusicBtn">
-                <span class="music-icon">♪</span>
-                Музыка Стаса
+                <span class="music-icon">♪</span> Музыка Стаса
             </button>
             <button class="music-btn" id="nastyaMusicBtn">
-                <span class="music-icon">♪</span>
-                Музыка Насти
+                <span class="music-icon">♪</span> Музыка Насти
             </button>
         </div>
 
-        <!-- Сердце с фото -->
+        <!-- Сердце -->
         <div class="heart-frame reveal">
             <svg viewBox="0 0 200 200" class="heart-svg">
                 <defs>
@@ -942,7 +981,7 @@
             </svg>
         </div>
 
-        <!-- Имена — каждая буква своего цвета -->
+        <!-- Имена -->
         <h1 class="hero-names reveal">
             <span class="name-group">
                 <span class="letter letter-color-1" style="--rot:-2deg;--y:-3px;">С</span>
@@ -978,7 +1017,7 @@
             <span class="day">15</span>
             <span class="day">16</span>
             <span class="day wedding">
-                <span class="heart-bg">❤</span>
+                <span class="heart-bg">♥</span>
                 <span class="day-number">17</span>
             </span>
             <span class="day">18</span>
@@ -993,56 +1032,15 @@
     </section>
 
     <!-- ==========================================
-    ВРЕМЯ И МЕСТО
+    МЕСТО (фото почти во весь экран)
     ========================================== -->
     <section id="venue">
         <div class="container">
-            <p class="section-label reveal">Сохраните дату</p>
-            <h2 class="section-title-craft reveal">
-                <span class="letter letter-color-1" style="--rot:-1deg;--y:-2px;">Г</span>
-                <span class="letter letter-color-2" style="--rot:2deg;--y:3px;">д</span>
-                <span class="letter letter-color-3" style="--rot:-2deg;--y:-1px;">е</span>
-                <span class="letter letter-color-1" style="--rot:1deg;--y:2px;"> </span>
-                <span class="letter letter-color-4" style="--rot:-1deg;--y:-3px;">и</span>
-                <span class="letter letter-color-5" style="--rot:2deg;--y:1px;"> </span>
-                <span class="letter letter-color-6" style="--rot:-2deg;--y:-2px;">к</span>
-                <span class="letter letter-color-7" style="--rot:1deg;--y:3px;">о</span>
-                <span class="letter letter-color-8" style="--rot:-1deg;--y:-1px;">г</span>
-                <span class="letter letter-color-9" style="--rot:2deg;--y:2px;">д</span>
-                <span class="letter letter-color-10" style="--rot:-1deg;--y:-2px;">а</span>
-            </h2>
-            
-            <div class="venue-grid">
-                <div class="venue-card reveal">
-                    <span class="icon">📅</span>
-                    <h3>17 октября 2026</h3>
-                    <p>Суббота, начало в 15:00</p>
-                </div>
-                <div class="venue-card venue-card-star reveal" style="border-radius: 20px 30px 30px 30px;">
-                    <div class="star-frame">
-                        <svg viewBox="0 0 200 200" class="star-svg">
-                            <defs>
-                                <clipPath id="starClip">
-                                    <path d="M100 0 L122 65 L190 65 L135 105 L155 170 L100 135 L45 170 L65 105 L10 65 L78 65 Z" />
-                                </clipPath>
-                            </defs>
-                            <image 
-                                href="assets/images/venue-photo.jpg" 
-                                x="0" y="0" 
-                                width="200" height="200" 
-                                clip-path="url(#starClip)"
-                                preserveAspectRatio="xMidYMid slice"
-                            />
-                            <path 
-                                d="M100 0 L122 65 L190 65 L135 105 L155 170 L100 135 L45 170 L65 105 L10 65 L78 65 Z" 
-                                fill="none" 
-                                stroke="#F3B56A" 
-                                stroke-width="3"
-                            />
-                        </svg>
-                    </div>
-                    <h3>Отель Высоцкий</h3>
-                    <p>Екатеринбург</p>
+            <div class="venue-full">
+                <img src="assets/images/venue-photo.jpg" alt="Отель Высоцкий" />
+                <div class="venue-overlay">
+                    <h2>Отель Высоцкий</h2>
+                    <p class="sub">зал «Влади»</p>
                     <a href="https://yandex.ru/maps" target="_blank" class="map-link">Открыть карту →</a>
                 </div>
             </div>
@@ -1055,7 +1053,7 @@
     <section id="schedule">
         <div class="container">
             <p class="section-label reveal">Как всё пройдёт</p>
-            <h2 class="section-title-craft reveal">
+            <h2 class="craft-title reveal">
                 <span class="letter letter-color-2" style="--rot:-1deg;--y:-2px;">П</span>
                 <span class="letter letter-color-3" style="--rot:2deg;--y:3px;">л</span>
                 <span class="letter letter-color-4" style="--rot:-2deg;--y:-1px;">а</span>
@@ -1098,7 +1096,7 @@
     <section id="dresscode">
         <div class="container">
             <p class="section-label reveal">Вдохновение</p>
-            <h2 class="section-title-craft reveal">
+            <h2 class="craft-title reveal">
                 <span class="letter letter-color-3" style="--rot:-1deg;--y:-2px;">Д</span>
                 <span class="letter letter-color-4" style="--rot:2deg;--y:3px;">р</span>
                 <span class="letter letter-color-5" style="--rot:-2deg;--y:-1px;">е</span>
@@ -1143,7 +1141,7 @@
     <section id="faq">
         <div class="container">
             <p class="section-label reveal">Важные мелочи</p>
-            <h2 class="section-title-craft reveal">
+            <h2 class="craft-title reveal">
                 <span class="letter letter-color-4" style="--rot:-1deg;--y:-2px;">О</span>
                 <span class="letter letter-color-5" style="--rot:2deg;--y:3px;">т</span>
                 <span class="letter letter-color-6" style="--rot:-2deg;--y:-1px;">в</span>
@@ -1218,12 +1216,12 @@
     </section>
 
     <!-- ==========================================
-    RSVP
+    RSVP (сначала только имя + 2 кнопки)
     ========================================== -->
     <section id="rsvp">
         <div class="container">
             <p class="section-label reveal">Ждём вас!</p>
-            <h2 class="section-title-craft reveal">
+            <h2 class="craft-title reveal">
                 <span class="letter letter-color-5" style="--rot:-1deg;--y:-2px;">П</span>
                 <span class="letter letter-color-6" style="--rot:2deg;--y:3px;">о</span>
                 <span class="letter letter-color-7" style="--rot:-2deg;--y:-1px;">д</span>
@@ -1242,101 +1240,111 @@
             </p>
 
             <form class="rsvp-form" id="rsvpForm">
+                <!-- Имя -->
                 <div class="form-group reveal">
                     <label>Как вас зовут?</label>
-                    <input type="text" placeholder="Имя и фамилия" required />
+                    <input type="text" placeholder="Имя и фамилия" required id="rsvpName" />
                 </div>
 
-                <div class="form-group reveal">
-                    <label>Получится приехать?</label>
-                    <div class="radio-group">
-                        <label class="radio-btn">
-                            <input type="radio" name="attendance" value="yes" />
-                            <span>Конечно, будем!</span>
-                        </label>
-                        <label class="radio-btn">
-                            <input type="radio" name="attendance" value="no" />
-                            <span>К сожалению, не получится</span>
-                        </label>
+                <!-- Кнопки Да / Нет -->
+                <div class="rsvp-buttons reveal">
+                    <button type="button" class="btn-rsvp-yes" id="rsvpYes">Да, буду ❤️</button>
+                    <button type="button" class="btn-rsvp-no" id="rsvpNo">К сожалению, нет</button>
+                </div>
+
+                <!-- Остальные вопросы (появляются после "Да") -->
+                <div class="rsvp-extra" id="rsvpExtra">
+                    <div class="form-group">
+                        <label>Получится приехать?</label>
+                        <div class="radio-group">
+                            <label class="radio-btn">
+                                <input type="radio" name="attendance" value="yes" checked />
+                                <span>Конечно, будем!</span>
+                            </label>
+                            <label class="radio-btn">
+                                <input type="radio" name="attendance" value="no" />
+                                <span>К сожалению, не получится</span>
+                            </label>
+                        </div>
                     </div>
-                </div>
 
-                <div class="form-group reveal">
-                    <label>Из какого вы города?</label>
-                    <input type="text" placeholder="Город" />
-                </div>
-
-                <div class="form-group reveal">
-                    <label>Что предпочитаете из еды?</label>
-                    <div class="radio-group radio-group-horizontal">
-                        <label class="radio-btn radio-btn-small">
-                            <input type="radio" name="food" value="meat" />
-                            <span>Мясо</span>
-                        </label>
-                        <label class="radio-btn radio-btn-small">
-                            <input type="radio" name="food" value="fish" />
-                            <span>Рыба</span>
-                        </label>
-                        <label class="radio-btn radio-btn-small">
-                            <input type="radio" name="food" value="vegan" />
-                            <span>Вегетарианское</span>
-                        </label>
+                    <div class="form-group">
+                        <label>Из какого вы города?</label>
+                        <input type="text" placeholder="Город" />
                     </div>
-                </div>
 
-                <div class="form-group reveal">
-                    <label>Что будете пить?</label>
-                    <div class="radio-group radio-group-horizontal">
-                        <label class="radio-btn radio-btn-small">
-                            <input type="radio" name="drink" value="wine" />
-                            <span>Вино</span>
-                        </label>
-                        <label class="radio-btn radio-btn-small">
-                            <input type="radio" name="drink" value="sparkling" />
-                            <span>Игристое</span>
-                        </label>
-                        <label class="radio-btn radio-btn-small">
-                            <input type="radio" name="drink" value="cocktails" />
-                            <span>Коктейли</span>
-                        </label>
-                        <label class="radio-btn radio-btn-small">
-                            <input type="radio" name="drink" value="strong" />
-                            <span>Крепкий</span>
-                        </label>
-                        <label class="radio-btn radio-btn-small">
-                            <input type="radio" name="drink" value="no" />
-                            <span>Не пью</span>
-                        </label>
+                    <div class="form-group">
+                        <label>Что предпочитаете из еды?</label>
+                        <div class="radio-group radio-group-horizontal">
+                            <label class="radio-btn radio-btn-small">
+                                <input type="radio" name="food" value="meat" />
+                                <span>Мясо</span>
+                            </label>
+                            <label class="radio-btn radio-btn-small">
+                                <input type="radio" name="food" value="fish" />
+                                <span>Рыба</span>
+                            </label>
+                            <label class="radio-btn radio-btn-small">
+                                <input type="radio" name="food" value="vegan" />
+                                <span>Вегетарианское</span>
+                            </label>
+                        </div>
                     </div>
-                </div>
 
-                <div class="form-group reveal">
-                    <label>Любимые безалкогольные напитки</label>
-                    <input type="text" placeholder="Напишите ваши любимые напитки" />
-                </div>
+                    <div class="form-group">
+                        <label>Что будете пить?</label>
+                        <div class="radio-group radio-group-horizontal">
+                            <label class="radio-btn radio-btn-small">
+                                <input type="radio" name="drink" value="wine" />
+                                <span>Вино</span>
+                            </label>
+                            <label class="radio-btn radio-btn-small">
+                                <input type="radio" name="drink" value="sparkling" />
+                                <span>Игристое</span>
+                            </label>
+                            <label class="radio-btn radio-btn-small">
+                                <input type="radio" name="drink" value="cocktails" />
+                                <span>Коктейли</span>
+                            </label>
+                            <label class="radio-btn radio-btn-small">
+                                <input type="radio" name="drink" value="strong" />
+                                <span>Крепкий</span>
+                            </label>
+                            <label class="radio-btn radio-btn-small">
+                                <input type="radio" name="drink" value="no" />
+                                <span>Не пью</span>
+                            </label>
+                        </div>
+                    </div>
 
-                <div class="form-group reveal">
-                    <label>Телефон для связи</label>
-                    <input type="tel" placeholder="+7 (___) ___-__-__" required />
-                </div>
+                    <div class="form-group">
+                        <label>Любимые безалкогольные напитки</label>
+                        <input type="text" placeholder="Напишите ваши любимые напитки" />
+                    </div>
 
-                <div class="form-group reveal">
-                    <label>Есть ли у вас аллергии или особенности питания?</label>
-                    <textarea placeholder="Напишите, если есть (необязательно)"></textarea>
-                </div>
+                    <div class="form-group">
+                        <label>Телефон для связи</label>
+                        <input type="tel" placeholder="+7 (___) ___-__-__" required />
+                    </div>
 
-                <button type="submit" class="btn-submit reveal">Отправить →</button>
+                    <div class="form-group">
+                        <label>Есть ли у вас аллергии или особенности питания?</label>
+                        <textarea placeholder="Напишите, если есть (необязательно)"></textarea>
+                    </div>
+
+                    <button type="submit" class="btn-submit">Отправить →</button>
+                </div>
             </form>
         </div>
     </section>
 
     <!-- ==========================================
-    ТАЙМЕР (в самом конце)
+    ТАЙМЕР
     ========================================== -->
     <section id="timer-section">
         <div class="container">
             <p class="section-label reveal">Скоро</p>
-            <h2 class="section-title-craft reveal">
+            <h2 class="craft-title reveal">
                 <span class="letter letter-color-6" style="--rot:-1deg;--y:-2px;">Д</span>
                 <span class="letter letter-color-7" style="--rot:2deg;--y:3px;">о</span>
                 <span class="letter letter-color-8" style="--rot:-2deg;--y:-1px;"> </span>
@@ -1405,8 +1413,7 @@
         // ==========================================
         gsap.registerPlugin(ScrollTrigger);
 
-        // Анимация появления при скролле (работает в обе стороны)
-        document.querySelectorAll('.reveal, .reveal-left, .reveal-right').forEach((el) => {
+        document.querySelectorAll('.reveal').forEach((el) => {
             gsap.fromTo(el,
                 { opacity: 0, y: 40, scale: 0.96 },
                 {
@@ -1417,45 +1424,7 @@
                     ease: 'power3.out',
                     scrollTrigger: {
                         trigger: el,
-                        start: 'top 90%',
-                        end: 'top 20%',
-                        toggleActions: 'play none play reverse',
-                        once: false
-                    }
-                }
-            );
-        });
-
-        document.querySelectorAll('.reveal-left').forEach((el) => {
-            gsap.fromTo(el,
-                { opacity: 0, x: -40 },
-                {
-                    opacity: 1,
-                    x: 0,
-                    duration: 1,
-                    ease: 'power3.out',
-                    scrollTrigger: {
-                        trigger: el,
-                        start: 'top 90%',
-                        end: 'top 20%',
-                        toggleActions: 'play none play reverse',
-                        once: false
-                    }
-                }
-            );
-        });
-
-        document.querySelectorAll('.reveal-right').forEach((el) => {
-            gsap.fromTo(el,
-                { opacity: 0, x: 40 },
-                {
-                    opacity: 1,
-                    x: 0,
-                    duration: 1,
-                    ease: 'power3.out',
-                    scrollTrigger: {
-                        trigger: el,
-                        start: 'top 90%',
+                        start: 'top 92%',
                         end: 'top 20%',
                         toggleActions: 'play none play reverse',
                         once: false
@@ -1498,12 +1467,11 @@
         // СТРЕЛКА ВНИЗ
         // ==========================================
         document.getElementById('scrollDown').addEventListener('click', () => {
-            const venue = document.getElementById('venue');
-            venue.scrollIntoView({ behavior: 'smooth' });
+            document.getElementById('venue').scrollIntoView({ behavior: 'smooth' });
         });
 
         // ==========================================
-        // МУЗЫКА (заглушка)
+        // МУЗЫКА
         // ==========================================
         let stasAudio = null;
         let nastyaAudio = null;
@@ -1553,7 +1521,51 @@
         });
 
         // ==========================================
-        // ДРЕСС-КОД: ЦВЕТА → ФОТО
+        // RSVP: кнопки Да / Нет
+        // ==========================================
+        const rsvpExtra = document.getElementById('rsvpExtra');
+        const rsvpYes = document.getElementById('rsvpYes');
+        const rsvpNo = document.getElementById('rsvpNo');
+
+        rsvpYes.addEventListener('click', function() {
+            this.classList.add('active');
+            rsvpNo.classList.remove('active');
+            rsvpExtra.classList.add('visible');
+            // Плавный скролл к форме
+            setTimeout(() => {
+                rsvpExtra.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }, 300);
+        });
+
+        rsvpNo.addEventListener('click', function() {
+            this.classList.add('active');
+            rsvpYes.classList.remove('active');
+            rsvpExtra.classList.remove('visible');
+            // Можно показать сообщение
+            alert('Спасибо, что сообщили! Будем скучать ❤️');
+        });
+
+        // ==========================================
+        // RSVP ФОРМА
+        // ==========================================
+        document.getElementById('rsvpForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const btn = this.querySelector('.btn-submit');
+            btn.textContent = '✨ Отправлено!';
+            btn.style.background = 'linear-gradient(135deg, #8CD4B5, #7EC8E3)';
+            setTimeout(() => {
+                btn.textContent = 'Отправить →';
+                btn.style.background = 'linear-gradient(135deg, #F7B7C8, #F3B56A)';
+                this.reset();
+                rsvpExtra.classList.remove('visible');
+                rsvpYes.classList.remove('active');
+                rsvpNo.classList.remove('active');
+                alert('Спасибо! Мы будем ждать вас!');
+            }, 2000);
+        });
+
+        // ==========================================
+        // ДРЕСС-КОД: ЦВЕТА
         // ==========================================
         const dresscodePhotos = {
             pink: ['assets/images/dresscode/pink-1.jpg', 'assets/images/dresscode/pink-2.jpg'],
@@ -1584,7 +1596,7 @@
         });
 
         // ==========================================
-        // ДРЕСС-КОД: МУЖСКИЕ ВАРИАНТЫ
+        // ДРЕСС-КОД: МУЖЧИНЫ
         // ==========================================
         const menPhotos = {
             option1: ['assets/images/dresscode/men-1.jpg', 'assets/images/dresscode/men-2.jpg'],
@@ -1612,7 +1624,7 @@
         });
 
         // ==========================================
-        // FAQ (раскрытие)
+        // FAQ
         // ==========================================
         document.querySelectorAll('.faq-item').forEach(item => {
             item.addEventListener('click', function() {
@@ -1620,24 +1632,8 @@
             });
         });
 
-        // ==========================================
-        // RSVP ФОРМА
-        // ==========================================
-        document.getElementById('rsvpForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            const btn = this.querySelector('.btn-submit');
-            btn.textContent = '✨ Отправлено!';
-            btn.style.background = 'linear-gradient(135deg, #8CD4B5, #7EC8E3)';
-            setTimeout(() => {
-                btn.textContent = 'Отправить →';
-                btn.style.background = 'linear-gradient(135deg, #F7B7C8, #F3B56A)';
-                this.reset();
-                alert('Спасибо! Мы будем ждать вас!');
-            }, 2000);
-        });
-
         console.log('💍 Свадебный сайт загружен!');
-        console.log('🎨 Дизайн: крафтовый, с разноцветными буквами');
+        console.log('🎨 Шрифт: Rubik Bubbles');
     </script>
 </body>
 </html>

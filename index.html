@@ -59,7 +59,7 @@
         }
 
         /* ==========================================
-           ФОН
+           ФОН (с первой части на весь сайт)
            ========================================== */
         .bg-grain {
             position: fixed;
@@ -224,7 +224,7 @@
         }
 
         /* ==========================================
-           МУЗЫКАЛЬНЫЕ КНОПКИ
+           МУЗЫКАЛЬНЫЕ КНОПКИ (прозрачные)
            ========================================== */
         .music-controls {
             position: fixed;
@@ -237,9 +237,9 @@
         }
 
         .music-btn {
-            background: rgba(255, 255, 255, 0.85);
+            background: rgba(255, 255, 255, 0.15);
             backdrop-filter: blur(12px);
-            border: 1px solid rgba(74, 63, 58, 0.06);
+            border: 1.5px solid rgba(74, 63, 58, 0.2);
             border-radius: 40px;
             padding: 10px 20px;
             font-family: 'Quicksand', sans-serif;
@@ -251,7 +251,7 @@
             align-items: center;
             gap: 8px;
             transition: all 0.3s ease;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.04);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.02);
             min-width: 130px;
             justify-content: center;
         }
@@ -259,17 +259,19 @@
         .music-btn .music-icon { font-size: 1rem; color: #F7B7C8; }
         .music-btn:hover {
             transform: scale(1.04);
-            box-shadow: 0 8px 30px rgba(247, 183, 200, 0.12);
+            background: rgba(255, 255, 255, 0.3);
+            border-color: #F7B7C8;
         }
         .music-btn.active {
             background: #F7B7C8;
             color: white;
+            border-color: #F7B7C8;
         }
         .music-btn.active .music-icon { color: white; }
-        .music-btn.music-off.active { background: #C4B5AD; }
+        .music-btn.music-off.active { background: #C4B5AD; border-color: #C4B5AD; }
 
         /* ==========================================
-           HERO — сердце с фото (увеличено)
+           HERO
            ========================================== */
         #hero {
             min-height: 100vh;
@@ -395,17 +397,19 @@
         .scroll-down svg {
             display: block;
             margin: 0 auto;
+            width: 28px;
+            height: 40px;
         }
 
         .scroll-down svg path {
-            stroke: #4A3F3A;
+            stroke: #F7B7C8;
             stroke-width: 2.5;
-            opacity: 0.5;
+            opacity: 0.7;
             transition: opacity 0.3s ease;
         }
 
         .scroll-down:hover svg path {
-            opacity: 0.9;
+            opacity: 1;
         }
 
         @keyframes bounceArrow {
@@ -414,7 +418,7 @@
         }
 
         /* ==========================================
-           МЕСТО — круглая рамка с вращением
+           МЕСТО
            ========================================== */
         #venue {
             min-height: 100vh;
@@ -671,6 +675,8 @@
             justify-content: center;
             border: 1px solid rgba(255, 255, 255, 0.2);
             transition: all 0.3s ease;
+            flex-direction: column;
+            gap: 12px;
         }
 
         .men-photos .photo-placeholder { color: #C4B5AD; font-size: 0.85rem; }
@@ -686,7 +692,10 @@
             color: #6B5F5A;
             font-weight: 300;
             text-align: center;
-            padding: 10px;
+            padding: 8px 16px;
+            background: rgba(255,255,255,0.3);
+            border-radius: 20px;
+            border: 1px solid rgba(243, 181, 106, 0.2);
         }
 
         /* ==========================================
@@ -872,7 +881,9 @@
             transform: scale(1.02);
         }
 
-        .radio-btn input[type="radio"] { display: none; }
+        .radio-btn input[type="radio"], .radio-btn input[type="checkbox"] {
+            display: none;
+        }
 
         .radio-btn:has(input:checked) {
             border-color: currentColor;
@@ -1077,6 +1088,7 @@
             .music-controls { top: 12px; right: 12px; gap: 6px; }
             .music-btn { padding: 8px 14px; font-size: 0.65rem; min-width: 100px; }
             .hero-date { font-size: 0.9rem; padding: 6px 16px; }
+            .scroll-down svg { width: 22px; height: 32px; }
         }
 
         @media (max-width: 768px) {
@@ -1144,7 +1156,7 @@
     </div>
 
     <!-- ==========================================
-    МУЗЫКАЛЬНЫЕ КНОПКИ
+    МУЗЫКАЛЬНЫЕ КНОПКИ (прозрачные)
     ========================================== -->
     <div class="music-controls" id="musicControls">
         <button class="music-btn" id="stasMusicBtn">
@@ -1159,7 +1171,7 @@
     </div>
 
     <!-- ==========================================
-    HERO — сердце с фото (увеличено)
+    HERO
     ========================================== -->
     <section id="hero">
         <div class="heart-frame reveal">
@@ -1222,14 +1234,14 @@
         </div>
 
         <div class="scroll-down" id="scrollDown">
-            <svg width="36" height="54" viewBox="0 0 40 60">
-                <path d="M20 5 L20 50 M10 40 L20 55 L30 40" stroke="#4A3F3A" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round" opacity="0.5"/>
+            <svg width="28" height="40" viewBox="0 0 40 60">
+                <path d="M20 5 L20 50 M10 40 L20 55 L30 40" stroke="#F7B7C8" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round" opacity="0.7"/>
             </svg>
         </div>
     </section>
 
     <!-- ==========================================
-    МЕСТО — круглая рамка с вращением
+    МЕСТО
     ========================================== -->
     <section id="venue">
         <div class="venue-content reveal">
@@ -1447,7 +1459,7 @@
                         <span class="arrow">▼</span>
                     </div>
                     <div class="answer">
-                        Мы очень любим детей, но в этот вечер хотим, чтобы вы могли отдохнуть и расслабиться в компании взрослых. Пожалуйста, <span class="hl-pink">оставьте детей дома</span> — мы будем очень благодарны!
+                        Мы решили провести этот вечер во взрослой компании, чтобы вы могли отдохнуть по-настоящему. Пожалуйста, <span class="hl-pink">оставьте детей дома</span> — мы будем вам очень благодарны!
                     </div>
                 </div>
 
@@ -1458,7 +1470,7 @@
                         <span class="arrow">▼</span>
                     </div>
                     <div class="answer">
-                        <span class="hl-yellow">Типа Стас</span> 😉
+                        <span class="hl-yellow">Типа Стас</span>
                     </div>
                 </div>
             </div>
@@ -1486,7 +1498,7 @@
             </h2>
             
             <p class="rsvp-note reveal">
-                Даже если не сможете, всё равно нужно заполнить для нашего понимания, что вы посмотрели.
+                Пожалуйста, заполните анкету — это поможет нам лучше подготовиться к вашему приезду. Даже если вы не сможете прийти, нам важно знать, что вы посмотрели приглашение.
             </p>
 
             <form class="rsvp-form" id="rsvpForm">
@@ -1539,26 +1551,26 @@
                     </div>
 
                     <div class="form-group">
-                        <label>Что будете пить?</label>
+                        <label>Что будете пить? (можно выбрать несколько)</label>
                         <div class="radio-group radio-group-horizontal">
                             <label class="radio-btn color-pink radio-btn-small">
-                                <input type="radio" name="drink" value="wine" />
+                                <input type="checkbox" name="drink" value="wine" />
                                 <span>Вино</span>
                             </label>
                             <label class="radio-btn color-blue radio-btn-small">
-                                <input type="radio" name="drink" value="sparkling" />
+                                <input type="checkbox" name="drink" value="sparkling" />
                                 <span>Игристое</span>
                             </label>
                             <label class="radio-btn color-lavender radio-btn-small">
-                                <input type="radio" name="drink" value="cocktails" />
+                                <input type="checkbox" name="drink" value="cocktails" />
                                 <span>Коктейли</span>
                             </label>
                             <label class="radio-btn color-peach radio-btn-small">
-                                <input type="radio" name="drink" value="strong" />
-                                <span>Крепкий</span>
+                                <input type="checkbox" name="drink" value="strong" />
+                                <span>Крепкое</span>
                             </label>
                             <label class="radio-btn color-mint radio-btn-small">
-                                <input type="radio" name="drink" value="no" />
+                                <input type="checkbox" name="drink" value="no" />
                                 <span>Не пью</span>
                             </label>
                         </div>
@@ -1739,7 +1751,7 @@
         });
 
         // ==========================================
-        // МЕСТО — ускорение вращения при клике (в 30 раз)
+        // МЕСТО — ускорение вращения при клике
         // ==========================================
         const venueFrame = document.getElementById('venueFrame');
         let isSpinningFast = false;
@@ -1940,7 +1952,6 @@
             menContainer.innerHTML = photos.map(src => 
                 `<img src="${src}" alt="Мужской образ" />`
             ).join('');
-            menContainer.innerHTML += '<div class="note">только без ленты</div>';
         });
 
         document.getElementById('menOption2').addEventListener('click', function() {

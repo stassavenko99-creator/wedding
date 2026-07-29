@@ -3,11 +3,18 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Стас & Настя · 17.10.2026</title>
+    <title>Стас & Настя · 17 октября 2026</title>
     
     <!-- Шрифты -->
-    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;700&family=Playfair+Display:wght@400;700;900&display=swap" rel="stylesheet" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Quicksand:wght@300;400;600;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet" />
+    
+    <!-- GSAP -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    
+    <!-- Lenis (плавный скролл) -->
+    <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.16/dist/lenis.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lenis@1.1.16/dist/lenis.css" />
     
     <style>
         /* ==========================================
@@ -19,15 +26,15 @@
             box-sizing: border-box;
         }
 
-        :root {
-            --pink: #FF6B8A;
-            --yellow: #FFD93D;
-            --mint: #6BCB77;
-            --lavender: #A78BFA;
-            --peach: #FFB88C;
-            --coral: #FF6B6B;
-            --dark: #1A1A2E;
-            --text: #2D2D2D;
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #F8F5EB;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #F7B7C8;
+            border-radius: 10px;
         }
 
         html {
@@ -35,232 +42,257 @@
         }
 
         body {
-            font-family: 'DM Sans', sans-serif;
-            background: #FAFAFA;
-            color: var(--text);
+            font-family: 'Quicksand', sans-serif;
+            background: #F8F5EB;
+            color: #4A3F3A;
             overflow-x: hidden;
+            line-height: 1.6;
+            cursor: default;
         }
 
         /* ==========================================
-           ОБЩИЕ СТИЛИ
+           ОБЩИЕ КОМПОНЕНТЫ
            ========================================== */
-        .full-section {
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 30px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .section {
             min-height: 100vh;
-            width: 100%;
             display: flex;
             align-items: center;
             justify-content: center;
             position: relative;
+            padding: 80px 0;
             overflow: hidden;
-            padding: 40px 20px;
         }
 
         .section-inner {
-            max-width: 1100px;
             width: 100%;
             position: relative;
             z-index: 2;
         }
 
-        /* Большие заголовки */
-        .big-title {
-            font-family: 'Playfair Display', serif;
-            font-size: clamp(4rem, 15vw, 10rem);
-            font-weight: 900;
-            line-height: 0.9;
-            letter-spacing: -4px;
+        /* Заголовки */
+        .serif-title {
+            font-family: 'Playfair Display', 'DM Serif Display', serif;
+            font-size: clamp(2.8rem, 7vw, 5.5rem);
+            font-weight: 700;
+            line-height: 1.1;
+            letter-spacing: -1px;
         }
 
-        .big-title span {
-            display: block;
-        }
-
-        .sub-title {
-            font-size: clamp(1.2rem, 3vw, 2rem);
+        .serif-title.italic {
+            font-style: italic;
             font-weight: 400;
-            opacity: 0.8;
-            margin-top: 20px;
         }
 
-        /* Анимированные фоны */
-        .animated-bg {
-            position: absolute;
-            inset: 0;
-            z-index: 0;
+        .handwritten {
+            font-family: 'DM Serif Display', serif;
+            font-style: italic;
+            font-size: clamp(1.4rem, 2.5vw, 2.2rem);
+            color: #F7B7C8;
+            font-weight: 400;
         }
 
-        .gradient-1 {
-            background: linear-gradient(135deg, #FFD93D 0%, #FF6B8A 50%, #A78BFA 100%);
-            background-size: 300% 300%;
-            animation: gradientMove 10s ease-in-out infinite alternate;
+        .body-text {
+            font-size: clamp(1rem, 1.2vw, 1.2rem);
+            font-weight: 300;
+            color: #6B5F5A;
+            line-height: 1.8;
+            max-width: 600px;
         }
 
-        .gradient-2 {
-            background: linear-gradient(135deg, #6BCB77 0%, #FFB88C 50%, #FF6B6B 100%);
-            background-size: 300% 300%;
-            animation: gradientMove 12s ease-in-out infinite alternate;
+        /* ==========================================
+           ОРГАНИЧНЫЕ ФОРМЫ (вместо прямоугольников)
+           ========================================== */
+        .organic-card {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(20px);
+            border-radius: 60px 60px 60px 20px;
+            padding: 50px 45px;
+            box-shadow: 0 30px 80px rgba(74, 63, 58, 0.06);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            position: relative;
         }
 
-        .gradient-3 {
-            background: linear-gradient(135deg, #A78BFA 0%, #FF6B8A 50%, #FFD93D 100%);
-            background-size: 300% 300%;
-            animation: gradientMove 8s ease-in-out infinite alternate;
-        }
-
-        @keyframes gradientMove {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
-
-        /* Плавающие круги */
-        .floating-shapes {
-            position: absolute;
-            inset: 0;
-            z-index: 1;
-            pointer-events: none;
-            overflow: hidden;
-        }
-
-        .shape {
-            position: absolute;
-            border-radius: 50%;
-            opacity: 0.15;
-            animation: floatShape 15s ease-in-out infinite alternate;
-        }
-
-        .shape-1 {
-            width: 300px;
-            height: 300px;
-            background: white;
-            top: -100px;
-            right: -100px;
-            animation-delay: 0s;
-        }
-
-        .shape-2 {
-            width: 200px;
-            height: 200px;
-            background: white;
-            bottom: -50px;
-            left: -50px;
-            animation-delay: 3s;
-        }
-
-        .shape-3 {
-            width: 150px;
-            height: 150px;
-            background: white;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            animation-delay: 6s;
-        }
-
-        @keyframes floatShape {
-            0% { transform: translate(0, 0) scale(1); }
-            100% { transform: translate(80px, 80px) scale(1.3); }
+        .organic-card:nth-child(even) {
+            border-radius: 20px 60px 60px 60px;
         }
 
         /* ==========================================
            HERO
            ========================================== */
         #hero {
-            background: var(--dark);
-            color: white;
+            background: linear-gradient(170deg, #F8F5EB 0%, #FDF8F3 40%, #FBF0ED 100%);
             min-height: 100vh;
+            position: relative;
         }
 
-        #hero .animated-bg {
-            background: linear-gradient(135deg, #1A1A2E 0%, #16213E 50%, #0F3460 100%);
-            background-size: 300% 300%;
-            animation: gradientMove 15s ease-in-out infinite alternate;
-        }
-
-        #hero .section-inner {
+        #hero .container {
             display: flex;
             flex-direction: column;
             align-items: center;
+            justify-content: center;
+            min-height: 100vh;
             text-align: center;
+            padding-top: 60px;
+            padding-bottom: 60px;
         }
 
-        .hero-label {
-            font-size: 0.9rem;
+        .hero-badge {
+            display: inline-block;
+            font-size: 0.8rem;
+            letter-spacing: 6px;
             text-transform: uppercase;
-            letter-spacing: 8px;
-            opacity: 0.6;
+            color: #C4B5AD;
             margin-bottom: 20px;
+            font-weight: 600;
         }
 
         .hero-names {
             font-family: 'Playfair Display', serif;
-            font-size: clamp(4.5rem, 18vw, 12rem);
-            font-weight: 900;
-            line-height: 0.8;
-            margin: 20px 0;
-        }
-
-        .hero-names .amp {
-            font-size: 0.5em;
-            opacity: 0.5;
-            display: block;
+            font-size: clamp(3.5rem, 12vw, 10rem);
+            line-height: 0.9;
             margin: 10px 0;
         }
 
+        .hero-names .amp {
+            font-size: 0.4em;
+            color: #F7B7C8;
+            display: block;
+            margin: 15px 0;
+            font-weight: 400;
+        }
+
         .hero-date {
-            font-size: clamp(1.2rem, 3vw, 2rem);
-            opacity: 0.8;
-            margin-top: 20px;
-            letter-spacing: 4px;
+            font-family: 'DM Serif Display', serif;
+            font-style: italic;
+            font-size: clamp(1.3rem, 2.2vw, 2rem);
+            color: #C4B5AD;
+            margin-top: 25px;
         }
 
-        .hero-btn {
-            margin-top: 40px;
+        .hero-cta {
+            margin-top: 50px;
+            display: inline-block;
             padding: 18px 50px;
-            border: 2px solid white;
-            background: transparent;
+            background: linear-gradient(135deg, #F7B7C8, #F3B56A);
             color: white;
-            font-size: 1.1rem;
-            cursor: pointer;
-            transition: all 0.4s ease;
-            letter-spacing: 2px;
-            font-family: 'DM Sans', sans-serif;
+            border: none;
             border-radius: 60px;
+            font-family: 'Quicksand', sans-serif;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            box-shadow: 0 15px 40px rgba(247, 183, 200, 0.3);
+            text-decoration: none;
+            position: relative;
+            z-index: 5;
         }
 
-        .hero-btn:hover {
-            background: white;
-            color: var(--dark);
-            transform: scale(1.05);
+        .hero-cta:hover {
+            transform: scale(1.04) translateY(-3px);
+            box-shadow: 0 25px 50px rgba(247, 183, 200, 0.4);
         }
 
-        .scroll-indicator {
+        /* Плавающие декорации */
+        .floating-decor {
             position: absolute;
-            bottom: 30px;
-            left: 50%;
-            transform: translateX(-50%);
-            z-index: 2;
-            color: white;
+            pointer-events: none;
+            z-index: 1;
             opacity: 0.5;
-            font-size: 0.8rem;
-            letter-spacing: 4px;
-            text-transform: uppercase;
-            animation: bounceScroll 2s infinite;
         }
 
-        @keyframes bounceScroll {
-            0%, 100% { transform: translateX(-50%) translateY(0); }
-            50% { transform: translateX(-50%) translateY(10px); }
+        .floating-decor svg {
+            width: 100%;
+            height: 100%;
+        }
+
+        .decor-1 {
+            top: 8%;
+            left: 4%;
+            width: 120px;
+            height: 120px;
+            animation: floatSoft 8s ease-in-out infinite;
+        }
+
+        .decor-2 {
+            bottom: 12%;
+            right: 3%;
+            width: 100px;
+            height: 100px;
+            animation: floatSoft 10s ease-in-out infinite 1.5s;
+        }
+
+        .decor-3 {
+            top: 20%;
+            right: 8%;
+            width: 80px;
+            height: 80px;
+            animation: floatSoft 7s ease-in-out infinite 0.8s;
+        }
+
+        .decor-4 {
+            bottom: 20%;
+            left: 5%;
+            width: 90px;
+            height: 90px;
+            animation: floatSoft 9s ease-in-out infinite 2.2s;
+        }
+
+        @keyframes floatSoft {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-25px) rotate(8deg); }
+        }
+
+        /* Таймер в hero */
+        .hero-timer {
+            display: flex;
+            gap: 25px;
+            margin-top: 40px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .timer-unit {
+            text-align: center;
+            background: rgba(255,255,255,0.5);
+            backdrop-filter: blur(10px);
+            padding: 15px 22px;
+            border-radius: 30px;
+            min-width: 70px;
+            border: 1px solid rgba(255,255,255,0.3);
+        }
+
+        .timer-unit .number {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(1.8rem, 3vw, 3rem);
+            font-weight: 700;
+            color: #4A3F3A;
+        }
+
+        .timer-unit .label {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: #C4B5AD;
+            margin-top: 4px;
         }
 
         /* ==========================================
-           СЕКЦИЯ 2: ВСТРЕЧА
+           СЕКЦИЯ 2: НАША ИСТОРИЯ
            ========================================== */
-        #meet {
-            background: white;
+        #story {
+            background: linear-gradient(180deg, #FBF0ED, #FDF8F3);
         }
 
-        #meet .section-inner {
+        #story .container {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 60px;
@@ -268,229 +300,159 @@
         }
 
         @media (max-width: 768px) {
-            #meet .section-inner {
+            #story .container {
                 grid-template-columns: 1fr;
-                gap: 30px;
+                gap: 40px;
                 text-align: center;
             }
         }
 
-        .meet-text .big-title {
-            font-size: clamp(3rem, 8vw, 5rem);
+        .story-image {
+            border-radius: 60px 60px 60px 20px;
+            overflow: hidden;
+            position: relative;
+            box-shadow: 0 40px 80px rgba(74, 63, 58, 0.08);
         }
 
-        .meet-text .big-title .highlight {
-            color: var(--pink);
-        }
-
-        .meet-text p {
-            font-size: 1.2rem;
-            line-height: 1.8;
-            opacity: 0.7;
-            margin-top: 20px;
-        }
-
-        .meet-icon {
-            font-size: 4rem;
-            animation: floatIcon 3s ease-in-out infinite;
-        }
-
-        @keyframes floatIcon {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-20px); }
-        }
-
-        /* ==========================================
-           СЕКЦИЯ 3: ДАТА И МЕСТО
-           ========================================== */
-        #date-location {
-            background: var(--dark);
-            color: white;
-            min-height: 100vh;
-        }
-
-        .date-location-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 60px;
-            text-align: center;
-        }
-
-        @media (max-width: 768px) {
-            .date-location-grid {
-                grid-template-columns: 1fr;
-                gap: 40px;
-            }
-        }
-
-        .date-block .big-number {
-            font-family: 'Playfair Display', serif;
-            font-size: clamp(5rem, 15vw, 10rem);
-            font-weight: 900;
-            background: linear-gradient(135deg, var(--yellow), var(--pink));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            line-height: 1;
-        }
-
-        .date-block .month-year {
-            font-size: 1.5rem;
-            opacity: 0.6;
-            margin-top: 10px;
-            letter-spacing: 4px;
-        }
-
-        .location-block .place-icon {
-            font-size: 4rem;
-            margin-bottom: 20px;
+        .story-image img {
+            width: 100%;
+            height: 500px;
+            object-fit: cover;
             display: block;
         }
 
-        .location-block h3 {
-            font-size: 2rem;
-            font-family: 'Playfair Display', serif;
-        }
-
-        .location-block p {
-            opacity: 0.6;
-            margin-top: 10px;
-            font-size: 1.1rem;
-        }
-
-        .location-block .map-link {
-            display: inline-block;
-            margin-top: 20px;
-            color: var(--yellow);
-            text-decoration: none;
-            border-bottom: 2px solid var(--yellow);
-            padding-bottom: 4px;
-            transition: all 0.3s;
-        }
-
-        .location-block .map-link:hover {
-            color: white;
-            border-color: white;
+        .story-image .deco-overlay {
+            position: absolute;
+            top: -20px;
+            right: -20px;
+            width: 120px;
+            height: 120px;
+            opacity: 0.4;
         }
 
         /* ==========================================
-           СЕКЦИЯ 4: ТАЙМЕР
+           СЕКЦИЯ 3: ВРЕМЯ И МЕСТО
            ========================================== */
-        #timer-section {
-            background: white;
+        #venue {
+            background: linear-gradient(170deg, #F8F5EB, #F5F0EA);
         }
 
-        .timer-grid {
+        .venue-grid {
             display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 30px;
+            grid-template-columns: 1fr 1fr;
+            gap: 50px;
             margin-top: 40px;
         }
 
-        @media (max-width: 600px) {
-            .timer-grid {
-                grid-template-columns: repeat(2, 1fr);
-                gap: 20px;
+        @media (max-width: 768px) {
+            .venue-grid {
+                grid-template-columns: 1fr;
+                gap: 30px;
             }
         }
 
-        .timer-box {
-            text-align: center;
-            padding: 30px 20px;
-            background: #F5F5F5;
-            border-radius: 20px;
-            transition: all 0.3s;
+        .venue-card {
+            background: rgba(255,255,255,0.5);
+            backdrop-filter: blur(10px);
+            border-radius: 50px 50px 50px 20px;
+            padding: 40px 35px;
+            border: 1px solid rgba(255,255,255,0.3);
+            transition: all 0.4s ease;
         }
 
-        .timer-box:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 20px 60px rgba(0,0,0,0.08);
+        .venue-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 30px 60px rgba(74, 63, 58, 0.06);
         }
 
-        .timer-box .number {
+        .venue-card .icon {
+            font-size: 2.8rem;
+            margin-bottom: 15px;
+            display: block;
+        }
+
+        .venue-card h3 {
             font-family: 'Playfair Display', serif;
-            font-size: clamp(2.5rem, 5vw, 4rem);
-            font-weight: 900;
-            background: linear-gradient(135deg, var(--pink), var(--lavender));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            font-size: 1.8rem;
+            margin-bottom: 8px;
         }
 
-        .timer-box .label {
-            font-size: 0.9rem;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            opacity: 0.5;
-            margin-top: 10px;
+        .venue-card p {
+            color: #6B5F5A;
+            font-weight: 300;
         }
 
         /* ==========================================
-           СЕКЦИЯ 5: ТАЙМИНГ ДНЯ
+           СЕКЦИЯ 4: ТАЙМИНГ
            ========================================== */
-        #timeline {
-            background: linear-gradient(135deg, #FFF5F5, #F5F0FF);
+        #schedule {
+            background: #FDF8F3;
         }
 
-        .timeline-items {
+        .schedule-list {
             display: flex;
             flex-direction: column;
             gap: 20px;
-            margin-top: 40px;
+            max-width: 700px;
+            margin: 30px auto 0;
         }
 
-        .timeline-item {
+        .schedule-item {
             display: flex;
             align-items: center;
             gap: 30px;
-            padding: 25px 30px;
-            background: white;
-            border-radius: 20px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
-            transition: all 0.3s;
+            padding: 22px 30px;
+            background: rgba(255,255,255,0.6);
+            backdrop-filter: blur(10px);
+            border-radius: 40px;
+            border: 1px solid rgba(255,255,255,0.3);
+            transition: all 0.3s ease;
         }
 
-        .timeline-item:hover {
+        .schedule-item:hover {
             transform: translateX(10px);
-            box-shadow: 0 8px 40px rgba(0,0,0,0.1);
+            background: rgba(255,255,255,0.8);
         }
 
         @media (max-width: 600px) {
-            .timeline-item {
+            .schedule-item {
                 flex-direction: column;
                 text-align: center;
                 gap: 10px;
+                padding: 25px 20px;
             }
         }
 
-        .timeline-item .time {
+        .schedule-item .time {
             font-family: 'Playfair Display', serif;
-            font-size: 2rem;
+            font-size: 1.8rem;
             font-weight: 700;
-            color: var(--pink);
-            min-width: 120px;
+            color: #F7B7C8;
+            min-width: 100px;
         }
 
-        .timeline-item .event {
-            font-size: 1.2rem;
+        .schedule-item .event {
+            font-size: 1.1rem;
         }
 
-        .timeline-item .event small {
+        .schedule-item .event small {
             display: block;
-            opacity: 0.5;
-            font-size: 0.9rem;
+            color: #C4B5AD;
+            font-size: 0.85rem;
+            font-weight: 300;
         }
 
         /* ==========================================
-           СЕКЦИЯ 6: ДРЕСС-КОД
+           СЕКЦИЯ 5: ДРЕСС-КОД
            ========================================== */
         #dresscode {
-            background: var(--dark);
-            color: white;
+            background: linear-gradient(180deg, #F5F0EA, #F8F5EB);
         }
 
         .dresscode-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 60px;
+            gap: 50px;
             align-items: center;
         }
 
@@ -504,86 +466,74 @@
 
         .color-palette {
             display: flex;
-            gap: 15px;
+            gap: 18px;
             flex-wrap: wrap;
         }
 
         .color-dot {
-            width: 60px;
-            height: 60px;
+            width: 70px;
+            height: 70px;
             border-radius: 50%;
-            border: 3px solid rgba(255,255,255,0.2);
-            transition: all 0.3s;
+            border: 3px solid rgba(255,255,255,0.6);
+            box-shadow: 0 10px 30px rgba(74, 63, 58, 0.06);
+            transition: all 0.4s ease;
             cursor: pointer;
         }
 
         .color-dot:hover {
-            transform: scale(1.2);
+            transform: scale(1.15) rotate(-8deg);
             border-color: white;
         }
 
-        .color-dot:nth-child(1) { background: #FF6B8A; }
-        .color-dot:nth-child(2) { background: #FFD93D; }
-        .color-dot:nth-child(3) { background: #6BCB77; }
-        .color-dot:nth-child(4) { background: #A78BFA; }
-        .color-dot:nth-child(5) { background: #FFB88C; }
+        .color-dot:nth-child(1) { background: #F7B7C8; }
+        .color-dot:nth-child(2) { background: #B9DDF8; }
+        .color-dot:nth-child(3) { background: #C8B6F8; }
+        .color-dot:nth-child(4) { background: #A8BE75; }
+        .color-dot:nth-child(5) { background: #F6C18D; }
+        .color-dot:nth-child(6) { background: #F3B56A; }
 
         /* ==========================================
-           СЕКЦИЯ 7: RSVP
+           СЕКЦИЯ 6: RSVP
            ========================================== */
         #rsvp {
-            background: white;
+            background: linear-gradient(170deg, #FDF8F3, #FBF0ED);
         }
 
         .rsvp-form {
-            max-width: 500px;
+            max-width: 550px;
             margin: 0 auto;
             display: flex;
             flex-direction: column;
-            gap: 20px;
+            gap: 18px;
         }
 
         .rsvp-form input,
         .rsvp-form textarea,
         .rsvp-form select {
-            padding: 18px 20px;
-            border: 2px solid #E5E5E5;
-            border-radius: 16px;
+            padding: 18px 22px;
+            border: 2px solid rgba(255,255,255,0.5);
+            border-radius: 40px;
+            font-family: 'Quicksand', sans-serif;
             font-size: 1rem;
-            font-family: 'DM Sans', sans-serif;
-            transition: all 0.3s;
-            background: #FAFAFA;
+            background: rgba(255,255,255,0.5);
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+            color: #4A3F3A;
         }
 
         .rsvp-form input:focus,
         .rsvp-form textarea:focus {
-            border-color: var(--pink);
             outline: none;
-            background: white;
-            transform: scale(1.02);
+            border-color: #F7B7C8;
+            background: rgba(255,255,255,0.8);
+            transform: scale(1.01);
+            box-shadow: 0 10px 40px rgba(247, 183, 200, 0.1);
         }
 
         .rsvp-form textarea {
             height: 120px;
             resize: vertical;
-        }
-
-        .rsvp-form .btn-submit {
-            padding: 18px;
-            background: var(--pink);
-            color: white;
-            border: none;
-            border-radius: 16px;
-            font-size: 1.1rem;
-            font-weight: 700;
-            cursor: pointer;
-            transition: all 0.3s;
-            font-family: 'DM Sans', sans-serif;
-        }
-
-        .rsvp-form .btn-submit:hover {
-            transform: scale(1.02);
-            box-shadow: 0 10px 40px rgba(255, 107, 138, 0.4);
+            border-radius: 30px;
         }
 
         .rsvp-form .btn-group {
@@ -593,55 +543,119 @@
 
         .rsvp-form .btn-group button {
             flex: 1;
-            padding: 15px;
-            border: 2px solid #E5E5E5;
-            border-radius: 16px;
-            background: transparent;
+            padding: 16px;
+            border: 2px solid rgba(255,255,255,0.5);
+            border-radius: 40px;
+            background: rgba(255,255,255,0.3);
+            backdrop-filter: blur(10px);
+            font-family: 'Quicksand', sans-serif;
             font-size: 1rem;
             cursor: pointer;
-            transition: all 0.3s;
-            font-family: 'DM Sans', sans-serif;
+            transition: all 0.3s ease;
+            color: #4A3F3A;
         }
 
         .rsvp-form .btn-group button:hover {
-            border-color: var(--pink);
-            background: var(--pink);
+            border-color: #F7B7C8;
+            background: #F7B7C8;
             color: white;
+            transform: scale(1.02);
+        }
+
+        .rsvp-form .btn-group button:active {
+            transform: scale(0.96);
+        }
+
+        .rsvp-form .btn-submit {
+            padding: 20px;
+            background: linear-gradient(135deg, #F7B7C8, #F3B56A);
+            color: white;
+            border: none;
+            border-radius: 60px;
+            font-family: 'Quicksand', sans-serif;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.4s ease;
+            box-shadow: 0 15px 40px rgba(247, 183, 200, 0.25);
+        }
+
+        .rsvp-form .btn-submit:hover {
+            transform: scale(1.02) translateY(-3px);
+            box-shadow: 0 25px 50px rgba(247, 183, 200, 0.35);
         }
 
         /* ==========================================
            ФУТЕР
            ========================================== */
         footer {
-            background: var(--dark);
-            color: white;
+            background: #F8F5EB;
+            padding: 60px 30px 40px;
             text-align: center;
-            padding: 40px 20px;
-            font-size: 1.2rem;
+            position: relative;
+            overflow: hidden;
         }
 
-        footer .heart {
-            color: var(--pink);
+        footer .big-heart {
+            font-size: 4rem;
+            display: block;
+            animation: pulseHeart 2s ease-in-out infinite;
+        }
+
+        @keyframes pulseHeart {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.15); }
+        }
+
+        footer p {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            margin-top: 15px;
+            color: #4A3F3A;
+        }
+
+        footer .sub {
+            font-family: 'Quicksand', sans-serif;
+            font-size: 1rem;
+            color: #C4B5AD;
+            margin-top: 8px;
+            font-weight: 300;
         }
 
         /* ==========================================
-           АНИМАЦИИ ПОЯВЛЕНИЯ
+           АДАПТИВ
+           ========================================== */
+        @media (max-width: 600px) {
+            .container { padding: 0 20px; }
+            .section { padding: 60px 0; }
+            .organic-card { padding: 30px 25px; border-radius: 40px; }
+            .hero-timer { gap: 12px; }
+            .timer-unit { padding: 12px 16px; min-width: 60px; }
+            .timer-unit .number { font-size: 1.5rem; }
+        }
+
+        /* ==========================================
+           КЛАССЫ ДЛЯ GSAP
            ========================================== */
         .reveal {
             opacity: 0;
-            transform: translateY(60px);
-            transition: all 1s cubic-bezier(0.16, 1, 0.3, 1);
+            transform: translateY(60px) scale(0.96);
         }
 
-        .reveal.visible {
-            opacity: 1;
-            transform: translateY(0);
+        .reveal-left {
+            opacity: 0;
+            transform: translateX(-80px);
         }
 
-        .reveal-delay-1 { transition-delay: 0.1s; }
-        .reveal-delay-2 { transition-delay: 0.2s; }
-        .reveal-delay-3 { transition-delay: 0.3s; }
-        .reveal-delay-4 { transition-delay: 0.4s; }
+        .reveal-right {
+            opacity: 0;
+            transform: translateX(80px);
+        }
+
+        .reveal-scale {
+            opacity: 0;
+            transform: scale(0.9);
+        }
     </style>
 </head>
 
@@ -650,103 +664,125 @@
     <!-- ==========================================
     HERO
     ========================================== -->
-    <section class="full-section" id="hero">
-        <div class="animated-bg"></div>
-        <div class="floating-shapes">
-            <div class="shape shape-1"></div>
-            <div class="shape shape-2"></div>
-            <div class="shape shape-3"></div>
+    <section id="hero" class="section">
+        <!-- Плавающие декорации (SVG-цветы) -->
+        <div class="floating-decor decor-1">
+            <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="50" cy="50" r="30" fill="#F7B7C8" opacity="0.3"/>
+                <circle cx="50" cy="50" r="20" fill="#F7B7C8" opacity="0.5"/>
+                <circle cx="50" cy="50" r="10" fill="#F7B7C8" opacity="0.7"/>
+                <path d="M50 10 L55 40 L85 45 L55 50 L50 80 L45 50 L15 45 L45 40 L50 10Z" fill="#F7B7C8" opacity="0.4"/>
+            </svg>
         </div>
         
-        <div class="section-inner">
-            <p class="hero-label">Приглашение</p>
-            <h1 class="hero-names">
+        <div class="floating-decor decor-2">
+            <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="50" cy="50" r="25" fill="#B9DDF8" opacity="0.3"/>
+                <circle cx="50" cy="50" r="15" fill="#B9DDF8" opacity="0.5"/>
+                <path d="M50 20 L53 47 L80 50 L53 53 L50 80 L47 53 L20 50 L47 47 L50 20Z" fill="#B9DDF8" opacity="0.4"/>
+            </svg>
+        </div>
+
+        <div class="floating-decor decor-3">
+            <svg viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="40" cy="40" r="15" fill="#C8B6F8" opacity="0.3"/>
+                <path d="M40 10 L43 37 L70 40 L43 43 L40 70 L37 43 L10 40 L37 37 L40 10Z" fill="#C8B6F8" opacity="0.3"/>
+            </svg>
+        </div>
+
+        <div class="floating-decor decor-4">
+            <svg viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="40" cy="40" r="18" fill="#A8BE75" opacity="0.25"/>
+                <path d="M40 15 L42 38 L65 40 L42 42 L40 65 L38 42 L15 40 L38 38 L40 15Z" fill="#A8BE75" opacity="0.25"/>
+            </svg>
+        </div>
+
+        <div class="container">
+            <span class="hero-badge reveal">Приглашение</span>
+            
+            <h1 class="hero-names reveal">
                 <span>Стас</span>
                 <span class="amp">&</span>
                 <span>Настя</span>
             </h1>
-            <p class="hero-date">17 октября 2026</p>
-            <button class="hero-btn" id="openInvite">
-                <i class="fas fa-heart"></i> Открыть приглашение
+            
+            <p class="hero-date reveal">17 октября 2026</p>
+            
+            <div class="hero-timer reveal">
+                <div class="timer-unit">
+                    <div class="number" id="days">00</div>
+                    <div class="label">дней</div>
+                </div>
+                <div class="timer-unit">
+                    <div class="number" id="hours">00</div>
+                    <div class="label">часов</div>
+                </div>
+                <div class="timer-unit">
+                    <div class="number" id="minutes">00</div>
+                    <div class="label">минут</div>
+                </div>
+                <div class="timer-unit">
+                    <div class="number" id="seconds">00</div>
+                    <div class="label">секунд</div>
+                </div>
+            </div>
+            
+            <button class="hero-cta reveal" id="scrollDown">
+                <span>Открыть приглашение</span>
             </button>
         </div>
-        
-        <div class="scroll-indicator">Листайте вниз</div>
     </section>
 
     <!-- ==========================================
-    ВСТРЕЧА
+    НАША ИСТОРИЯ
     ========================================== -->
-    <section class="full-section" id="meet">
-        <div class="section-inner">
-            <div class="meet-text reveal">
-                <div class="meet-icon">💍</div>
-                <h2 class="big-title">
-                    <span>Мы женимся!</span>
-                    <span class="highlight">❤️</span>
+    <section id="story" class="section">
+        <div class="container">
+            <div class="organic-card reveal-left">
+                <span class="handwritten">Немного о нас</span>
+                <h2 class="serif-title" style="margin: 15px 0 20px;">
+                    Наша <span style="color: #F7B7C8;">история</span>
                 </h2>
-                <p>
-                    И очень хотим разделить этот день<br />
-                    с теми, кто нам дорог.
+                <p class="body-text">
+                    Мы встретились случайно, а теперь не представляем жизни друг без друга.
+                    Этот день станет началом нашей новой главы, и мы хотим разделить его с вами.
+                </p>
+                <p class="body-text" style="margin-top: 15px;">
+                    Спасибо, что вы с нами. ❤️
                 </p>
             </div>
-            <div class="meet-text reveal reveal-delay-2" style="text-align: center;">
-                <div style="font-size: 6rem; line-height: 1;">🥂</div>
-                <p style="font-size: 0.9rem; opacity: 0.4; margin-top: 20px;">
-                    Будет весело!
+            <div class="reveal-right" style="text-align: center;">
+                <div style="font-size: 5rem; line-height: 1.2; background: rgba(255,255,255,0.3); border-radius: 100px; padding: 30px; backdrop-filter: blur(10px);">
+                    💍
+                </div>
+                <p style="margin-top: 15px; color: #C4B5AD; font-size: 0.9rem;">
+                    #СтасНастя2026
                 </p>
             </div>
         </div>
     </section>
 
     <!-- ==========================================
-    ДАТА И МЕСТО
+    ВРЕМЯ И МЕСТО
     ========================================== -->
-    <section class="full-section" id="date-location">
-        <div class="animated-bg gradient-2"></div>
-        <div class="section-inner">
-            <div class="date-location-grid">
-                <div class="date-block reveal">
-                    <div class="big-number">17</div>
-                    <div class="month-year">Октября 2026</div>
-                    <p style="opacity: 0.6; margin-top: 20px;">Суббота</p>
+    <section id="venue" class="section">
+        <div class="container">
+            <div style="text-align: center; margin-bottom: 40px;">
+                <span class="handwritten">Сохраните дату</span>
+                <h2 class="serif-title">Где и когда</h2>
+            </div>
+            
+            <div class="venue-grid">
+                <div class="venue-card reveal">
+                    <span class="icon">📅</span>
+                    <h3>17 октября 2026</h3>
+                    <p>Суббота, начало в 15:00</p>
                 </div>
-                <div class="location-block reveal reveal-delay-2">
-                    <span class="place-icon">📍</span>
+                <div class="venue-card reveal" style="border-radius: 20px 50px 50px 50px;">
+                    <span class="icon">📍</span>
                     <h3>Отель Высоцкий</h3>
                     <p>Екатеринбург</p>
-                    <a href="#" class="map-link" target="_blank">
-                        <i class="fas fa-map-marked-alt"></i> Открыть карту
-                    </a>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- ==========================================
-    ТАЙМЕР
-    ========================================== -->
-    <section class="full-section" id="timer-section">
-        <div class="section-inner" style="text-align: center;">
-            <h2 class="big-title" style="font-size: clamp(2.5rem, 6vw, 4rem);">
-                До нашей встречи
-            </h2>
-            <div class="timer-grid">
-                <div class="timer-box reveal">
-                    <div class="number" id="days">00</div>
-                    <div class="label">Дней</div>
-                </div>
-                <div class="timer-box reveal reveal-delay-1">
-                    <div class="number" id="hours">00</div>
-                    <div class="label">Часов</div>
-                </div>
-                <div class="timer-box reveal reveal-delay-2">
-                    <div class="number" id="minutes">00</div>
-                    <div class="label">Минут</div>
-                </div>
-                <div class="timer-box reveal reveal-delay-3">
-                    <div class="number" id="seconds">00</div>
-                    <div class="label">Секунд</div>
+                    <a href="#" style="color: #F7B7C8; text-decoration: none; font-weight: 600; margin-top: 10px; display: inline-block;">Открыть карту →</a>
                 </div>
             </div>
         </div>
@@ -755,31 +791,33 @@
     <!-- ==========================================
     ТАЙМИНГ ДНЯ
     ========================================== -->
-    <section class="full-section" id="timeline">
-        <div class="section-inner">
-            <h2 class="big-title" style="font-size: clamp(2.5rem, 6vw, 4rem); text-align: center;">
-                План дня
-            </h2>
-            <div class="timeline-items">
-                <div class="timeline-item reveal">
+    <section id="schedule" class="section">
+        <div class="container">
+            <div style="text-align: center; margin-bottom: 40px;">
+                <span class="handwritten">Как всё пройдёт</span>
+                <h2 class="serif-title">План дня</h2>
+            </div>
+            
+            <div class="schedule-list">
+                <div class="schedule-item reveal">
                     <span class="time">15:00</span>
                     <div class="event">
                         Сбор гостей
-                        <small>Встречаемся в отеле</small>
+                        <small>Встречаемся в отеле, шампанское</small>
                     </div>
                 </div>
-                <div class="timeline-item reveal reveal-delay-1">
+                <div class="schedule-item reveal" style="border-radius: 20px 40px 40px 40px;">
                     <span class="time">16:00</span>
                     <div class="event">
                         Церемония
-                        <small>Самая важная часть</small>
+                        <small>Самая важная часть дня</small>
                     </div>
                 </div>
-                <div class="timeline-item reveal reveal-delay-2">
+                <div class="schedule-item reveal">
                     <span class="time">17:00</span>
                     <div class="event">
                         Праздник
-                        <small>Танцуем и веселимся</small>
+                        <small>Танцы, улыбки, море счастья</small>
                     </div>
                 </div>
             </div>
@@ -789,20 +827,24 @@
     <!-- ==========================================
     ДРЕСС-КОД
     ========================================== -->
-    <section class="full-section" id="dresscode">
-        <div class="animated-bg gradient-3"></div>
-        <div class="section-inner">
+    <section id="dresscode" class="section">
+        <div class="container">
             <div class="dresscode-grid">
                 <div class="reveal">
-                    <h2 class="big-title" style="font-size: clamp(2.5rem, 6vw, 4rem);">
+                    <span class="handwritten">Вдохновение</span>
+                    <h2 class="serif-title" style="margin: 15px 0 20px;">
                         Дресс-код
                     </h2>
-                    <p style="font-size: 1.2rem; opacity: 0.8; margin-top: 20px;">
-                        Наша свадьба — дофаминовая.
-                        <br />Добавьте цвета и настроение!
+                    <p class="body-text">
+                        Наша свадьба — дофаминовая. 
+                        Добавьте ярких цветов и хорошего настроения!
+                    </p>
+                    <p class="body-text" style="margin-top: 10px; font-size: 0.95rem;">
+                        ✨ Пастельные тона приветствуются
                     </p>
                 </div>
-                <div class="color-palette reveal reveal-delay-2">
+                <div class="color-palette reveal">
+                    <div class="color-dot"></div>
                     <div class="color-dot"></div>
                     <div class="color-dot"></div>
                     <div class="color-dot"></div>
@@ -816,29 +858,27 @@
     <!-- ==========================================
     RSVP
     ========================================== -->
-    <section class="full-section" id="rsvp">
-        <div class="section-inner" style="max-width: 600px;">
-            <h2 class="big-title" style="font-size: clamp(2.5rem, 6vw, 4rem); text-align: center;">
-                Будете?
-            </h2>
-            <p style="text-align: center; opacity: 0.6; margin-bottom: 40px;">
-                Подтвердите своё присутствие
-            </p>
+    <section id="rsvp" class="section">
+        <div class="container">
+            <div style="text-align: center; margin-bottom: 30px;">
+                <span class="handwritten">Ждём вас!</span>
+                <h2 class="serif-title">Подтвердите присутствие</h2>
+            </div>
             
             <form class="rsvp-form" id="rsvpForm">
-                <input type="text" placeholder="Ваше имя" required />
-                <input type="text" placeholder="Город" />
-                <input type="tel" placeholder="Телефон" />
+                <input type="text" placeholder="Ваше имя" required class="reveal" />
+                <input type="text" placeholder="Город" class="reveal" />
+                <input type="tel" placeholder="Телефон" class="reveal" />
                 
-                <div class="btn-group">
-                    <button type="button" onclick="alert('❤️ Ждём вас!')">Да, буду</button>
+                <div class="btn-group reveal">
+                    <button type="button" onclick="alert('❤️ Ждём вас с нетерпением!')">Да, буду ❤️</button>
                     <button type="button" onclick="alert('😢 Будем скучать!')">Не смогу</button>
                 </div>
                 
-                <textarea placeholder="Ваши пожелания или предпочтения..."></textarea>
+                <textarea placeholder="Ваши пожелания или предпочтения..." class="reveal"></textarea>
                 
-                <button type="submit" class="btn-submit">
-                    <i class="fas fa-paper-plane"></i> Отправить
+                <button type="submit" class="btn-submit reveal">
+                    <span>Отправить →</span>
                 </button>
             </form>
         </div>
@@ -848,8 +888,13 @@
     ФУТЕР
     ========================================== -->
     <footer>
-        <p>Стас <span class="heart">❤️</span> Настя</p>
-        <p style="opacity: 0.4; font-size: 0.9rem; margin-top: 10px;">17 октября 2026</p>
+        <span class="big-heart">❤️</span>
+        <p>Стас & Настя</p>
+        <p class="sub">See you at our wedding!</p>
+        <div style="margin-top: 20px; display: flex; justify-content: center; gap: 30px; flex-wrap: wrap; font-size: 0.85rem; color: #C4B5AD;">
+            <span>#СтасНастя2026</span>
+            <span>17 октября 2026</span>
+        </div>
     </footer>
 
     <!-- ==========================================
@@ -857,22 +902,98 @@
     ========================================== -->
     <script>
         // ==========================================
-        // 1. ПЛАВНОЕ ПОЯВЛЕНИЕ ПРИ СКРОЛЛЕ
+        // 1. ИНИЦИАЛИЗАЦИЯ LENIS (плавный скролл)
         // ==========================================
-        const reveals = document.querySelectorAll('.reveal');
-        
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('visible');
+        const lenis = new Lenis({
+            duration: 1.2,
+            easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+            smoothWheel: true,
+        });
+
+        lenis.on('scroll', ScrollTrigger.update);
+
+        function raf(time) {
+            lenis.raf(time);
+            requestAnimationFrame(raf);
+        }
+        requestAnimationFrame(raf);
+
+        // ==========================================
+        // 2. GSAP + SCROLLTRIGGER
+        // ==========================================
+        gsap.registerPlugin(ScrollTrigger);
+
+        // Анимация появления элементов
+        document.querySelectorAll('.reveal').forEach((el) => {
+            gsap.fromTo(el, 
+                { opacity: 0, y: 60, scale: 0.96 },
+                {
+                    opacity: 1,
+                    y: 0,
+                    scale: 1,
+                    duration: 1.2,
+                    ease: 'power3.out',
+                    scrollTrigger: {
+                        trigger: el,
+                        start: 'top 85%',
+                        toggleActions: 'play none none none'
+                    }
+                }
+            );
+        });
+
+        document.querySelectorAll('.reveal-left').forEach((el) => {
+            gsap.fromTo(el,
+                { opacity: 0, x: -80 },
+                {
+                    opacity: 1,
+                    x: 0,
+                    duration: 1.2,
+                    ease: 'power3.out',
+                    scrollTrigger: {
+                        trigger: el,
+                        start: 'top 85%',
+                        toggleActions: 'play none none none'
+                    }
+                }
+            );
+        });
+
+        document.querySelectorAll('.reveal-right').forEach((el) => {
+            gsap.fromTo(el,
+                { opacity: 0, x: 80 },
+                {
+                    opacity: 1,
+                    x: 0,
+                    duration: 1.2,
+                    ease: 'power3.out',
+                    scrollTrigger: {
+                        trigger: el,
+                        start: 'top 85%',
+                        toggleActions: 'play none none none'
+                    }
+                }
+            );
+        });
+
+        // Параллакс для декораций
+        document.querySelectorAll('.floating-decor').forEach((decor, i) => {
+            gsap.to(decor, {
+                y: 80,
+                rotation: 10,
+                duration: 3,
+                ease: 'none',
+                scrollTrigger: {
+                    trigger: '#hero',
+                    start: 'top top',
+                    end: 'bottom top',
+                    scrub: 1.5,
                 }
             });
-        }, { threshold: 0.15 });
-
-        reveals.forEach(el => observer.observe(el));
+        });
 
         // ==========================================
-        // 2. ТАЙМЕР
+        // 3. ТАЙМЕР
         // ==========================================
         const targetDate = new Date('2026-10-17T15:00:00').getTime();
 
@@ -903,33 +1024,34 @@
         setInterval(updateTimer, 1000);
 
         // ==========================================
-        // 3. ОТКРЫТИЕ ПРИГЛАШЕНИЯ (скролл)
+        // 4. КНОПКА "ОТКРЫТЬ ПРИГЛАШЕНИЕ"
         // ==========================================
-        document.getElementById('openInvite').addEventListener('click', () => {
-            document.getElementById('meet').scrollIntoView({ behavior: 'smooth' });
+        document.getElementById('scrollDown').addEventListener('click', () => {
+            const story = document.getElementById('story');
+            lenis.scrollTo(story, { duration: 1.5 });
         });
 
         // ==========================================
-        // 4. RSVP ФОРМА
+        // 5. RSVP ФОРМА
         // ==========================================
         document.getElementById('rsvpForm').addEventListener('submit', (e) => {
             e.preventDefault();
-            alert('Спасибо! Мы будем ждать вас ❤️');
-            e.target.reset();
-        });
-
-        // ==========================================
-        // 5. ПАРАЛЛАКС-ЭФФЕКТ (для фона)
-        // ==========================================
-        window.addEventListener('scroll', () => {
-            const scrolled = window.scrollY;
-            document.querySelectorAll('.animated-bg').forEach((bg, i) => {
-                const speed = 0.3 + (i * 0.1);
-                bg.style.transform = `translateY(${scrolled * speed}px)`;
-            });
+            
+            // Простая анимация успеха
+            const btn = e.target.querySelector('.btn-submit');
+            btn.textContent = '✨ Отправлено!';
+            btn.style.background = 'linear-gradient(135deg, #A8BE75, #6BCB77)';
+            
+            setTimeout(() => {
+                btn.textContent = 'Отправить →';
+                btn.style.background = 'linear-gradient(135deg, #F7B7C8, #F3B56A)';
+                e.target.reset();
+                alert('❤️ Спасибо! Мы будем ждать вас!');
+            }, 2000);
         });
 
         console.log('💍 Свадебный сайт загружен!');
+        console.log('✨ Дизайн: Premium Storybook Style');
     </script>
 </body>
 </html>

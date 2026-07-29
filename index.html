@@ -269,7 +269,7 @@
         .music-btn.music-off.active { background: #C4B5AD; }
 
         /* ==========================================
-           HERO
+           HERO — сердце с фото (увеличено)
            ========================================== */
         #hero {
             min-height: 100vh;
@@ -284,8 +284,8 @@
         }
 
         .heart-frame {
-            width: 420px;
-            height: 420px;
+            width: 630px;
+            height: 630px;
             margin: 0 auto 16px;
             position: relative;
             z-index: 2;
@@ -414,7 +414,7 @@
         }
 
         /* ==========================================
-           МЕСТО — звезда
+           МЕСТО — круглая рамка с вращением
            ========================================== */
         #venue {
             min-height: 100vh;
@@ -432,27 +432,31 @@
             width: 100%;
         }
 
-        .star-frame {
-            width: 450px;
-            height: 450px;
+        .venue-photo-frame {
+            width: 675px;
+            height: 675px;
             margin: 0 auto 20px;
             position: relative;
+            border-radius: 50%;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.06);
             cursor: pointer;
-        }
-
-        .star-svg {
-            width: 100%;
-            height: 100%;
-            display: block;
-            animation: rotateStar 25s linear infinite;
+            animation: rotateVenue 25s linear infinite;
             transition: animation-duration 0.5s ease;
         }
 
-        .star-frame.speed .star-svg {
-            animation-duration: 12.5s;
+        .venue-photo-frame img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
         }
 
-        @keyframes rotateStar {
+        .venue-photo-frame.speed {
+            animation-duration: 0.83s;
+        }
+
+        @keyframes rotateVenue {
             from { transform: rotate(0deg); }
             to { transform: rotate(360deg); }
         }
@@ -462,6 +466,12 @@
             font-size: clamp(2rem, 6vw, 3.5rem);
             font-weight: 400;
             color: #4A3F3A;
+            margin-top: 16px;
+        }
+
+        .venue-content h2 .letter {
+            display: inline-block;
+            transform: rotate(var(--rot, 0deg)) translateY(var(--y, 0px));
         }
 
         .venue-content .sub {
@@ -671,6 +681,14 @@
             object-fit: cover;
         }
 
+        .men-photos .note {
+            font-size: 0.85rem;
+            color: #6B5F5A;
+            font-weight: 300;
+            text-align: center;
+            padding: 10px;
+        }
+
         /* ==========================================
            FAQ
            ========================================== */
@@ -717,6 +735,7 @@
         .faq-item .question .q-number.color-2 { color: #7EC8E3; }
         .faq-item .question .q-number.color-3 { color: #B8A6E0; }
         .faq-item .question .q-number.color-4 { color: #F9B87A; }
+        .faq-item .question .q-number.color-5 { color: #8CD4B5; }
 
         .faq-item .question .arrow {
             margin-left: auto;
@@ -754,7 +773,7 @@
         .faq-item .answer .hl-yellow { color: #F5D76E; font-weight: 600; }
 
         /* ==========================================
-           RSVP — цветные ответы
+           RSVP
            ========================================== */
         #rsvp { position: relative; z-index: 2; background: #FCF8F0; }
 
@@ -861,7 +880,6 @@
             color: white;
         }
 
-        /* Цветные кнопки ответов */
         .radio-btn.color-pink { color: #FF8CA8; border-color: #FF8CA8; }
         .radio-btn.color-pink:has(input:checked) { background: #FF8CA8; color: white; }
 
@@ -1046,8 +1064,8 @@
         @media (max-width: 480px) {
             section { padding: 50px 0 60px; }
             .hero-names { font-size: clamp(2rem, 6vw, 3rem); }
-            .heart-frame { width: 240px; height: 240px; }
-            .star-frame { width: 250px; height: 250px; }
+            .heart-frame { width: 280px; height: 280px; }
+            .venue-photo-frame { width: 280px; height: 280px; }
             .calendar-mini { max-width: 280px; gap: 4px; }
             .calendar-mini .day { font-size: 0.75rem; }
             .schedule-item .time { font-size: 1.8rem; min-width: 60px; }
@@ -1062,15 +1080,15 @@
         }
 
         @media (max-width: 768px) {
-            .heart-frame { width: 300px; height: 300px; }
-            .star-frame { width: 300px; height: 300px; }
+            .heart-frame { width: 380px; height: 380px; }
+            .venue-photo-frame { width: 380px; height: 380px; }
             .blob-1 { width: 400px; height: 400px; }
             .blob-2 { width: 350px; height: 350px; }
         }
 
         @media (min-width: 1200px) {
-            .heart-frame { width: 480px; height: 480px; }
-            .star-frame { width: 520px; height: 520px; }
+            .heart-frame { width: 630px; height: 630px; }
+            .venue-photo-frame { width: 675px; height: 675px; }
         }
     </style>
 </head>
@@ -1141,7 +1159,7 @@
     </div>
 
     <!-- ==========================================
-    HERO
+    HERO — сердце с фото (увеличено)
     ========================================== -->
     <section id="hero">
         <div class="heart-frame reveal">
@@ -1211,33 +1229,29 @@
     </section>
 
     <!-- ==========================================
-    МЕСТО — звезда
+    МЕСТО — круглая рамка с вращением
     ========================================== -->
     <section id="venue">
         <div class="venue-content reveal">
-            <div class="star-frame" id="starFrame">
-                <svg viewBox="0 0 200 200" class="star-svg">
-                    <defs>
-                        <clipPath id="starClip">
-                            <path d="M100 0 L122 65 L190 65 L135 105 L155 170 L100 135 L45 170 L65 105 L10 65 L78 65 Z" />
-                        </clipPath>
-                    </defs>
-                    <image 
-                        href="assets/images/venue-photo.jpg" 
-                        x="0" y="0" 
-                        width="200" height="200" 
-                        clip-path="url(#starClip)"
-                        preserveAspectRatio="xMidYMid slice"
-                    />
-                    <path 
-                        d="M100 0 L122 65 L190 65 L135 105 L155 170 L100 135 L45 170 L65 105 L10 65 L78 65 Z" 
-                        fill="none" 
-                        stroke="#F3B56A" 
-                        stroke-width="3"
-                    />
-                </svg>
+            <div class="venue-photo-frame" id="venueFrame">
+                <img src="assets/images/venue-photo.jpg" alt="Отель Высоцкий" />
             </div>
-            <h2>Отель Высоцкий</h2>
+            <h2>
+                <span class="letter letter-color-1" style="--rot:-1deg;--y:-2px;">О</span>
+                <span class="letter letter-color-2" style="--rot:2deg;--y:3px;">т</span>
+                <span class="letter letter-color-3" style="--rot:-2deg;--y:-1px;">е</span>
+                <span class="letter letter-color-4" style="--rot:1deg;--y:2px;">л</span>
+                <span class="letter letter-color-5" style="--rot:-1deg;--y:-2px;">ь</span>
+                <span class="letter letter-color-1" style="--rot:2deg;--y:1px;"> </span>
+                <span class="letter letter-color-6" style="--rot:-2deg;--y:-2px;">В</span>
+                <span class="letter letter-color-7" style="--rot:1deg;--y:3px;">ы</span>
+                <span class="letter letter-color-8" style="--rot:-1deg;--y:-1px;">с</span>
+                <span class="letter letter-color-9" style="--rot:2deg;--y:2px;">о</span>
+                <span class="letter letter-color-10" style="--rot:-1deg;--y:-2px;">ц</span>
+                <span class="letter letter-color-1" style="--rot:1deg;--y:1px;">к</span>
+                <span class="letter letter-color-2" style="--rot:-2deg;--y:-3px;">и</span>
+                <span class="letter letter-color-3" style="--rot:2deg;--y:2px;">й</span>
+            </h2>
             <p class="sub">зал «Влади»</p>
             <a href="https://yandex.ru/maps" target="_blank" class="map-link">Открыть карту →</a>
         </div>
@@ -1399,8 +1413,7 @@
                         <span class="arrow">▼</span>
                     </div>
                     <div class="answer">
-                        <span class="hl-pink">Деньги</span> — нам от вас больше ничего не нужно, мы вылетаем на следующий день.
-                        Дополнительно принимаем только <span class="hl-blue">шоколад</span> и <span class="hl-lavender">мармелад</span>.
+                        Мы будем рады вашему вниманию и тёплым словам! Если захотите порадовать нас материально, то <span class="hl-pink">денежный конверт</span> станет самым практичным вариантом. Также с радостью примем <span class="hl-blue">шоколад</span> и <span class="hl-lavender">мармелад</span>.
                     </div>
                 </div>
 
@@ -1430,11 +1443,22 @@
                 <div class="faq-item reveal" data-faq="4">
                     <div class="question">
                         <span class="q-number color-4">4</span>
-                        <span>Взять ли мне свой пленочный фотоаппарат?</span>
+                        <span>Можно ли с детьми?</span>
                         <span class="arrow">▼</span>
                     </div>
                     <div class="answer">
-                        Не, ну если у вас совести нет, <span class="hl-pink">КОСТЯ</span> и <span class="hl-blue">АНЯ</span>, то можете и не брать..
+                        Мы очень любим детей, но в этот вечер хотим, чтобы вы могли отдохнуть и расслабиться в компании взрослых. Пожалуйста, <span class="hl-pink">оставьте детей дома</span> — мы будем очень благодарны!
+                    </div>
+                </div>
+
+                <div class="faq-item reveal" data-faq="5">
+                    <div class="question">
+                        <span class="q-number color-5">5</span>
+                        <span>Кто в семье будет главный?</span>
+                        <span class="arrow">▼</span>
+                    </div>
+                    <div class="answer">
+                        <span class="hl-yellow">Типа Стас</span> 😉
                     </div>
                 </div>
             </div>
@@ -1715,13 +1739,13 @@
         });
 
         // ==========================================
-        // ЗВЕЗДА — ускорение при клике
+        // МЕСТО — ускорение вращения при клике (в 30 раз)
         // ==========================================
-        const starFrame = document.getElementById('starFrame');
-        let starSpeed = false;
+        const venueFrame = document.getElementById('venueFrame');
+        let isSpinningFast = false;
 
-        starFrame.addEventListener('click', function() {
-            starSpeed = !starSpeed;
+        venueFrame.addEventListener('click', function() {
+            isSpinningFast = !isSpinningFast;
             this.classList.toggle('speed');
         });
 
@@ -1916,6 +1940,7 @@
             menContainer.innerHTML = photos.map(src => 
                 `<img src="${src}" alt="Мужской образ" />`
             ).join('');
+            menContainer.innerHTML += '<div class="note">только без ленты</div>';
         });
 
         document.getElementById('menOption2').addEventListener('click', function() {
@@ -1925,6 +1950,7 @@
             menContainer.innerHTML = photos.map(src => 
                 `<img src="${src}" alt="Мужской образ (альтернатива)" />`
             ).join('');
+            menContainer.innerHTML += '<div class="note">только без ленты</div>';
         });
 
         // ==========================================

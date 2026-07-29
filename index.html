@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes" />
     <title>Стас & Настя · 17.10.2026</title>
     
-    <!-- Шрифты -->
     <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
     <link href="https://fonts.googleapis.com/css2?family=Rubik+Bubbles&display=swap" rel="stylesheet" />
     
@@ -14,7 +13,7 @@
     
     <style>
         /* ==========================================
-           ОСНОВНЫЕ НАСТРОЙКИ
+           БАЗА
            ========================================== */
         * {
             margin: 0;
@@ -22,15 +21,18 @@
             box-sizing: border-box;
         }
 
-        html { scroll-behavior: smooth; }
+        html {
+            scroll-behavior: smooth;
+        }
 
         body {
             font-family: 'Quicksand', sans-serif;
-            background: #FDF8F3;
+            background: #FCF8F0;
             color: #4A3F3A;
             overflow-x: hidden;
             line-height: 1.6;
             -webkit-font-smoothing: antialiased;
+            position: relative;
         }
 
         .rubik {
@@ -42,7 +44,7 @@
             margin: 0 auto;
             padding: 0 20px;
             position: relative;
-            z-index: 2;
+            z-index: 10;
         }
 
         section {
@@ -53,62 +55,223 @@
             padding: 70px 0 80px;
             position: relative;
             overflow: hidden;
+            z-index: 1;
         }
 
         /* ==========================================
-           ФОН С ДОФАМИНОВЫМИ УЗОРАМИ
+           ФОН — МНОГОСЛОЙНЫЙ DIGITAL-АРТ
            ========================================== */
-        .bg-pattern {
-            position: absolute;
-            inset: 0;
-            z-index: 0;
+        .bg-layer {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
             pointer-events: none;
-            opacity: 0.4;
+            z-index: 0;
+            overflow: hidden;
         }
 
-        .bg-pattern .blob {
+        /* Бумажная текстура (зерно) */
+        .bg-grain {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            pointer-events: none;
+            z-index: 1;
+            opacity: 0.035;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='1'/%3E%3C/svg%3E");
+            background-repeat: repeat;
+            background-size: 300px 300px;
+        }
+
+        /* Органические пятна */
+        .blob-layer {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .blob {
             position: absolute;
             border-radius: 50%;
             filter: blur(80px);
-            opacity: 0.3;
+            opacity: 0.35;
+            will-change: transform;
         }
 
         .blob-1 {
-            width: 400px;
-            height: 400px;
-            top: -100px;
-            right: -100px;
-            background: #FF8CA8;
-            animation: blobFloat 12s ease-in-out infinite alternate;
+            width: 600px;
+            height: 600px;
+            top: -200px;
+            right: -150px;
+            background: radial-gradient(circle, #F5D6E0, #F0C4D8);
+            opacity: 0.25;
         }
 
         .blob-2 {
-            width: 350px;
-            height: 350px;
-            bottom: -80px;
-            left: -80px;
-            background: #7EC8E3;
-            animation: blobFloat 14s ease-in-out infinite alternate-reverse;
+            width: 500px;
+            height: 500px;
+            bottom: -150px;
+            left: -150px;
+            background: radial-gradient(circle, #D4E8F5, #C5DFF0);
+            opacity: 0.2;
         }
 
         .blob-3 {
-            width: 200px;
-            height: 200px;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background: #B8A6E0;
-            animation: blobFloat 10s ease-in-out infinite alternate;
+            width: 350px;
+            height: 350px;
+            top: 30%;
+            left: -100px;
+            background: radial-gradient(circle, #E8D5F0, #DCC5EC);
             opacity: 0.15;
         }
 
-        @keyframes blobFloat {
-            0% { transform: translate(0, 0) scale(1); }
-            100% { transform: translate(60px, 40px) scale(1.2); }
+        .blob-4 {
+            width: 400px;
+            height: 400px;
+            bottom: 20%;
+            right: -120px;
+            background: radial-gradient(circle, #F5E0C8, #F0D4B8);
+            opacity: 0.15;
+        }
+
+        .blob-5 {
+            width: 250px;
+            height: 250px;
+            top: 60%;
+            left: 30%;
+            background: radial-gradient(circle, #E8F0D4, #DCE8C5);
+            opacity: 0.1;
         }
 
         /* ==========================================
-           КРАФТОВЫЙ ЗАГОЛОВОК
+           ДЕКОРАТИВНЫЕ ЭЛЕМЕНТЫ (каракули, точки, дуги)
+           ========================================== */
+        .deco-layer {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            pointer-events: none;
+            z-index: 0;
+            overflow: hidden;
+        }
+
+        /* Волнистые линии */
+        .wave-line {
+            position: absolute;
+            fill: none;
+            stroke-width: 1.5;
+            opacity: 0.08;
+        }
+
+        /* Кружочки */
+        .dot-group {
+            position: absolute;
+            display: flex;
+            gap: 12px;
+            opacity: 0.06;
+        }
+
+        .dot-group .dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: #4A3F3A;
+        }
+
+        .dot-group .dot-big {
+            width: 12px;
+            height: 12px;
+        }
+
+        /* Звёздочки */
+        .star-deco {
+            position: absolute;
+            color: #4A3F3A;
+            opacity: 0.06;
+            font-size: 1.8rem;
+            line-height: 1;
+        }
+
+        /* Сердечки */
+        .heart-deco {
+            position: absolute;
+            color: #F7B7C8;
+            opacity: 0.06;
+            font-size: 2rem;
+            line-height: 1;
+        }
+
+        /* Дуги */
+        .arc-deco {
+            position: absolute;
+            border: 1.5px solid rgba(74, 63, 58, 0.06);
+            border-radius: 50%;
+            opacity: 0.06;
+        }
+
+        /* Мазки кистью */
+        .stroke-deco {
+            position: absolute;
+            width: 80px;
+            height: 4px;
+            border-radius: 4px;
+            background: rgba(74, 63, 58, 0.04);
+            transform: rotate(var(--rot, 0deg));
+        }
+
+        /* Каракули */
+        .doodle-deco {
+            position: absolute;
+            opacity: 0.04;
+            font-size: 3rem;
+            line-height: 1;
+            color: #4A3F3A;
+            font-family: 'Quicksand', sans-serif;
+        }
+
+        /* ==========================================
+           РАЗМЕЩЕНИЕ ДЕКОРОВ ПО ВСЕЙ СТРАНИЦЕ
+           ========================================== */
+        /* Ряды 1-3: верхняя часть */
+        .deco-1 { top: 5%; left: 3%; }
+        .deco-2 { top: 8%; right: 6%; }
+        .deco-3 { top: 15%; left: 12%; }
+        .deco-4 { top: 20%; right: 15%; }
+        .deco-5 { top: 28%; left: 5%; }
+
+        /* Ряды 4-6: середина */
+        .deco-6 { top: 40%; right: 4%; }
+        .deco-7 { top: 45%; left: 8%; }
+        .deco-8 { top: 50%; right: 12%; }
+        .deco-9 { top: 55%; left: 3%; }
+        .deco-10 { top: 60%; right: 6%; }
+
+        /* Ряды 7-9: нижняя часть */
+        .deco-11 { top: 70%; left: 10%; }
+        .deco-12 { top: 75%; right: 5%; }
+        .deco-13 { top: 82%; left: 4%; }
+        .deco-14 { top: 88%; right: 8%; }
+        .deco-15 { top: 92%; left: 15%; }
+
+        /* Дополнительные */
+        .deco-16 { top: 18%; left: 45%; }
+        .deco-17 { top: 35%; right: 25%; }
+        .deco-18 { top: 65%; left: 40%; }
+        .deco-19 { top: 48%; left: 22%; }
+        .deco-20 { top: 78%; left: 55%; }
+
+        /* ==========================================
+           ОСНОВНЫЕ СТИЛИ (без изменений)
            ========================================== */
         .craft-title {
             font-family: 'Rubik Bubbles', cursive;
@@ -135,33 +298,21 @@
         .letter-color-9 { color: #B8A6E0; }
         .letter-color-10 { color: #F9B87A; }
 
-        /* ==========================================
-           ДЕКОР
-           ========================================== */
-        .deco-line {
-            position: absolute;
-            pointer-events: none;
-            opacity: 0.06;
-            border-radius: 50%;
-            border: 2px solid #F7B7C8;
-            animation: floatDeco 8s ease-in-out infinite;
-        }
-
-        .deco-line-1 { top: 5%; left: -30px; width: 150px; height: 150px; }
-        .deco-line-2 { bottom: 10%; right: -30px; width: 100px; height: 100px; border-color: #B9DDF8; animation-delay: 1.5s; }
-        .deco-line-3 { top: 40%; left: -20px; width: 80px; height: 80px; border-color: #C8B6F8; animation-delay: 3s; }
-        .deco-line-4 { bottom: 30%; right: -20px; width: 70px; height: 70px; border-color: #F3B56A; animation-delay: 2s; }
-
-        @keyframes floatDeco {
-            0%, 100% { transform: translateY(0) rotate(0deg); }
-            50% { transform: translateY(-20px) rotate(8deg); }
+        .section-label {
+            font-family: 'Quicksand', sans-serif;
+            font-size: 0.75rem;
+            font-weight: 300;
+            color: #C4B5AD;
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            text-align: center;
+            margin-bottom: 4px;
         }
 
         /* ==========================================
            HERO
            ========================================== */
         #hero {
-            background: #FDF8F3;
             min-height: 100vh;
             display: flex;
             flex-direction: column;
@@ -170,29 +321,15 @@
             text-align: center;
             padding: 40px 20px 30px;
             position: relative;
+            z-index: 2;
         }
 
-        #hero .bg-pattern .blob-1 {
-            width: 500px;
-            height: 500px;
-            top: -150px;
-            right: -150px;
-        }
-
-        #hero .bg-pattern .blob-2 {
-            width: 400px;
-            height: 400px;
-            bottom: -100px;
-            left: -100px;
-        }
-
-        /* Сердце с фото — крупнее */
         .heart-frame {
             width: 280px;
             height: 280px;
             margin: 0 auto 16px;
             position: relative;
-            z-index: 1;
+            z-index: 2;
         }
 
         .heart-svg {
@@ -201,14 +338,13 @@
             display: block;
         }
 
-        /* Имена */
         .hero-names {
             font-family: 'Rubik Bubbles', cursive;
             font-size: clamp(2.5rem, 7vw, 4.5rem);
             font-weight: 400;
             line-height: 1.3;
             position: relative;
-            z-index: 1;
+            z-index: 2;
             margin-bottom: 2px;
         }
 
@@ -227,11 +363,10 @@
             letter-spacing: 4px;
             text-transform: uppercase;
             position: relative;
-            z-index: 1;
+            z-index: 2;
             margin-bottom: 10px;
         }
 
-        /* Музыкальные кнопки — под именами */
         .music-controls {
             position: relative;
             z-index: 10;
@@ -243,7 +378,7 @@
         }
 
         .music-btn {
-            background: rgba(255, 255, 255, 0.85);
+            background: rgba(255, 255, 255, 0.7);
             backdrop-filter: blur(12px);
             border: 1px solid rgba(74, 63, 58, 0.06);
             border-radius: 40px;
@@ -257,13 +392,13 @@
             align-items: center;
             gap: 8px;
             transition: all 0.3s ease;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.04);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.03);
         }
 
         .music-btn .music-icon { font-size: 1.2rem; color: #F7B7C8; }
         .music-btn:hover {
             transform: scale(1.04);
-            box-shadow: 0 8px 30px rgba(247, 183, 200, 0.15);
+            box-shadow: 0 8px 30px rgba(247, 183, 200, 0.12);
         }
         .music-btn.active {
             background: #F7B7C8;
@@ -271,7 +406,6 @@
         }
         .music-btn.active .music-icon { color: white; }
 
-        /* Календарь — крупнее, по центру */
         .calendar-mini {
             display: grid;
             grid-template-columns: repeat(7, 1fr);
@@ -279,7 +413,7 @@
             max-width: 360px;
             margin: 10px auto 18px;
             position: relative;
-            z-index: 1;
+            z-index: 2;
             width: 100%;
         }
 
@@ -310,19 +444,18 @@
             color: white;
             font-weight: 700;
             font-size: 1rem;
-            box-shadow: 0 4px 20px rgba(247, 183, 200, 0.3);
+            box-shadow: 0 4px 20px rgba(247, 183, 200, 0.2);
             animation: pulseCircle 2s ease-in-out infinite;
         }
 
         @keyframes pulseCircle {
             0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.1); }
+            50% { transform: scale(1.08); }
         }
 
-        /* Стрелка */
         .scroll-down {
             position: relative;
-            z-index: 1;
+            z-index: 2;
             margin-top: 6px;
             cursor: pointer;
             animation: bounceArrow 2s ease-in-out infinite;
@@ -340,27 +473,17 @@
             50% { transform: translateY(8px); }
         }
 
-        .section-label {
-            font-family: 'Quicksand', sans-serif;
-            font-size: 0.75rem;
-            font-weight: 300;
-            color: #C4B5AD;
-            text-transform: uppercase;
-            letter-spacing: 4px;
-            text-align: center;
-            margin-bottom: 4px;
-        }
-
         /* ==========================================
-           МЕСТО — ЗВЕЗДА С ФОТО (крупнее)
+           МЕСТО
            ========================================== */
         #venue {
-            background: #FDF8F3;
             min-height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
             padding: 60px 20px;
+            position: relative;
+            z-index: 2;
         }
 
         .venue-content {
@@ -419,10 +542,11 @@
         }
 
         /* ==========================================
-           ПЛАН ДНЯ — все буквы цветные
+           ПЛАН ДНЯ
            ========================================== */
         #schedule {
-            background: #FFFFFF;
+            position: relative;
+            z-index: 2;
         }
 
         .schedule-list {
@@ -438,14 +562,14 @@
             align-items: center;
             gap: 18px;
             padding: 20px 24px;
-            background: rgba(255, 255, 255, 0.6);
+            background: rgba(255, 255, 255, 0.5);
             backdrop-filter: blur(10px);
             border-radius: 30px;
-            border: 1px solid rgba(247, 183, 200, 0.12);
+            border: 1px solid rgba(255, 255, 255, 0.3);
             transition: all 0.3s ease;
         }
 
-        .schedule-item-alt { border-color: rgba(243, 181, 106, 0.2); }
+        .schedule-item-alt { border-color: rgba(243, 181, 106, 0.15); }
 
         .schedule-item .time {
             font-family: 'Rubik Bubbles', cursive;
@@ -481,7 +605,7 @@
         /* ==========================================
            ДРЕСС-КОД
            ========================================== */
-        #dresscode { background: #FAFAF8; }
+        #dresscode { position: relative; z-index: 2; }
 
         .dresscode-sub {
             text-align: center;
@@ -510,29 +634,30 @@
             width: 52px;
             height: 52px;
             border-radius: 50%;
-            border: 3px solid rgba(255, 255, 255, 0.7);
-            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            border: 3px solid rgba(255, 255, 255, 0.6);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.03);
             cursor: pointer;
             transition: all 0.3s ease;
         }
 
         .color-dot:hover {
-            transform: scale(1.1);
+            transform: scale(1.08);
             border-color: white;
-            box-shadow: 0 8px 30px rgba(0,0,0,0.08);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.06);
         }
-        .color-dot.active { transform: scale(1.1); border-color: white; }
+        .color-dot.active { transform: scale(1.08); border-color: white; }
 
         .dresscode-photos {
             min-height: 100px;
-            background: rgba(255, 255, 255, 0.5);
+            background: rgba(255, 255, 255, 0.4);
+            backdrop-filter: blur(8px);
             border-radius: 28px;
             padding: 16px;
             display: flex;
             align-items: center;
             justify-content: center;
             margin-bottom: 18px;
-            border: 2px dashed rgba(74, 63, 58, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.2);
             transition: all 0.3s ease;
         }
 
@@ -554,9 +679,10 @@
 
         .men-btn {
             padding: 10px 22px;
-            border: 2px solid rgba(74, 63, 58, 0.08);
+            border: 1px solid rgba(74, 63, 58, 0.08);
             border-radius: 40px;
-            background: white;
+            background: rgba(255, 255, 255, 0.5);
+            backdrop-filter: blur(8px);
             font-family: 'Quicksand', sans-serif;
             font-size: 0.85rem;
             font-weight: 500;
@@ -567,7 +693,7 @@
 
         .men-btn:hover {
             border-color: #F7B7C8;
-            background: #FFF5F7;
+            background: rgba(255, 255, 255, 0.8);
             transform: translateY(-2px);
         }
         .men-btn.active {
@@ -578,13 +704,14 @@
 
         .men-photos {
             min-height: 100px;
-            background: rgba(255, 255, 255, 0.5);
+            background: rgba(255, 255, 255, 0.4);
+            backdrop-filter: blur(8px);
             border-radius: 28px;
             padding: 16px;
             display: flex;
             align-items: center;
             justify-content: center;
-            border: 2px dashed rgba(74, 63, 58, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.2);
             transition: all 0.3s ease;
         }
 
@@ -597,9 +724,9 @@
         }
 
         /* ==========================================
-           FAQ — без эмоджи
+           FAQ
            ========================================== */
-        #faq { background: #FFFFFF; }
+        #faq { position: relative; z-index: 2; }
 
         .faq-grid {
             display: flex;
@@ -610,7 +737,7 @@
         }
 
         .faq-item {
-            background: rgba(255, 255, 255, 0.6);
+            background: rgba(255, 255, 255, 0.4);
             backdrop-filter: blur(10px);
             border-radius: 28px;
             padding: 18px 22px;
@@ -620,7 +747,7 @@
         }
 
         .faq-item:hover {
-            background: rgba(255, 255, 255, 0.85);
+            background: rgba(255, 255, 255, 0.7);
             transform: translateY(-2px);
         }
 
@@ -665,7 +792,7 @@
         /* ==========================================
            RSVP
            ========================================== */
-        #rsvp { background: #FAFAF8; }
+        #rsvp { position: relative; z-index: 2; }
 
         .rsvp-note {
             text-align: center;
@@ -674,9 +801,9 @@
             margin-bottom: 24px;
             font-weight: 300;
             padding: 12px 16px;
-            background: rgba(247, 183, 200, 0.06);
+            background: rgba(247, 183, 200, 0.04);
             border-radius: 20px;
-            border: 1px solid rgba(247, 183, 200, 0.08);
+            border: 1px solid rgba(247, 183, 200, 0.06);
         }
 
         .rsvp-form {
@@ -702,12 +829,12 @@
         .form-group input,
         .form-group textarea {
             padding: 14px 18px;
-            border: 2px solid rgba(74, 63, 58, 0.06);
+            border: 1px solid rgba(74, 63, 58, 0.06);
             border-radius: 20px;
             font-family: 'Quicksand', sans-serif;
             font-size: 0.95rem;
-            background: rgba(255, 255, 255, 0.6);
-            backdrop-filter: blur(10px);
+            background: rgba(255, 255, 255, 0.5);
+            backdrop-filter: blur(8px);
             transition: all 0.3s ease;
             color: #4A3F3A;
         }
@@ -716,8 +843,8 @@
         .form-group textarea:focus {
             outline: none;
             border-color: #F7B7C8;
-            background: rgba(255, 255, 255, 0.9);
-            box-shadow: 0 4px 20px rgba(247, 183, 200, 0.08);
+            background: rgba(255, 255, 255, 0.8);
+            box-shadow: 0 4px 20px rgba(247, 183, 200, 0.05);
         }
 
         .form-group textarea { height: 80px; resize: vertical; }
@@ -750,11 +877,11 @@
             align-items: center;
             gap: 10px;
             padding: 10px 16px;
-            border: 2px solid rgba(74, 63, 58, 0.06);
+            border: 1px solid rgba(74, 63, 58, 0.06);
             border-radius: 20px;
             cursor: pointer;
             transition: all 0.3s ease;
-            background: rgba(255, 255, 255, 0.4);
+            background: rgba(255, 255, 255, 0.3);
             font-size: 0.9rem;
         }
 
@@ -783,20 +910,21 @@
             font-weight: 600;
             cursor: pointer;
             transition: all 0.4s ease;
-            box-shadow: 0 8px 30px rgba(247, 183, 200, 0.2);
+            box-shadow: 0 8px 30px rgba(247, 183, 200, 0.12);
             margin-top: 8px;
         }
 
         .btn-submit:hover {
             transform: scale(1.02) translateY(-2px);
-            box-shadow: 0 12px 40px rgba(247, 183, 200, 0.3);
+            box-shadow: 0 12px 40px rgba(247, 183, 200, 0.18);
         }
 
         .btn-rsvp-yes {
             padding: 14px 28px;
-            border: 2px solid #8CD4B5;
+            border: 1px solid #8CD4B5;
             border-radius: 40px;
-            background: transparent;
+            background: rgba(255, 255, 255, 0.3);
+            backdrop-filter: blur(8px);
             font-family: 'Quicksand', sans-serif;
             font-size: 1rem;
             font-weight: 600;
@@ -814,9 +942,10 @@
 
         .btn-rsvp-no {
             padding: 14px 28px;
-            border: 2px solid #F7B7C8;
+            border: 1px solid #F7B7C8;
             border-radius: 40px;
-            background: transparent;
+            background: rgba(255, 255, 255, 0.3);
+            backdrop-filter: blur(8px);
             font-family: 'Quicksand', sans-serif;
             font-size: 1rem;
             font-weight: 600;
@@ -843,7 +972,8 @@
            ТАЙМЕР
            ========================================== */
         #timer-section {
-            background: #FDF8F3;
+            position: relative;
+            z-index: 2;
             min-height: 60vh;
             padding: 60px 0 80px;
         }
@@ -857,12 +987,12 @@
 
         .timer-unit {
             text-align: center;
-            background: rgba(255, 255, 255, 0.6);
+            background: rgba(255, 255, 255, 0.4);
             backdrop-filter: blur(10px);
             padding: 16px 20px;
             border-radius: 24px;
             min-width: 65px;
-            border: 1px solid rgba(247, 183, 200, 0.08);
+            border: 1px solid rgba(247, 183, 200, 0.05);
         }
 
         .timer-unit .number {
@@ -884,10 +1014,13 @@
            FOOTER
            ========================================== */
         footer {
-            background: #FFFFFF;
+            background: rgba(255, 255, 255, 0.3);
+            backdrop-filter: blur(10px);
             padding: 40px 20px 30px;
             text-align: center;
-            border-top: 1px solid rgba(74, 63, 58, 0.04);
+            border-top: 1px solid rgba(255, 255, 255, 0.2);
+            position: relative;
+            z-index: 2;
         }
 
         footer p {
@@ -923,6 +1056,9 @@
             transform: translateY(40px) scale(0.96);
         }
 
+        /* ==========================================
+           АДАПТИВ
+           ========================================== */
         @media (max-width: 480px) {
             section { padding: 50px 0 60px; }
             .hero-names { font-size: clamp(2rem, 6vw, 3rem); }
@@ -937,6 +1073,15 @@
             .rsvp-buttons { flex-direction: column; align-items: center; }
             .music-controls { flex-direction: column; align-items: center; gap: 8px; }
             .music-btn { padding: 10px 20px; font-size: 0.85rem; }
+            .blob-1 { width: 300px; height: 300px; }
+            .blob-2 { width: 250px; height: 250px; }
+            .blob-3 { width: 200px; height: 200px; }
+            .blob-4 { width: 200px; height: 200px; }
+        }
+
+        @media (max-width: 768px) {
+            .blob-1 { width: 400px; height: 400px; }
+            .blob-2 { width: 350px; height: 350px; }
         }
     </style>
 </head>
@@ -944,22 +1089,88 @@
 <body>
 
     <!-- ==========================================
+    ФОН — МНОГОСЛОЙНЫЙ DIGITAL-АРТ
+    ========================================== -->
+    
+    <!-- Бумажная текстура -->
+    <div class="bg-grain"></div>
+
+    <!-- Органические пятна (двигаются через GSAP) -->
+    <div class="blob-layer">
+        <div class="blob blob-1" id="blob1"></div>
+        <div class="blob blob-2" id="blob2"></div>
+        <div class="blob blob-3" id="blob3"></div>
+        <div class="blob blob-4" id="blob4"></div>
+        <div class="blob blob-5" id="blob5"></div>
+    </div>
+
+    <!-- Декоративные элементы (каракули, точки, дуги, волны) -->
+    <div class="deco-layer">
+        
+        <!-- Волнистые линии -->
+        <svg class="wave-line deco-1" width="120" height="40" viewBox="0 0 120 40">
+            <path d="M0 20 Q15 0 30 20 T60 20 T90 20 T120 20" stroke="#4A3F3A" fill="none" stroke-width="1.5"/>
+        </svg>
+        
+        <svg class="wave-line deco-11" width="150" height="30" viewBox="0 0 150 30">
+            <path d="M0 15 Q20 0 40 15 T80 15 T120 15 T150 15" stroke="#4A3F3A" fill="none" stroke-width="1.5"/>
+        </svg>
+
+        <!-- Точки -->
+        <div class="dot-group deco-3">
+            <span class="dot"></span>
+            <span class="dot"></span>
+            <span class="dot"></span>
+            <span class="dot dot-big"></span>
+        </div>
+
+        <div class="dot-group deco-13">
+            <span class="dot dot-big"></span>
+            <span class="dot"></span>
+            <span class="dot"></span>
+            <span class="dot"></span>
+        </div>
+
+        <div class="dot-group deco-18">
+            <span class="dot"></span>
+            <span class="dot dot-big"></span>
+            <span class="dot"></span>
+        </div>
+
+        <!-- Звёздочки -->
+        <span class="star-deco deco-4">✦</span>
+        <span class="star-deco deco-8">✦</span>
+        <span class="star-deco deco-15">✦</span>
+        <span class="star-deco deco-19">✦</span>
+
+        <!-- Сердечки -->
+        <span class="heart-deco deco-5">♥</span>
+        <span class="heart-deco deco-9">♥</span>
+        <span class="heart-deco deco-14">♥</span>
+
+        <!-- Дуги -->
+        <div class="arc-deco deco-2" style="width: 80px; height: 80px;"></div>
+        <div class="arc-deco deco-7" style="width: 60px; height: 60px;"></div>
+        <div class="arc-deco deco-12" style="width: 100px; height: 100px;"></div>
+        <div class="arc-deco deco-17" style="width: 50px; height: 50px;"></div>
+
+        <!-- Мазки кистью -->
+        <div class="stroke-deco deco-6" style="--rot: 15deg; width: 60px;"></div>
+        <div class="stroke-deco deco-10" style="--rot: -8deg; width: 80px;"></div>
+        <div class="stroke-deco deco-16" style="--rot: 25deg; width: 50px;"></div>
+        <div class="stroke-deco deco-20" style="--rot: -12deg; width: 70px;"></div>
+
+        <!-- Каракули (простой текст как рисунок) -->
+        <span class="doodle-deco deco-18" style="font-size: 1.2rem;">~ ~ ~</span>
+        <span class="doodle-deco deco-12" style="font-size: 1.5rem; opacity: 0.03;">✧</span>
+        
+    </div>
+
+    <!-- ==========================================
     HERO
     ========================================== -->
     <section id="hero">
-        <!-- Дофаминовый фон с узорами -->
-        <div class="bg-pattern">
-            <div class="blob blob-1"></div>
-            <div class="blob blob-2"></div>
-            <div class="blob blob-3"></div>
-        </div>
-        
-        <div class="deco-line deco-line-1"></div>
-        <div class="deco-line deco-line-2"></div>
-        <div class="deco-line deco-line-3"></div>
-        <div class="deco-line deco-line-4"></div>
-
-        <!-- Сердце с фото — крупнее -->
+        <!-- Сердце с фото -->
         <div class="heart-frame reveal">
             <svg viewBox="0 0 200 200" class="heart-svg">
                 <defs>
@@ -1001,7 +1212,7 @@
             </span>
         </h1>
 
-        <!-- Музыкальные кнопки — под именами -->
+        <!-- Музыкальные кнопки -->
         <div class="music-controls reveal">
             <button class="music-btn" id="stasMusicBtn">
                 <span class="music-icon">♪</span> Музыка Стаса
@@ -1013,7 +1224,7 @@
 
         <p class="hero-date reveal">17 октября 2026</p>
 
-        <!-- Календарь — крупнее, по центру -->
+        <!-- Календарь -->
         <div class="calendar-mini reveal">
             <span class="day weekday">Пн</span>
             <span class="day weekday">Вт</span>
@@ -1041,14 +1252,9 @@
     </section>
 
     <!-- ==========================================
-    МЕСТО — ЗВЕЗДА С ФОТО (крупнее)
+    МЕСТО
     ========================================== -->
     <section id="venue">
-        <div class="bg-pattern">
-            <div class="blob blob-1" style="width: 300px; height: 300px; top: -50px; right: -50px; background: #F9B87A;"></div>
-            <div class="blob blob-2" style="width: 250px; height: 250px; bottom: -30px; left: -30px; background: #8CD4B5;"></div>
-        </div>
-        
         <div class="venue-content reveal">
             <div class="star-frame">
                 <svg viewBox="0 0 200 200" class="star-svg">
@@ -1079,7 +1285,7 @@
     </section>
 
     <!-- ==========================================
-    ПЛАН ДНЯ — все буквы цветные
+    ПЛАН ДНЯ
     ========================================== -->
     <section id="schedule">
         <div class="container">
@@ -1196,7 +1402,7 @@
     </section>
 
     <!-- ==========================================
-    FAQ — без эмоджи
+    FAQ
     ========================================== -->
     <section id="faq">
         <div class="container">
@@ -1466,6 +1672,7 @@
         // ==========================================
         gsap.registerPlugin(ScrollTrigger);
 
+        // Появление элементов при скролле
         document.querySelectorAll('.reveal').forEach((el) => {
             gsap.fromTo(el,
                 { opacity: 0, y: 40, scale: 0.96 },
@@ -1473,7 +1680,7 @@
                     opacity: 1,
                     y: 0,
                     scale: 1,
-                    duration: 1,
+                    duration: 1.2,
                     ease: 'power3.out',
                     scrollTrigger: {
                         trigger: el,
@@ -1484,6 +1691,65 @@
                     }
                 }
             );
+        });
+
+        // ==========================================
+        // АНИМАЦИЯ ФОНОВЫХ ПЯТЕН
+        // ==========================================
+        const blobs = [
+            document.getElementById('blob1'),
+            document.getElementById('blob2'),
+            document.getElementById('blob3'),
+            document.getElementById('blob4'),
+            document.getElementById('blob5')
+        ];
+
+        // Каждое пятно двигается с разной скоростью и направлением
+        const blobAnimations = [
+            { x: 120, y: 80, duration: 18 },
+            { x: -100, y: 60, duration: 22 },
+            { x: 80, y: -100, duration: 14 },
+            { x: -140, y: 40, duration: 20 },
+            { x: 60, y: -60, duration: 16 }
+        ];
+
+        blobs.forEach((blob, i) => {
+            if (blob) {
+                gsap.to(blob, {
+                    x: blobAnimations[i].x,
+                    y: blobAnimations[i].y,
+                    duration: blobAnimations[i].duration,
+                    ease: 'sine.inOut',
+                    yoyo: true,
+                    repeat: -1
+                });
+            }
+        });
+
+        // ==========================================
+        // АНИМАЦИЯ ДЕКОРАТИВНЫХ ЭЛЕМЕНТОВ
+        // ==========================================
+        document.querySelectorAll('.deco-layer .wave-line, .deco-layer .star-deco, .deco-layer .heart-deco, .deco-layer .dot-group, .deco-layer .arc-deco, .deco-layer .stroke-deco, .deco-layer .doodle-deco').forEach((el, i) => {
+            const delay = (i % 5) * 0.3;
+            gsap.to(el, {
+                y: -15,
+                duration: 6 + (i % 4),
+                ease: 'sine.inOut',
+                yoyo: true,
+                repeat: -1,
+                delay: delay
+            });
+            // Немного вращения для некоторых элементов
+            if (el.classList.contains('star-deco') || el.classList.contains('heart-deco')) {
+                gsap.to(el, {
+                    rotation: 8,
+                    duration: 8 + (i % 3),
+                    ease: 'sine.inOut',
+                    yoyo: true,
+                    repeat: -1,
+                    delay: delay + 0.5
+                });
+            }
         });
 
         // ==========================================
@@ -1681,7 +1947,7 @@
         });
 
         console.log('💍 Свадебный сайт загружен!');
-        console.log('🎨 Шрифт: Rubik Bubbles');
+        console.log('🎨 Дизайн: дофаминовый минимализм с digital-арт фоном');
     </script>
 </body>
 </html>

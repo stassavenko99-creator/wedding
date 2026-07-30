@@ -266,11 +266,17 @@
         }
 
         .heart-frame {
-            width: 630px;
-            height: 630px;
+            width: 567px;
+            height: 567px;
             margin: 0 auto 16px;
             position: relative;
             z-index: 2;
+            cursor: pointer;
+            transition: transform 0.15s ease;
+        }
+
+        .heart-frame:active {
+            transform: scale(0.96);
         }
 
         .heart-svg {
@@ -316,6 +322,16 @@
             border-radius: 40px;
             backdrop-filter: blur(8px);
             border: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .hero-click-hint {
+            font-size: 0.85rem;
+            color: #F7B7C8;
+            font-weight: 600;
+            margin-bottom: 6px;
+            letter-spacing: 2px;
+            position: relative;
+            z-index: 2;
         }
 
         .calendar-mini {
@@ -410,11 +426,14 @@
             text-align: center;
             max-width: 500px;
             width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
 
         .venue-photo-frame {
-            width: 675px;
-            height: 675px;
+            width: 340px;
+            height: 340px;
             margin: 0 auto 12px;
             position: relative;
             border-radius: 50%;
@@ -466,6 +485,13 @@
             font-size: 1.2rem;
             font-weight: 300;
             color: #6B5F5A;
+        }
+
+        .venue-content .address {
+            font-size: 0.9rem;
+            color: #8B7F7A;
+            margin-top: 4px;
+            font-weight: 300;
         }
 
         .venue-content .map-link {
@@ -960,6 +986,39 @@
             margin: 8px 0;
         }
 
+        .contacts-block {
+            text-align: center;
+            padding: 24px 20px;
+            background: rgba(247, 183, 200, 0.08);
+            border-radius: 24px;
+            border: 1px solid rgba(247, 183, 200, 0.12);
+            margin-top: 8px;
+        }
+
+        .contacts-block .contacts-title {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: #4A3F3A;
+            margin-bottom: 8px;
+        }
+
+        .contacts-block .contacts-name {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #F7B7C8;
+        }
+
+        .contacts-block .contacts-phone {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #4A3F3A;
+        }
+
+        .contacts-block .contacts-phone a {
+            color: #4A3F3A;
+            text-decoration: none;
+        }
+
         #timer-section {
             position: relative;
             z-index: 2;
@@ -1035,25 +1094,11 @@
             letter-spacing: 1px;
         }
 
-        .footer-contacts {
-            margin-top: 16px;
-            padding-top: 16px;
-            border-top: 1px solid rgba(0,0,0,0.04);
-            font-size: 0.85rem;
-            color: #6B5F5A;
-            line-height: 1.8;
-        }
-
-        .footer-contacts strong {
-            color: #4A3F3A;
-        }
-
         .reveal {
             opacity: 0;
             transform: translateY(40px) scale(0.96);
         }
 
-        /* Модальное окно */
         #photoModal {
             display: none;
             position: fixed;
@@ -1089,7 +1134,7 @@
             section { padding: 50px 0 60px; }
             .hero-names { font-size: clamp(2rem, 6vw, 3rem); }
             .heart-frame { width: 280px; height: 280px; }
-            .venue-photo-frame { width: 280px; height: 280px; }
+            .venue-photo-frame { width: 260px; height: 260px; }
             .calendar-mini { max-width: 280px; gap: 4px; }
             .calendar-mini .day { font-size: 0.75rem; }
             .schedule-item .time { font-size: 1.8rem; min-width: 60px; }
@@ -1108,14 +1153,14 @@
 
         @media (max-width: 768px) {
             .heart-frame { width: 380px; height: 380px; }
-            .venue-photo-frame { width: 380px; height: 380px; }
+            .venue-photo-frame { width: 300px; height: 300px; }
             .blob-1 { width: 400px; height: 400px; }
             .blob-2 { width: 350px; height: 350px; }
         }
 
         @media (min-width: 1200px) {
-            .heart-frame { width: 630px; height: 630px; }
-            .venue-photo-frame { width: 675px; height: 675px; }
+            .heart-frame { width: 567px; height: 567px; }
+            .venue-photo-frame { width: 340px; height: 340px; }
         }
     </style>
 </head>
@@ -1162,39 +1207,23 @@
     </div>
 
     <div class="music-controls" id="musicControls">
-        <button class="music-btn" id="stasMusicBtn">
-            <span class="music-icon">♪</span> Музыка Стаса
-        </button>
-        <button class="music-btn" id="nastyaMusicBtn">
-            <span class="music-icon">♪</span> Музыка Насти
-        </button>
-        <button class="music-btn music-off" id="musicOffBtn">
-            <span class="music-icon">✕</span> Выключить
-        </button>
+        <button class="music-btn" id="stasMusicBtn"><span class="music-icon">♪</span> Музыка Стаса</button>
+        <button class="music-btn" id="nastyaMusicBtn"><span class="music-icon">♪</span> Музыка Насти</button>
+        <button class="music-btn music-off" id="musicOffBtn"><span class="music-icon">✕</span> Выключить</button>
     </div>
 
     <!-- HERO -->
     <section id="hero">
-        <div class="heart-frame reveal">
+        <p class="hero-click-hint reveal">нажми на нас</p>
+        <div class="heart-frame reveal" id="heroHeart">
             <svg viewBox="0 0 200 200" class="heart-svg">
                 <defs>
                     <clipPath id="heartClip">
                         <path d="M100 180 C40 120 0 90 0 60 C0 25 25 0 60 0 C75 0 90 10 100 30 C110 10 125 0 140 0 C175 0 200 25 200 60 C200 90 160 120 100 180Z" />
                     </clipPath>
                 </defs>
-                <image 
-                    href="assets/images/hero-photo.jpg" 
-                    x="0" y="0" 
-                    width="200" height="200" 
-                    clip-path="url(#heartClip)"
-                    preserveAspectRatio="xMidYMid slice"
-                />
-                <path 
-                    d="M100 180 C40 120 0 90 0 60 C0 25 25 0 60 0 C75 0 90 10 100 30 C110 10 125 0 140 0 C175 0 200 25 200 60 C200 90 160 120 100 180Z" 
-                    fill="none" 
-                    stroke="#F7B7C8" 
-                    stroke-width="3"
-                />
+                <image href="assets/images/hero-photo.jpg" x="0" y="0" width="200" height="200" clip-path="url(#heartClip)" preserveAspectRatio="xMidYMid slice" />
+                <path d="M100 180 C40 120 0 90 0 60 C0 25 25 0 60 0 C75 0 90 10 100 30 C110 10 125 0 140 0 C175 0 200 25 200 60 C200 90 160 120 100 180Z" fill="none" stroke="#F7B7C8" stroke-width="3" />
             </svg>
         </div>
 
@@ -1222,20 +1251,8 @@
         </p>
 
         <div class="calendar-mini reveal">
-            <span class="day weekday">Пн</span>
-            <span class="day weekday">Вт</span>
-            <span class="day weekday">Ср</span>
-            <span class="day weekday">Чт</span>
-            <span class="day weekday">Пт</span>
-            <span class="day weekday">Сб</span>
-            <span class="day weekday">Вс</span>
-            <span class="day">12</span>
-            <span class="day">13</span>
-            <span class="day">14</span>
-            <span class="day">15</span>
-            <span class="day">16</span>
-            <span class="day wedding">17</span>
-            <span class="day">18</span>
+            <span class="day weekday">Пн</span><span class="day weekday">Вт</span><span class="day weekday">Ср</span><span class="day weekday">Чт</span><span class="day weekday">Пт</span><span class="day weekday">Сб</span><span class="day weekday">Вс</span>
+            <span class="day">12</span><span class="day">13</span><span class="day">14</span><span class="day">15</span><span class="day">16</span><span class="day wedding">17</span><span class="day">18</span>
         </div>
 
         <div class="scroll-down" id="scrollDown">
@@ -1268,15 +1285,15 @@
                 <span class="letter letter-color-2" style="--rot:-2deg;--y:-3px;">и</span>
                 <span class="letter letter-color-3" style="--rot:2deg;--y:2px;">й</span>
             </h2>
-            <p class="sub">зал «Влади»</p>
-            <a href="https://yandex.ru/maps/54/ekaterinburg/hotel/vysotskiy/Z0kYdQ1mT0AEQFtvfXJ3cX9kZA==/?ll=60.606090%2C56.837520&z=17" target="_blank" class="map-link">Открыть карту →</a>
+            <p class="sub">ресторан «Влади» · зал «Соната»</p>
+            <p class="address">ул. Малышева, 51</p>
+            <a href="https://yandex.ru/maps/?ll=60.614557,56.836057&z=17&pt=60.614557,56.836057" target="_blank" class="map-link">Открыть карту →</a>
         </div>
     </section>
 
     <!-- ПЛАН ДНЯ -->
     <section id="schedule">
         <div class="container">
-            <p class="section-label reveal">Как всё пройдёт</p>
             <h2 class="craft-title reveal">
                 <span class="letter letter-color-2" style="--rot:-1deg;--y:-2px;">П</span>
                 <span class="letter letter-color-3" style="--rot:2deg;--y:3px;">л</span>
@@ -1351,7 +1368,6 @@
     <!-- ДРЕСС-КОД -->
     <section id="dresscode">
         <div class="container">
-            <p class="section-label reveal">Dress-code</p>
             <h2 class="craft-title reveal">
                 <span class="letter letter-color-3" style="--rot:-1deg;--y:-2px;">Д</span>
                 <span class="letter letter-color-4" style="--rot:2deg;--y:3px;">р</span>
@@ -1510,7 +1526,7 @@
                 <div class="rsvp-extra" id="rsvpExtra">
                     <div class="form-group">
                         <label>Из какого вы города?</label>
-                        <input type="text" placeholder="Город" />
+                        <input type="text" placeholder="Город" id="rsvpCity" />
                     </div>
 
                     <div class="form-group">
@@ -1555,22 +1571,31 @@
 
                     <div class="form-group">
                         <label>Любимые безалкогольные напитки</label>
-                        <input type="text" placeholder="Напишите ваши любимые напитки" />
+                        <input type="text" placeholder="Напишите ваши любимые напитки" id="rsvpNonAlco" />
                     </div>
 
                     <div class="form-group">
                         <label>Телефон для связи</label>
-                        <input type="tel" placeholder="+7 (___) ___-__-__" required />
+                        <input type="tel" placeholder="+7 (___) ___-__-__" required id="rsvpPhone" />
                     </div>
 
                     <div class="form-group">
                         <label>Есть ли у вас аллергии или особенности питания?</label>
-                        <textarea placeholder="Напишите, если есть (необязательно)"></textarea>
+                        <textarea placeholder="Напишите, если есть (необязательно)" id="rsvpAllergies"></textarea>
                     </div>
 
                     <button type="submit" class="btn-submit">Отправить</button>
                 </div>
             </form>
+
+            <!-- КОНТАКТЫ -->
+            <div class="contacts-block reveal" style="margin-top: 24px;">
+                <div class="contacts-title">Если будут вопросы — обращайтесь к нашему организатору</div>
+                <div class="contacts-name">Елена</div>
+                <div class="contacts-phone">
+                    <a href="tel:+79221462016">+7 922 146 20 16</a>
+                </div>
+            </div>
         </div>
     </section>
 
@@ -1638,14 +1663,9 @@
         <div class="footer-tags">
             <span>СтасНастя2026</span>
         </div>
-        <div class="footer-contacts">
-            <strong>Контакты организатора:</strong><br>
-            Елена<br>
-            <a href="tel:+79221462016" style="color:#4A3F3A; text-decoration:none;">+7 922 146 20 16</a>
-        </div>
     </footer>
 
-    <!-- МОДАЛЬНОЕ ОКНО ДЛЯ ФОТО -->
+    <!-- МОДАЛЬНОЕ ОКНО -->
     <div id="photoModal">
         <span class="close-modal" id="closeModal">✕</span>
         <img id="modalImage" src="" alt="Фото" />
@@ -1658,11 +1678,8 @@
             gsap.fromTo(el,
                 { opacity: 0, y: 40, scale: 0.96 },
                 {
-                    opacity: 1,
-                    y: 0,
-                    scale: 1,
-                    duration: 1.2,
-                    ease: 'power3.out',
+                    opacity: 1, y: 0, scale: 1,
+                    duration: 1.2, ease: 'power3.out',
                     scrollTrigger: {
                         trigger: el,
                         start: 'top 92%',
@@ -1675,287 +1692,214 @@
         });
 
         const blobs = [
-            document.getElementById('blob1'),
-            document.getElementById('blob2'),
-            document.getElementById('blob3'),
-            document.getElementById('blob4'),
+            document.getElementById('blob1'), document.getElementById('blob2'),
+            document.getElementById('blob3'), document.getElementById('blob4'),
             document.getElementById('blob5')
         ];
-
         const blobAnimations = [
-            { x: 120, y: 80, duration: 18 },
-            { x: -100, y: 60, duration: 22 },
-            { x: 80, y: -100, duration: 14 },
-            { x: -140, y: 40, duration: 20 },
+            { x: 120, y: 80, duration: 18 }, { x: -100, y: 60, duration: 22 },
+            { x: 80, y: -100, duration: 14 }, { x: -140, y: 40, duration: 20 },
             { x: 60, y: -60, duration: 16 }
         ];
-
         blobs.forEach((blob, i) => {
             if (blob) {
                 gsap.to(blob, {
-                    x: blobAnimations[i].x,
-                    y: blobAnimations[i].y,
+                    x: blobAnimations[i].x, y: blobAnimations[i].y,
                     duration: blobAnimations[i].duration,
-                    ease: 'sine.inOut',
-                    yoyo: true,
-                    repeat: -1
+                    ease: 'sine.inOut', yoyo: true, repeat: -1
                 });
             }
         });
 
         document.querySelectorAll('.deco-layer .wave-line, .deco-layer .star-deco, .deco-layer .heart-deco, .deco-layer .dot-group, .deco-layer .arc-deco, .deco-layer .stroke-deco, .deco-layer .doodle-deco').forEach((el, i) => {
             const delay = (i % 5) * 0.3;
-            gsap.to(el, {
-                y: -15,
-                duration: 6 + (i % 4),
-                ease: 'sine.inOut',
-                yoyo: true,
-                repeat: -1,
-                delay: delay
-            });
+            gsap.to(el, { y: -15, duration: 6 + (i % 4), ease: 'sine.inOut', yoyo: true, repeat: -1, delay });
             if (el.classList.contains('star-deco') || el.classList.contains('heart-deco')) {
-                gsap.to(el, {
-                    rotation: 8,
-                    duration: 8 + (i % 3),
-                    ease: 'sine.inOut',
-                    yoyo: true,
-                    repeat: -1,
-                    delay: delay + 0.5
-                });
+                gsap.to(el, { rotation: 8, duration: 8 + (i % 3), ease: 'sine.inOut', yoyo: true, repeat: -1, delay: delay + 0.5 });
             }
+        });
+
+        // HERO — эффект при нажатии на сердечко
+        const heroHeart = document.getElementById('heroHeart');
+        const heartClickSound = new Audio('assets/audio/click-sound.mp3');
+        heroHeart.addEventListener('click', function() {
+            heartClickSound.currentTime = 0;
+            heartClickSound.play().catch(() => {});
+            this.style.transform = 'scale(0.93)';
+            this.style.transition = 'transform 0.1s ease';
+            setTimeout(() => { this.style.transform = 'scale(1.03)'; }, 100);
+            setTimeout(() => { this.style.transform = 'scale(1)'; }, 200);
         });
 
         // МЕСТО
         const venueFrame = document.getElementById('venueFrame');
         let isSpinningFast = false;
-        const clickSound = new Audio('assets/audio/click-sound.mp3');
-
         venueFrame.addEventListener('click', function() {
             isSpinningFast = !isSpinningFast;
             this.classList.toggle('speed');
-            clickSound.currentTime = 0;
-            clickSound.play().catch(() => {});
+            heartClickSound.currentTime = 0;
+            heartClickSound.play().catch(() => {});
             this.style.transform = 'scale(1.05)';
             setTimeout(() => { this.style.transform = 'scale(1)'; }, 150);
         });
 
         // ТАЙМЕР
         const targetDate = new Date('2026-10-17T15:00:00').getTime();
-
         function updateTimer() {
             const now = Date.now();
             const diff = targetDate - now;
             if (diff <= 0) {
-                ['days', 'hours', 'minutes', 'seconds'].forEach(id => {
-                    document.getElementById(id).textContent = '🎉';
-                });
+                ['days','hours','minutes','seconds'].forEach(id => document.getElementById(id).textContent = '🎉');
                 return;
             }
-            const d = Math.floor(diff / (1000 * 60 * 60 * 24));
-            const h = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            const m = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-            const s = Math.floor((diff % (1000 * 60)) / 1000);
-            document.getElementById('days').textContent = String(d).padStart(2, '0');
-            document.getElementById('hours').textContent = String(h).padStart(2, '0');
-            document.getElementById('minutes').textContent = String(m).padStart(2, '0');
-            document.getElementById('seconds').textContent = String(s).padStart(2, '0');
+            document.getElementById('days').textContent = String(Math.floor(diff/(1000*60*60*24))).padStart(2,'0');
+            document.getElementById('hours').textContent = String(Math.floor((diff%(1000*60*60*24))/(1000*60*60))).padStart(2,'0');
+            document.getElementById('minutes').textContent = String(Math.floor((diff%(1000*60*60))/(1000*60))).padStart(2,'0');
+            document.getElementById('seconds').textContent = String(Math.floor((diff%(1000*60))/1000)).padStart(2,'0');
         }
-
         updateTimer();
         setInterval(updateTimer, 1000);
 
-        // СТРЕЛКА
         document.getElementById('scrollDown').addEventListener('click', () => {
             document.getElementById('venue').scrollIntoView({ behavior: 'smooth' });
         });
 
         // МУЗЫКА
-        let stasAudio = null;
-        let nastyaAudio = null;
-        let stasPlaying = false;
-        let nastyaPlaying = false;
-        const stasBtn = document.getElementById('stasMusicBtn');
-        const nastyaBtn = document.getElementById('nastyaMusicBtn');
-        const offBtn = document.getElementById('musicOffBtn');
-
+        let stasAudio = null, nastyaAudio = null, stasPlaying = false, nastyaPlaying = false;
+        const stasBtn = document.getElementById('stasMusicBtn'), nastyaBtn = document.getElementById('nastyaMusicBtn'), offBtn = document.getElementById('musicOffBtn');
         function stopAllMusic() {
             if (stasAudio) { stasAudio.pause(); stasAudio.currentTime = 0; }
             if (nastyaAudio) { nastyaAudio.pause(); nastyaAudio.currentTime = 0; }
-            stasPlaying = false;
-            nastyaPlaying = false;
-            stasBtn.classList.remove('active');
-            nastyaBtn.classList.remove('active');
-            offBtn.classList.remove('active');
+            stasPlaying = nastyaPlaying = false;
+            stasBtn.classList.remove('active'); nastyaBtn.classList.remove('active'); offBtn.classList.remove('active');
         }
-
         stasBtn.addEventListener('click', function() {
-            if (!stasAudio) {
-                stasAudio = new Audio('assets/audio/stas-music.mp3');
-                stasAudio.loop = true;
-            }
-            if (stasPlaying) {
-                stasAudio.pause();
-                stasPlaying = false;
-                this.classList.remove('active');
-                offBtn.classList.remove('active');
-            } else {
-                stopAllMusic();
-                stasAudio.play().catch(() => {});
-                stasPlaying = true;
-                this.classList.add('active');
-                offBtn.classList.remove('active');
-            }
+            if (!stasAudio) { stasAudio = new Audio('assets/audio/stas-music.mp3'); stasAudio.loop = true; }
+            if (stasPlaying) { stasAudio.pause(); stasPlaying = false; this.classList.remove('active'); offBtn.classList.remove('active'); }
+            else { stopAllMusic(); stasAudio.play().catch(()=>{}); stasPlaying = true; this.classList.add('active'); offBtn.classList.remove('active'); }
         });
-
         nastyaBtn.addEventListener('click', function() {
-            if (!nastyaAudio) {
-                nastyaAudio = new Audio('assets/audio/nastya-music.mp3');
-                nastyaAudio.loop = true;
-            }
-            if (nastyaPlaying) {
-                nastyaAudio.pause();
-                nastyaPlaying = false;
-                this.classList.remove('active');
-                offBtn.classList.remove('active');
-            } else {
-                stopAllMusic();
-                nastyaAudio.play().catch(() => {});
-                nastyaPlaying = true;
-                this.classList.add('active');
-                offBtn.classList.remove('active');
-            }
+            if (!nastyaAudio) { nastyaAudio = new Audio('assets/audio/nastya-music.mp3'); nastyaAudio.loop = true; }
+            if (nastyaPlaying) { nastyaAudio.pause(); nastyaPlaying = false; this.classList.remove('active'); offBtn.classList.remove('active'); }
+            else { stopAllMusic(); nastyaAudio.play().catch(()=>{}); nastyaPlaying = true; this.classList.add('active'); offBtn.classList.remove('active'); }
         });
-
-        offBtn.addEventListener('click', function() {
-            stopAllMusic();
-            this.classList.add('active');
-        });
+        offBtn.addEventListener('click', function() { stopAllMusic(); this.classList.add('active'); });
 
         // RSVP
-        const rsvpExtra = document.getElementById('rsvpExtra');
-        const rsvpYes = document.getElementById('rsvpYes');
-        const rsvpNo = document.getElementById('rsvpNo');
-        const soundYes = new Audio('assets/audio/yes-sound.mp3');
-        const soundNo = new Audio('assets/audio/no-sound.mp3');
-
+        const rsvpExtra = document.getElementById('rsvpExtra'), rsvpYes = document.getElementById('rsvpYes'), rsvpNo = document.getElementById('rsvpNo');
+        const soundYes = new Audio('assets/audio/yes-sound.mp3'), soundNo = new Audio('assets/audio/no-sound.mp3');
         rsvpYes.addEventListener('click', function() {
-            this.classList.add('active');
-            rsvpNo.classList.remove('active');
+            this.classList.add('active'); rsvpNo.classList.remove('active');
             rsvpExtra.classList.add('visible');
-            soundYes.currentTime = 0;
-            soundYes.play().catch(() => {});
-            setTimeout(() => {
-                rsvpExtra.scrollIntoView({ behavior: 'smooth', block: 'center' });
-            }, 300);
+            soundYes.currentTime = 0; soundYes.play().catch(()=>{});
+            setTimeout(() => rsvpExtra.scrollIntoView({ behavior:'smooth', block:'center' }), 300);
         });
-
         rsvpNo.addEventListener('click', function() {
-            this.classList.add('active');
-            rsvpYes.classList.remove('active');
+            this.classList.add('active'); rsvpYes.classList.remove('active');
             rsvpExtra.classList.remove('visible');
-            soundNo.currentTime = 0;
-            soundNo.play().catch(() => {});
+            soundNo.currentTime = 0; soundNo.play().catch(()=>{});
             alert('Спасибо, что сообщили! Будем скучать');
         });
 
+        // ОТПРАВКА В GOOGLE ТАБЛИЦУ
         document.getElementById('rsvpForm').addEventListener('submit', function(e) {
             e.preventDefault();
             const btn = this.querySelector('.btn-submit');
-            btn.textContent = 'Отправлено!';
-            btn.style.background = 'linear-gradient(135deg, #8CD4B5, #7EC8E3)';
-            setTimeout(() => {
-                btn.textContent = 'Отправить';
-                btn.style.background = 'linear-gradient(135deg, #F7B7C8, #F3B56A)';
-                this.reset();
-                rsvpExtra.classList.remove('visible');
-                rsvpYes.classList.remove('active');
-                rsvpNo.classList.remove('active');
-                alert('Спасибо! Мы будем ждать вас!');
-            }, 2000);
+            btn.textContent = 'Отправка...';
+            btn.style.background = 'linear-gradient(135deg, #C4B5AD, #B8A6E0)';
+
+            const answers = {
+                name: document.getElementById('rsvpName').value,
+                attending: rsvpYes.classList.contains('active') ? 'Да' : 'Нет',
+                city: document.getElementById('rsvpCity').value,
+                food: document.querySelector('input[name="food"]:checked')?.value || '',
+                drinks: Array.from(document.querySelectorAll('input[name="drink"]:checked')).map(cb => cb.value).join(', '),
+                nonAlco: document.getElementById('rsvpNonAlco').value,
+                phone: document.getElementById('rsvpPhone').value,
+                allergies: document.getElementById('rsvpAllergies').value
+            };
+
+            // ⚠️ ВСТАВЬ СВОЮ ССЫЛКУ НИЖЕ
+            const SCRIPT_URL = 'https://script.google.com/macros/s/ТВОЙ_КОД/exec';
+
+            fetch(SCRIPT_URL, {
+                method: 'POST',
+                mode: 'no-cors',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(answers)
+            })
+            .then(() => {
+                btn.textContent = 'Отправлено!';
+                btn.style.background = 'linear-gradient(135deg, #8CD4B5, #7EC8E3)';
+                setTimeout(() => {
+                    btn.textContent = 'Отправить';
+                    btn.style.background = 'linear-gradient(135deg, #F7B7C8, #F3B56A)';
+                    this.reset();
+                    rsvpExtra.classList.remove('visible');
+                    rsvpYes.classList.remove('active');
+                    rsvpNo.classList.remove('active');
+                    alert('Спасибо! Мы будем ждать вас!');
+                }, 2000);
+            })
+            .catch(() => {
+                btn.textContent = 'Ошибка';
+                btn.style.background = 'linear-gradient(135deg, #FF8CA8, #FF6B6B)';
+                setTimeout(() => {
+                    btn.textContent = 'Отправить';
+                    btn.style.background = 'linear-gradient(135deg, #F7B7C8, #F3B56A)';
+                }, 2000);
+            });
         });
 
         // ДРЕСС-КОД
         const dresscodePhotos = {
-            pink: ['assets/images/dresscode/pink-1.jpg', 'assets/images/dresscode/pink-2.jpg'],
-            blue: ['assets/images/dresscode/blue-1.jpg', 'assets/images/dresscode/blue-2.jpg'],
-            lavender: ['assets/images/dresscode/lavender-1.jpg', 'assets/images/dresscode/lavender-2.jpg'],
-            peach: ['assets/images/dresscode/peach-1.jpg', 'assets/images/dresscode/peach-2.jpg'],
-            mint: ['assets/images/dresscode/mint-1.jpg', 'assets/images/dresscode/mint-2.jpg']
+            pink: ['assets/images/dresscode/pink-1.jpg','assets/images/dresscode/pink-2.jpg'],
+            blue: ['assets/images/dresscode/blue-1.jpg','assets/images/dresscode/blue-2.jpg'],
+            lavender: ['assets/images/dresscode/lavender-1.jpg','assets/images/dresscode/lavender-2.jpg'],
+            peach: ['assets/images/dresscode/peach-1.jpg','assets/images/dresscode/peach-2.jpg'],
+            mint: ['assets/images/dresscode/mint-1.jpg','assets/images/dresscode/mint-2.jpg']
         };
-
-        const dresscodeContainer = document.getElementById('dresscodePhotos');
-
         document.querySelectorAll('.color-dot').forEach(dot => {
             dot.addEventListener('click', function() {
                 document.querySelectorAll('.color-dot').forEach(d => d.classList.remove('active'));
                 this.classList.add('active');
-                const color = this.dataset.color;
-                const photos = dresscodePhotos[color] || [];
-                if (photos.length > 0) {
-                    dresscodeContainer.innerHTML = photos.map(src => 
-                        `<img src="${src}" alt="Образ в цвете" />`
-                    ).join('');
-                } else {
-                    dresscodeContainer.innerHTML = '<span class="photo-placeholder">Фото скоро появятся</span>';
-                }
+                const photos = dresscodePhotos[this.dataset.color] || [];
+                document.getElementById('dresscodePhotos').innerHTML = photos.length
+                    ? photos.map(src => `<img src="${src}" alt="Образ" />`).join('')
+                    : '<span class="photo-placeholder">Фото скоро появятся</span>';
             });
         });
 
         // МУЖЧИНЫ
         const menPhotos = {
-            option1: ['assets/images/dresscode/men-1.jpg', 'assets/images/dresscode/men-2.jpg'],
-            option2: ['assets/images/dresscode/men-alt-1.jpg', 'assets/images/dresscode/men-alt-2.jpg']
+            option1: ['assets/images/dresscode/men-1.jpg','assets/images/dresscode/men-2.jpg'],
+            option2: ['assets/images/dresscode/men-alt-1.jpg','assets/images/dresscode/men-alt-2.jpg']
         };
-
-        const menContainer = document.getElementById('menPhotos');
-
         document.getElementById('menOption1').addEventListener('click', function() {
             document.querySelectorAll('.men-btn').forEach(b => b.classList.remove('active'));
             this.classList.add('active');
-            const photos = menPhotos.option1 || [];
-            menContainer.innerHTML = photos.map(src => 
-                `<img src="${src}" alt="Мужской образ" />`
-            ).join('');
+            document.getElementById('menPhotos').innerHTML = menPhotos.option1.map(src => `<img src="${src}" alt="Мужской образ" />`).join('');
         });
-
         document.getElementById('menOption2').addEventListener('click', function() {
             document.querySelectorAll('.men-btn').forEach(b => b.classList.remove('active'));
             this.classList.add('active');
-            const photos = menPhotos.option2 || [];
-            menContainer.innerHTML = photos.map(src => 
-                `<img src="${src}" alt="Мужской образ (альтернатива)" />`
-            ).join('');
-            menContainer.innerHTML += '<div class="note">только без ленты</div>';
+            document.getElementById('menPhotos').innerHTML = menPhotos.option2.map(src => `<img src="${src}" alt="Мужской образ" />`).join('')
+                + '<div class="note">только без ленты</div>';
         });
 
         // МОДАЛЬНОЕ ОКНО
-        const photoModal = document.getElementById('photoModal');
-        const modalImage = document.getElementById('modalImage');
-        const closeModalBtn = document.getElementById('closeModal');
-
+        const photoModal = document.getElementById('photoModal'), modalImage = document.getElementById('modalImage');
         document.addEventListener('click', function(e) {
             if (e.target.closest('.dresscode-photos img') || e.target.closest('.men-photos img')) {
                 modalImage.src = e.target.src;
                 photoModal.style.display = 'flex';
             }
         });
-
-        closeModalBtn.addEventListener('click', function() {
-            photoModal.style.display = 'none';
-        });
-
-        photoModal.addEventListener('click', function(e) {
-            if (e.target === photoModal) {
-                photoModal.style.display = 'none';
-            }
-        });
+        document.getElementById('closeModal').addEventListener('click', () => photoModal.style.display = 'none');
+        photoModal.addEventListener('click', e => { if (e.target === photoModal) photoModal.style.display = 'none'; });
 
         // FAQ
-        document.querySelectorAll('.faq-item').forEach(item => {
-            item.addEventListener('click', function() {
-                this.classList.toggle('open');
-            });
-        });
+        document.querySelectorAll('.faq-item').forEach(item => item.addEventListener('click', function() { this.classList.toggle('open'); }));
 
         console.log('💍 Свадебный сайт загружен!');
     </script>

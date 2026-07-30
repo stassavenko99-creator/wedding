@@ -12,9 +12,6 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
     
     <style>
-        /* ==========================================
-           БАЗА
-           ========================================== */
         * {
             margin: 0;
             padding: 0;
@@ -58,9 +55,6 @@
             z-index: 2;
         }
 
-        /* ==========================================
-           ФОН (на всё тело)
-           ========================================== */
         .bg-grain {
             position: fixed;
             top: 0;
@@ -99,9 +93,6 @@
         .blob-4 { width: 400px; height: 400px; bottom: 20%; right: -120px; background: radial-gradient(circle, #F5E0C8, #F0D4B8); opacity: 0.15; }
         .blob-5 { width: 250px; height: 250px; top: 60%; left: 30%; background: radial-gradient(circle, #E8F0D4, #DCE8C5); opacity: 0.1; }
 
-        /* ==========================================
-           ДЕКОР
-           ========================================== */
         .deco-layer {
             position: fixed;
             top: 0;
@@ -157,7 +148,6 @@
             font-family: 'Quicksand', sans-serif;
         }
 
-        /* Размещение декоров */
         .deco-1 { top: 5%; left: 3%; }
         .deco-2 { top: 8%; right: 6%; }
         .deco-3 { top: 15%; left: 12%; }
@@ -179,9 +169,6 @@
         .deco-19 { top: 48%; left: 22%; }
         .deco-20 { top: 78%; left: 55%; }
 
-        /* ==========================================
-           ОСНОВНЫЕ СТИЛИ
-           ========================================== */
         .craft-title {
             font-family: 'Rubik Bubbles', cursive;
             font-weight: 400;
@@ -223,9 +210,6 @@
             margin-bottom: 4px;
         }
 
-        /* ==========================================
-           МУЗЫКАЛЬНЫЕ КНОПКИ (очень прозрачные)
-           ========================================== */
         .music-controls {
             position: fixed;
             top: 20px;
@@ -269,9 +253,6 @@
         .music-btn.active .music-icon { color: white; }
         .music-btn.music-off.active { background: #C4B5AD; border-color: #C4B5AD; }
 
-        /* ==========================================
-           HERO
-           ========================================== */
         #hero {
             min-height: 100vh;
             display: flex;
@@ -325,7 +306,6 @@
             font-family: 'Quicksand', sans-serif;
             font-size: 1.2rem;
             font-weight: 600;
-            color: #4A3F3A;
             letter-spacing: 4px;
             text-transform: uppercase;
             position: relative;
@@ -416,9 +396,6 @@
             50% { transform: translateY(8px); }
         }
 
-        /* ==========================================
-           МЕСТО
-           ========================================== */
         #venue {
             min-height: 100vh;
             display: flex;
@@ -465,10 +442,10 @@
         }
 
         .venue-hint {
-            font-size: 0.8rem;
-            color: #C4B5AD;
-            font-weight: 300;
-            margin-bottom: 16px;
+            font-size: 0.85rem;
+            color: #F7B7C8;
+            font-weight: 600;
+            margin-bottom: 6px;
             letter-spacing: 2px;
         }
 
@@ -508,9 +485,6 @@
             border-color: #4A3F3A;
         }
 
-        /* ==========================================
-           ПЛАН ДНЯ
-           ========================================== */
         #schedule {
             position: relative;
             z-index: 2;
@@ -579,9 +553,6 @@
             font-weight: 600;
         }
 
-        /* ==========================================
-           ДРЕСС-КОД
-           ========================================== */
         #dresscode { position: relative; z-index: 2; background: transparent; }
 
         .dresscode-sub {
@@ -625,6 +596,8 @@
             display: flex;
             align-items: center;
             justify-content: center;
+            gap: 12px;
+            flex-wrap: wrap;
             margin-bottom: 18px;
             border: 1px solid rgba(255, 255, 255, 0.2);
             transition: all 0.3s ease;
@@ -632,10 +605,11 @@
 
         .dresscode-photos .photo-placeholder { color: #C4B5AD; font-size: 0.85rem; }
         .dresscode-photos img {
-            max-width: 100%;
+            max-width: 48%;
             max-height: 180px;
             border-radius: 20px;
             object-fit: cover;
+            cursor: pointer;
         }
 
         .men-buttons {
@@ -682,16 +656,18 @@
             justify-content: center;
             border: 1px solid rgba(255, 255, 255, 0.2);
             transition: all 0.3s ease;
-            flex-direction: column;
+            flex-direction: row;
+            flex-wrap: wrap;
             gap: 12px;
         }
 
         .men-photos .photo-placeholder { color: #C4B5AD; font-size: 0.85rem; }
         .men-photos img {
-            max-width: 100%;
+            max-width: 48%;
             max-height: 180px;
             border-radius: 20px;
             object-fit: cover;
+            cursor: pointer;
         }
 
         .men-photos .note {
@@ -703,11 +679,9 @@
             background: rgba(255,255,255,0.3);
             border-radius: 20px;
             border: 1px solid rgba(243, 181, 106, 0.2);
+            width: 100%;
         }
 
-        /* ==========================================
-           FAQ
-           ========================================== */
         #faq { position: relative; z-index: 2; background: transparent; }
 
         .faq-grid {
@@ -775,7 +749,7 @@
         }
 
         .faq-item.open .answer {
-            max-height: 300px;
+            max-height: 400px;
             opacity: 1;
             margin-top: 10px;
             padding: 6px 8px 2px;
@@ -790,9 +764,6 @@
         .faq-item .answer .hl-red { color: #FF6B6B; font-weight: 600; }
         .faq-item .answer .hl-dark { color: #5D4E6D; font-weight: 600; }
 
-        /* ==========================================
-           RSVP
-           ========================================== */
         #rsvp { position: relative; z-index: 2; background: transparent; }
 
         .rsvp-note {
@@ -989,9 +960,6 @@
             margin: 8px 0;
         }
 
-        /* ==========================================
-           ТАЙМЕР
-           ========================================== */
         #timer-section {
             position: relative;
             z-index: 2;
@@ -1032,9 +1000,6 @@
             margin-top: 4px;
         }
 
-        /* ==========================================
-           FOOTER
-           ========================================== */
         footer {
             background: rgba(255, 255, 255, 0.3);
             backdrop-filter: blur(10px);
@@ -1070,17 +1035,56 @@
             letter-spacing: 1px;
         }
 
-        /* ==========================================
-           GSAP REVEAL
-           ========================================== */
+        .footer-contacts {
+            margin-top: 16px;
+            padding-top: 16px;
+            border-top: 1px solid rgba(0,0,0,0.04);
+            font-size: 0.85rem;
+            color: #6B5F5A;
+            line-height: 1.8;
+        }
+
+        .footer-contacts strong {
+            color: #4A3F3A;
+        }
+
         .reveal {
             opacity: 0;
             transform: translateY(40px) scale(0.96);
         }
 
-        /* ==========================================
-           АДАПТИВ
-           ========================================== */
+        /* Модальное окно */
+        #photoModal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(0,0,0,0.92);
+            z-index: 9999;
+            justify-content: center;
+            align-items: center;
+        }
+
+        #photoModal img {
+            max-width: 92vw;
+            max-height: 92vh;
+            object-fit: contain;
+            border-radius: 16px;
+        }
+
+        #photoModal .close-modal {
+            position: absolute;
+            top: 20px;
+            right: 28px;
+            color: white;
+            font-size: 38px;
+            cursor: pointer;
+            z-index: 10000;
+            font-weight: 300;
+        }
+
         @media (max-width: 480px) {
             section { padding: 50px 0 60px; }
             .hero-names { font-size: clamp(2rem, 6vw, 3rem); }
@@ -1098,7 +1102,8 @@
             .music-btn { padding: 8px 14px; font-size: 0.65rem; min-width: 100px; }
             .hero-date { font-size: 0.9rem; padding: 6px 16px; }
             .scroll-down svg { width: 22px; height: 32px; }
-            .venue-hint { font-size: 0.7rem; }
+            .venue-hint { font-size: 0.75rem; }
+            .dresscode-photos img, .men-photos img { max-width: 100%; }
         }
 
         @media (max-width: 768px) {
@@ -1117,9 +1122,6 @@
 
 <body>
 
-    <!-- ==========================================
-    ФОН
-    ========================================== -->
     <div class="bg-grain"></div>
 
     <div class="blob-layer">
@@ -1137,37 +1139,28 @@
         <svg class="wave-line deco-11" width="150" height="30" viewBox="0 0 150 30">
             <path d="M0 15 Q20 0 40 15 T80 15 T120 15 T150 15" stroke="#4A3F3A" fill="none" stroke-width="1.5"/>
         </svg>
-
         <div class="dot-group deco-3"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="dot dot-big"></span></div>
         <div class="dot-group deco-13"><span class="dot dot-big"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span></div>
         <div class="dot-group deco-18"><span class="dot"></span><span class="dot dot-big"></span><span class="dot"></span></div>
-
         <span class="star-deco deco-4">✦</span>
         <span class="star-deco deco-8">✦</span>
         <span class="star-deco deco-15">✦</span>
         <span class="star-deco deco-19">✦</span>
-
         <span class="heart-deco deco-5">♥</span>
         <span class="heart-deco deco-9">♥</span>
         <span class="heart-deco deco-14">♥</span>
-
         <div class="arc-deco deco-2" style="width: 80px; height: 80px;"></div>
         <div class="arc-deco deco-7" style="width: 60px; height: 60px;"></div>
         <div class="arc-deco deco-12" style="width: 100px; height: 100px;"></div>
         <div class="arc-deco deco-17" style="width: 50px; height: 50px;"></div>
-
         <div class="stroke-deco deco-6" style="--rot: 15deg; width: 60px;"></div>
         <div class="stroke-deco deco-10" style="--rot: -8deg; width: 80px;"></div>
         <div class="stroke-deco deco-16" style="--rot: 25deg; width: 50px;"></div>
         <div class="stroke-deco deco-20" style="--rot: -12deg; width: 70px;"></div>
-
         <span class="doodle-deco deco-18" style="font-size: 1.2rem;">~ ~ ~</span>
         <span class="doodle-deco deco-12" style="font-size: 1.5rem; opacity: 0.03;">✧</span>
     </div>
 
-    <!-- ==========================================
-    МУЗЫКАЛЬНЫЕ КНОПКИ (очень прозрачные)
-    ========================================== -->
     <div class="music-controls" id="musicControls">
         <button class="music-btn" id="stasMusicBtn">
             <span class="music-icon">♪</span> Музыка Стаса
@@ -1180,9 +1173,7 @@
         </button>
     </div>
 
-    <!-- ==========================================
-    HERO
-    ========================================== -->
+    <!-- HERO -->
     <section id="hero">
         <div class="heart-frame reveal">
             <svg viewBox="0 0 200 200" class="heart-svg">
@@ -1224,7 +1215,11 @@
             </span>
         </h1>
 
-        <p class="hero-date reveal">17 октября 2026</p>
+        <p class="hero-date reveal">
+            <span style="color:#FF8CA8;">1</span><span style="color:#7EC8E3;">7</span>
+            <span style="color:#B8A6E0;">о</span><span style="color:#F9B87A;">к</span><span style="color:#8CD4B5;">т</span><span style="color:#F5D76E;">я</span><span style="color:#FF8CA8;">б</span><span style="color:#7EC8E3;">р</span><span style="color:#B8A6E0;">я</span>
+            <span style="color:#F9B87A;">2</span><span style="color:#8CD4B5;">0</span><span style="color:#F5D76E;">2</span><span style="color:#FF8CA8;">6</span>
+        </p>
 
         <div class="calendar-mini reveal">
             <span class="day weekday">Пн</span>
@@ -1250,12 +1245,10 @@
         </div>
     </section>
 
-    <!-- ==========================================
-    МЕСТО
-    ========================================== -->
+    <!-- МЕСТО -->
     <section id="venue">
         <div class="venue-content reveal">
-            <p class="venue-hint">покрути меня</p>
+            <p class="venue-hint">нажми на нас</p>
             <div class="venue-photo-frame" id="venueFrame">
                 <img src="assets/images/venue-photo.jpg" alt="Отель Высоцкий" />
             </div>
@@ -1280,9 +1273,7 @@
         </div>
     </section>
 
-    <!-- ==========================================
-    ПЛАН ДНЯ
-    ========================================== -->
+    <!-- ПЛАН ДНЯ -->
     <section id="schedule">
         <div class="container">
             <p class="section-label reveal">Как всё пройдёт</p>
@@ -1307,7 +1298,7 @@
                         <span class="letter letter-color-4" style="--rot:2deg;--y:1px;">ш</span>
                         <span class="letter letter-color-5" style="--rot:-1deg;--y:-1px;">е</span>
                         <span class="letter letter-color-6" style="--rot:1deg;--y:3px;">т</span>
-                        <small>Лёгкие закуски и шампанское</small>
+                        <small><span class="important">НЕ ОПАЗДЫВАТЬ</span></small>
                     </div>
                 </div>
 
@@ -1337,7 +1328,7 @@
                             <span class="letter letter-color-5" style="--rot:-2deg;--y:-1px;">и</span>
                             <span class="letter letter-color-6" style="--rot:2deg;--y:3px;">я</span>
                         </span>
-                        <small><span class="important">Не опаздывать!!</span></small>
+                        <small></small>
                     </div>
                 </div>
 
@@ -1350,16 +1341,14 @@
                         <span class="letter letter-color-8" style="--rot:1deg;--y:3px;">к</span>
                         <span class="letter letter-color-1" style="--rot:-1deg;--y:-2px;">е</span>
                         <span class="letter letter-color-2" style="--rot:2deg;--y:1px;">т</span>
-                        <small>Праздничный ужин и танцы</small>
+                        <small></small>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- ==========================================
-    ДРЕСС-КОД
-    ========================================== -->
+    <!-- ДРЕСС-КОД -->
     <section id="dresscode">
         <div class="container">
             <p class="section-label reveal">Dress-code</p>
@@ -1375,9 +1364,7 @@
                 <span class="letter letter-color-9" style="--rot:-1deg;--y:-1px;">д</span>
             </h2>
             
-            <p class="dresscode-sub reveal">
-                Пастельные, дофаминовые оттенки
-            </p>
+            <p class="dresscode-sub reveal">Пастельные, дофаминовые оттенки</p>
 
             <div class="color-palette reveal">
                 <div class="color-dot" data-color="pink" style="background: #FF8CA8;"></div>
@@ -1401,9 +1388,7 @@
         </div>
     </section>
 
-    <!-- ==========================================
-    FAQ
-    ========================================== -->
+    <!-- FAQ -->
     <section id="faq">
         <div class="container">
             <p class="section-label reveal">Важные мелочи</p>
@@ -1436,7 +1421,8 @@
                         <span class="arrow">▼</span>
                     </div>
                     <div class="answer">
-                        Мы будем рады вашему вниманию и тёплым словам! Если захотите порадовать нас материально, то <span class="hl-pink">денежный конверт</span> станет самым практичным вариантом. Также с радостью примем <span class="hl-blue">шоколад</span> и <span class="hl-lavender">мармелад</span>.
+                        Сразу после свадьбы мы улетаем, так что не сможем увезти ничего тяжелее купюр.<br>
+                        Если вы хотели подарить цветы, то придумайте, пожалуйста, что-то другое весёлое. Потому что цветы мы тоже не сможем увезти.
                     </div>
                 </div>
 
@@ -1458,8 +1444,8 @@
                         <span class="arrow">▼</span>
                     </div>
                     <div class="answer">
-                        <span class="hl-lavender">Отель Высоцкий</span> в центре Екатеринбурга. Такси легко поймать.
-                        Подъезд к отелю — с улицы Ленина.
+                        <span class="hl-lavender">(для иногородних)</span> Сначала прилететь/приехать в Екатеринбург.<br>
+                        <span class="hl-lavender">Отель Высоцкий</span> в центре Екатеринбурга. Подъезд к отелю — с улицы Ленина.
                     </div>
                 </div>
 
@@ -1488,9 +1474,7 @@
         </div>
     </section>
 
-    <!-- ==========================================
-    RSVP
-    ========================================== -->
+    <!-- RSVP -->
     <section id="rsvp">
         <div class="container">
             <p class="section-label reveal">Ждём вас!</p>
@@ -1525,20 +1509,6 @@
 
                 <div class="rsvp-extra" id="rsvpExtra">
                     <div class="form-group">
-                        <label>Получится приехать?</label>
-                        <div class="radio-group">
-                            <label class="radio-btn color-pink">
-                                <input type="radio" name="attendance" value="yes" checked />
-                                <span>Конечно, будем!</span>
-                            </label>
-                            <label class="radio-btn color-blue">
-                                <input type="radio" name="attendance" value="no" />
-                                <span>К сожалению, не получится</span>
-                            </label>
-                        </div>
-                    </div>
-
-                    <div class="form-group">
                         <label>Из какого вы города?</label>
                         <input type="text" placeholder="Город" />
                     </div>
@@ -1549,10 +1519,6 @@
                             <label class="radio-btn color-lavender radio-btn-small">
                                 <input type="radio" name="food" value="meat" />
                                 <span>Мясо</span>
-                            </label>
-                            <label class="radio-btn color-peach radio-btn-small">
-                                <input type="radio" name="food" value="fish" />
-                                <span>Рыба</span>
                             </label>
                             <label class="radio-btn color-mint radio-btn-small">
                                 <input type="radio" name="food" value="vegan" />
@@ -1608,9 +1574,7 @@
         </div>
     </section>
 
-    <!-- ==========================================
-    ТАЙМЕР
-    ========================================== -->
+    <!-- ТАЙМЕР -->
     <section id="timer-section">
         <div class="container">
             <p class="section-label reveal">Скоро</p>
@@ -1656,9 +1620,7 @@
         </div>
     </section>
 
-    <!-- ==========================================
-    FOOTER
-    ========================================== -->
+    <!-- FOOTER -->
     <footer>
         <p>
             <span class="letter letter-color-1" style="--rot:-1deg;--y:-2px;">С</span>
@@ -1676,12 +1638,20 @@
         <div class="footer-tags">
             <span>СтасНастя2026</span>
         </div>
+        <div class="footer-contacts">
+            <strong>Контакты организатора:</strong><br>
+            Елена<br>
+            <a href="tel:+79221462016" style="color:#4A3F3A; text-decoration:none;">+7 922 146 20 16</a>
+        </div>
     </footer>
 
+    <!-- МОДАЛЬНОЕ ОКНО ДЛЯ ФОТО -->
+    <div id="photoModal">
+        <span class="close-modal" id="closeModal">✕</span>
+        <img id="modalImage" src="" alt="Фото" />
+    </div>
+
     <script>
-        // ==========================================
-        // GSAP + SCROLLTRIGGER
-        // ==========================================
         gsap.registerPlugin(ScrollTrigger);
 
         document.querySelectorAll('.reveal').forEach((el) => {
@@ -1704,9 +1674,6 @@
             );
         });
 
-        // ==========================================
-        // АНИМАЦИЯ ФОНОВЫХ ПЯТЕН
-        // ==========================================
         const blobs = [
             document.getElementById('blob1'),
             document.getElementById('blob2'),
@@ -1736,9 +1703,6 @@
             }
         });
 
-        // ==========================================
-        // АНИМАЦИЯ ДЕКОРАТИВНЫХ ЭЛЕМЕНТОВ
-        // ==========================================
         document.querySelectorAll('.deco-layer .wave-line, .deco-layer .star-deco, .deco-layer .heart-deco, .deco-layer .dot-group, .deco-layer .arc-deco, .deco-layer .stroke-deco, .deco-layer .doodle-deco').forEach((el, i) => {
             const delay = (i % 5) * 0.3;
             gsap.to(el, {
@@ -1761,38 +1725,36 @@
             }
         });
 
-        // ==========================================
-        // МЕСТО — ускорение вращения при клике
-        // ==========================================
+        // МЕСТО
         const venueFrame = document.getElementById('venueFrame');
         let isSpinningFast = false;
+        const clickSound = new Audio('assets/audio/click-sound.mp3');
 
         venueFrame.addEventListener('click', function() {
             isSpinningFast = !isSpinningFast;
             this.classList.toggle('speed');
+            clickSound.currentTime = 0;
+            clickSound.play().catch(() => {});
+            this.style.transform = 'scale(1.05)';
+            setTimeout(() => { this.style.transform = 'scale(1)'; }, 150);
         });
 
-        // ==========================================
         // ТАЙМЕР
-        // ==========================================
         const targetDate = new Date('2026-10-17T15:00:00').getTime();
 
         function updateTimer() {
             const now = Date.now();
             const diff = targetDate - now;
-
             if (diff <= 0) {
                 ['days', 'hours', 'minutes', 'seconds'].forEach(id => {
                     document.getElementById(id).textContent = '🎉';
                 });
                 return;
             }
-
             const d = Math.floor(diff / (1000 * 60 * 60 * 24));
             const h = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
             const m = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
             const s = Math.floor((diff % (1000 * 60)) / 1000);
-
             document.getElementById('days').textContent = String(d).padStart(2, '0');
             document.getElementById('hours').textContent = String(h).padStart(2, '0');
             document.getElementById('minutes').textContent = String(m).padStart(2, '0');
@@ -1802,21 +1764,16 @@
         updateTimer();
         setInterval(updateTimer, 1000);
 
-        // ==========================================
-        // СТРЕЛКА ВНИЗ
-        // ==========================================
+        // СТРЕЛКА
         document.getElementById('scrollDown').addEventListener('click', () => {
             document.getElementById('venue').scrollIntoView({ behavior: 'smooth' });
         });
 
-        // ==========================================
         // МУЗЫКА
-        // ==========================================
         let stasAudio = null;
         let nastyaAudio = null;
         let stasPlaying = false;
         let nastyaPlaying = false;
-
         const stasBtn = document.getElementById('stasMusicBtn');
         const nastyaBtn = document.getElementById('nastyaMusicBtn');
         const offBtn = document.getElementById('musicOffBtn');
@@ -1836,7 +1793,6 @@
                 stasAudio = new Audio('assets/audio/stas-music.mp3');
                 stasAudio.loop = true;
             }
-            
             if (stasPlaying) {
                 stasAudio.pause();
                 stasPlaying = false;
@@ -1856,7 +1812,6 @@
                 nastyaAudio = new Audio('assets/audio/nastya-music.mp3');
                 nastyaAudio.loop = true;
             }
-            
             if (nastyaPlaying) {
                 nastyaAudio.pause();
                 nastyaPlaying = false;
@@ -1876,17 +1831,19 @@
             this.classList.add('active');
         });
 
-        // ==========================================
         // RSVP
-        // ==========================================
         const rsvpExtra = document.getElementById('rsvpExtra');
         const rsvpYes = document.getElementById('rsvpYes');
         const rsvpNo = document.getElementById('rsvpNo');
+        const soundYes = new Audio('assets/audio/yes-sound.mp3');
+        const soundNo = new Audio('assets/audio/no-sound.mp3');
 
         rsvpYes.addEventListener('click', function() {
             this.classList.add('active');
             rsvpNo.classList.remove('active');
             rsvpExtra.classList.add('visible');
+            soundYes.currentTime = 0;
+            soundYes.play().catch(() => {});
             setTimeout(() => {
                 rsvpExtra.scrollIntoView({ behavior: 'smooth', block: 'center' });
             }, 300);
@@ -1896,6 +1853,8 @@
             this.classList.add('active');
             rsvpYes.classList.remove('active');
             rsvpExtra.classList.remove('visible');
+            soundNo.currentTime = 0;
+            soundNo.play().catch(() => {});
             alert('Спасибо, что сообщили! Будем скучать');
         });
 
@@ -1915,9 +1874,7 @@
             }, 2000);
         });
 
-        // ==========================================
         // ДРЕСС-КОД
-        // ==========================================
         const dresscodePhotos = {
             pink: ['assets/images/dresscode/pink-1.jpg', 'assets/images/dresscode/pink-2.jpg'],
             blue: ['assets/images/dresscode/blue-1.jpg', 'assets/images/dresscode/blue-2.jpg'],
@@ -1932,10 +1889,8 @@
             dot.addEventListener('click', function() {
                 document.querySelectorAll('.color-dot').forEach(d => d.classList.remove('active'));
                 this.classList.add('active');
-
                 const color = this.dataset.color;
                 const photos = dresscodePhotos[color] || [];
-
                 if (photos.length > 0) {
                     dresscodeContainer.innerHTML = photos.map(src => 
                         `<img src="${src}" alt="Образ в цвете" />`
@@ -1946,9 +1901,7 @@
             });
         });
 
-        // ==========================================
         // МУЖЧИНЫ
-        // ==========================================
         const menPhotos = {
             option1: ['assets/images/dresscode/men-1.jpg', 'assets/images/dresscode/men-2.jpg'],
             option2: ['assets/images/dresscode/men-alt-1.jpg', 'assets/images/dresscode/men-alt-2.jpg']
@@ -1963,7 +1916,6 @@
             menContainer.innerHTML = photos.map(src => 
                 `<img src="${src}" alt="Мужской образ" />`
             ).join('');
-            // Убираем надпись для первого варианта
         });
 
         document.getElementById('menOption2').addEventListener('click', function() {
@@ -1976,9 +1928,29 @@
             menContainer.innerHTML += '<div class="note">только без ленты</div>';
         });
 
-        // ==========================================
+        // МОДАЛЬНОЕ ОКНО
+        const photoModal = document.getElementById('photoModal');
+        const modalImage = document.getElementById('modalImage');
+        const closeModalBtn = document.getElementById('closeModal');
+
+        document.addEventListener('click', function(e) {
+            if (e.target.closest('.dresscode-photos img') || e.target.closest('.men-photos img')) {
+                modalImage.src = e.target.src;
+                photoModal.style.display = 'flex';
+            }
+        });
+
+        closeModalBtn.addEventListener('click', function() {
+            photoModal.style.display = 'none';
+        });
+
+        photoModal.addEventListener('click', function(e) {
+            if (e.target === photoModal) {
+                photoModal.style.display = 'none';
+            }
+        });
+
         // FAQ
-        // ==========================================
         document.querySelectorAll('.faq-item').forEach(item => {
             item.addEventListener('click', function() {
                 this.classList.toggle('open');

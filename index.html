@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes" />
-    <title>Стас & Настя · 17.10.2026</title>
+    <title>Свадьба Стаса и Насти · 17.10.2026</title>
     
     <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
     <link href="https://fonts.googleapis.com/css2?family=Rubik+Bubbles&display=swap" rel="stylesheet" />
@@ -132,6 +132,14 @@
         .hero-names .amp { font-size: 0.5em; display: inline-block; margin: 0 6px; color: #C4B5AD; }
         .hero-names .letter { display: inline-block; transform: rotate(var(--rot, 0deg)) translateY(var(--y, 0px)); }
 
+        .hero-subtitle {
+            font-family: 'Quicksand', sans-serif; font-size: 0.9rem; font-weight: 600;
+            letter-spacing: 4px; text-transform: uppercase; position: relative; z-index: 2;
+            margin-bottom: 6px; background: rgba(255,255,255,0.3); padding: 6px 20px;
+            border-radius: 40px; backdrop-filter: blur(8px); border: 1px solid rgba(255,255,255,0.2);
+            color: #C4B5AD;
+        }
+
         .hero-date {
             font-family: 'Quicksand', sans-serif; font-size: 1.2rem; font-weight: 600;
             letter-spacing: 4px; text-transform: uppercase; position: relative; z-index: 2;
@@ -176,7 +184,6 @@
         .venue-photo-frame.speed { animation-duration: 0.83s; }
         @keyframes rotateVenue { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
 
-        .venue-hint { font-size: 0.85rem; color: #F7B7C8; font-weight: 600; margin-bottom: 6px; letter-spacing: 2px; }
         .venue-content h2 { font-family: 'Rubik Bubbles', cursive; font-size: clamp(2rem, 6vw, 3.5rem); font-weight: 400; color: #4A3F3A; margin-top: 16px; }
         .venue-content h2 .letter { display: inline-block; transform: rotate(var(--rot, 0deg)) translateY(var(--y, 0px)); }
         .venue-content .sub { font-size: 1.2rem; font-weight: 300; color: #6B5F5A; }
@@ -286,10 +293,12 @@
         .quiz-question { margin-bottom: 24px; }
         .quiz-question h3 { font-family: 'Rubik Bubbles', cursive; font-size: 1.2rem; font-weight: 400; margin-bottom: 12px; color: #4A3F3A; }
         .quiz-options { display: flex; flex-wrap: wrap; gap: 10px; }
-        .quiz-option { padding: 12px 20px; border: 1.5px solid rgba(74, 63, 58, 0.1); border-radius: 40px; background: rgba(255, 255, 255, 0.4); backdrop-filter: blur(8px); font-family: 'Quicksand', sans-serif; font-size: 0.9rem; font-weight: 500; color: #4A3F3A; cursor: pointer; transition: all 0.3s ease; }
+        .quiz-option { padding: 12px 20px; border: 1.5px solid rgba(74, 63, 58, 0.1); border-radius: 40px; background: rgba(255, 255, 255, 0.4); backdrop-filter: blur(8px); font-family: 'Quicksand', sans-serif; font-size: 0.9rem; font-weight: 500; color: #4A3F3A; cursor: pointer; transition: all 0.3s ease; position: relative; }
         .quiz-option:hover { border-color: #F7B7C8; background: rgba(255, 255, 255, 0.7); transform: translateY(-2px); }
-        .quiz-option.correct { background: #8CD4B5; color: white; border-color: #8CD4B5; }
-        .quiz-option.wrong { background: #FF8CA8; color: white; border-color: #FF8CA8; }
+        .quiz-option.correct { background: #8CD4B5; color: white; border-color: #8CD4B5; animation: popCorrect 0.4s ease; }
+        .quiz-option.wrong { background: #FF8CA8; color: white; border-color: #FF8CA8; animation: shake 0.5s ease; }
+        @keyframes popCorrect { 0% { transform: scale(1); } 50% { transform: scale(1.1); } 100% { transform: scale(1); } }
+        @keyframes shake { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-6px); } 50% { transform: translateX(6px); } 75% { transform: translateX(-4px); } }
 
         #timer-section { position: relative; z-index: 2; min-height: 40vh; padding: 40px 0 60px; background: transparent; }
         .timer { display: flex; gap: 12px; justify-content: center; flex-wrap: nowrap; }
@@ -413,6 +422,7 @@
             </svg>
         </div>
 
+        <p class="hero-subtitle reveal">Свадьба</p>
         <h1 class="hero-names reveal">
             <span class="name-group"><span class="letter" style="--rot:-2deg;--y:-3px;color:#FF8CA8;">С</span><span class="letter" style="--rot:1deg;--y:2px;color:#7EC8E3;">т</span><span class="letter" style="--rot:-1deg;--y:-1px;color:#B8A6E0;">а</span><span class="letter" style="--rot:2deg;--y:4px;color:#F9B87A;">с</span></span>
             <span class="amp">&amp;</span>
@@ -430,7 +440,7 @@
     <section id="venue">
         <div class="venue-content reveal">
             <div class="venue-photo-frame" id="venueFrame"><img src="assets/images/venue-photo.jpg" alt="Отель Высоцкий" /></div>
-            <h2><span class="letter letter-color-1" style="--rot:-1deg;--y:-2px;">О</span><span class="letter letter-color-2" style="--rot:2deg;--y:3px;">т</span><span class="letter letter-color-3" style="--rot:-2deg;--y:-1px;">е</span><span class="letter letter-color-4" style="--rot:1deg;--y:2px;">л</span><span class="letter letter-color-5" style="--rot:-1deg;--y:-2px;">ь</span><span class="letter letter-color-1" style="--rot:2deg;--y:1px;"> </span><span class="letter letter-color-6" style="--rot:-2deg;--y:-2px;">В</span><span class="letter letter-color-7" style="--rot:1deg;--y:3px;">ы</span><span class="letter letter-color-8" style="--rot:-1deg;--y:-1px;">с</span><span class="letter letter-color-9" style="--rot:2deg;--y:2px;">о</span><span class="letter letter-color-10" style="--rot:-1deg;--y:-2px;">ц</span><span class="letter letter-color-1" style="--rot:1deg;--y:1px;">к</span><span class="letter letter-color-2" style="--rot:-2deg;--y:-3px;">и</span><span class="letter letter-color-3" style="--rot:2deg;--y:2px;">й</span></h2>
+            <h2><span class="letter letter-color-1" style="--rot:-1deg;--y:-2px;">О</span><span class="letter letter-color-2" style="--rot:2deg;--y:3px;">т</span><span class="letter letter-color-3" style="--rot:-2deg;--y:-1px;">е</span><span class="letter letter-color-4" style="--rot:1deg;--y:2px;">л</span><span class="letter letter-color-5" style="--rot:-1deg;--y:-2px;">ь</span> <span class="letter letter-color-6" style="--rot:-2deg;--y:-2px;">В</span><span class="letter letter-color-7" style="--rot:1deg;--y:3px;">ы</span><span class="letter letter-color-8" style="--rot:-1deg;--y:-1px;">с</span><span class="letter letter-color-9" style="--rot:2deg;--y:2px;">о</span><span class="letter letter-color-10" style="--rot:-1deg;--y:-2px;">ц</span><span class="letter letter-color-1" style="--rot:1deg;--y:1px;">к</span><span class="letter letter-color-2" style="--rot:-2deg;--y:-3px;">и</span><span class="letter letter-color-3" style="--rot:2deg;--y:2px;">й</span></h2>
             <p class="sub">ресторан «Влади» · зал «Соната»</p>
             <p class="address">ул. Малышева, 51</p>
             <a href="https://yandex.ru/maps/-/CTvuyE5i" target="_blank" class="map-link">Открыть карту →</a>
@@ -440,7 +450,7 @@
     <!-- ПЛАН ДНЯ -->
     <section id="schedule">
         <div class="container">
-            <h2 class="craft-title reveal"><span class="letter letter-color-2" style="--rot:-1deg;--y:-2px;">П</span><span class="letter letter-color-3" style="--rot:2deg;--y:3px;">л</span><span class="letter letter-color-4" style="--rot:-2deg;--y:-1px;">а</span><span class="letter letter-color-5" style="--rot:1deg;--y:2px;">н</span><span class="letter letter-color-1" style="--rot:-1deg;--y:-3px;"> </span><span class="letter letter-color-6" style="--rot:2deg;--y:1px;">д</span><span class="letter letter-color-7" style="--rot:-2deg;--y:-2px;">н</span><span class="letter letter-color-8" style="--rot:1deg;--y:3px;">я</span></h2>
+            <h2 class="craft-title reveal"><span class="letter letter-color-2" style="--rot:-1deg;--y:-2px;">П</span><span class="letter letter-color-3" style="--rot:2deg;--y:3px;">л</span><span class="letter letter-color-4" style="--rot:-2deg;--y:-1px;">а</span><span class="letter letter-color-5" style="--rot:1deg;--y:2px;">н</span> <span class="letter letter-color-1" style="--rot:-1deg;--y:-3px;">д</span><span class="letter letter-color-6" style="--rot:2deg;--y:1px;">н</span><span class="letter letter-color-7" style="--rot:-2deg;--y:-2px;">я</span></h2>
             <div class="schedule-list">
                 <div class="schedule-item reveal"><span class="time">16:00</span><div class="event"><span class="letter letter-color-1" style="--rot:-1deg;--y:-1px;">Ф</span><span class="letter letter-color-2" style="--rot:1deg;--y:2px;">у</span><span class="letter letter-color-3" style="--rot:-2deg;--y:-2px;">р</span><span class="letter letter-color-4" style="--rot:2deg;--y:1px;">ш</span><span class="letter letter-color-5" style="--rot:-1deg;--y:-1px;">е</span><span class="letter letter-color-6" style="--rot:1deg;--y:3px;">т</span><small><span class="important">НЕ ОПАЗДЫВАТЬ</span></small></div></div>
                 <div class="schedule-item schedule-item-alt reveal"><span class="time">16:30</span><div class="event"><span class="word"><span class="letter letter-color-3" style="--rot:-2deg;--y:-2px;">В</span><span class="letter letter-color-4" style="--rot:1deg;--y:2px;">ы</span><span class="letter letter-color-5" style="--rot:-1deg;--y:-1px;">е</span><span class="letter letter-color-6" style="--rot:2deg;--y:3px;">з</span><span class="letter letter-color-7" style="--rot:-2deg;--y:-2px;">д</span><span class="letter letter-color-8" style="--rot:1deg;--y:1px;">н</span><span class="letter letter-color-1" style="--rot:-1deg;--y:-1px;">а</span><span class="letter letter-color-2" style="--rot:2deg;--y:2px;">я</span></span><span class="line-break"><span class="letter letter-color-4" style="--rot:1deg;--y:1px;">р</span><span class="letter letter-color-5" style="--rot:-2deg;--y:-1px;">е</span><span class="letter letter-color-6" style="--rot:2deg;--y:3px;">г</span><span class="letter letter-color-7" style="--rot:-1deg;--y:-2px;">и</span><span class="letter letter-color-8" style="--rot:1deg;--y:1px;">с</span><span class="letter letter-color-1" style="--rot:-2deg;--y:-1px;">т</span><span class="letter letter-color-2" style="--rot:2deg;--y:2px;">р</span><span class="letter letter-color-3" style="--rot:-1deg;--y:-2px;">а</span><span class="letter letter-color-4" style="--rot:1deg;--y:1px;">ц</span><span class="letter letter-color-5" style="--rot:-2deg;--y:-1px;">и</span><span class="letter letter-color-6" style="--rot:2deg;--y:3px;">я</span></span><small></small></div></div>
@@ -474,7 +484,7 @@
     <section id="faq">
         <div class="container">
             <p class="section-label reveal">Важные мелочи</p>
-            <h2 class="craft-title reveal"><span class="letter letter-color-4" style="--rot:-1deg;--y:-2px;">О</span><span class="letter letter-color-5" style="--rot:2deg;--y:3px;">т</span><span class="letter letter-color-6" style="--rot:-2deg;--y:-1px;">в</span><span class="letter letter-color-7" style="--rot:1deg;--y:2px;">е</span><span class="letter letter-color-8" style="--rot:-1deg;--y:-3px;">т</span><span class="letter letter-color-1" style="--rot:2deg;--y:1px;">ы</span><span class="line-break"><span class="letter letter-color-2" style="--rot:-2deg;--y:-2px;">н</span><span class="letter letter-color-3" style="--rot:1deg;--y:3px;">а</span><span class="letter letter-color-9" style="--rot:2deg;--y:2px;"> </span><span class="letter letter-color-10" style="--rot:-1deg;--y:-2px;">в</span><span class="letter letter-color-1" style="--rot:1deg;--y:1px;">о</span><span class="letter letter-color-2" style="--rot:-2deg;--y:-3px;">п</span><span class="letter letter-color-3" style="--rot:2deg;--y:2px;">р</span><span class="letter letter-color-4" style="--rot:-1deg;--y:-1px;">о</span><span class="letter letter-color-5" style="--rot:1deg;--y:3px;">с</span><span class="letter letter-color-6" style="--rot:-2deg;--y:-2px;">ы</span></span></h2>
+            <h2 class="craft-title reveal"><span class="letter letter-color-4" style="--rot:-1deg;--y:-2px;">О</span><span class="letter letter-color-5" style="--rot:2deg;--y:3px;">т</span><span class="letter letter-color-6" style="--rot:-2deg;--y:-1px;">в</span><span class="letter letter-color-7" style="--rot:1deg;--y:2px;">е</span><span class="letter letter-color-8" style="--rot:-1deg;--y:-3px;">т</span><span class="letter letter-color-1" style="--rot:2deg;--y:1px;">ы</span> <span class="letter letter-color-2" style="--rot:-2deg;--y:-2px;">н</span><span class="letter letter-color-3" style="--rot:1deg;--y:3px;">а</span> <span class="letter letter-color-9" style="--rot:2deg;--y:2px;">в</span><span class="letter letter-color-10" style="--rot:-1deg;--y:-2px;">о</span><span class="letter letter-color-1" style="--rot:1deg;--y:1px;">п</span><span class="letter letter-color-2" style="--rot:-2deg;--y:-3px;">р</span><span class="letter letter-color-3" style="--rot:2deg;--y:2px;">о</span><span class="letter letter-color-4" style="--rot:-1deg;--y:-1px;">с</span><span class="letter letter-color-5" style="--rot:1deg;--y:3px;">ы</span></h2>
             <div class="faq-grid" id="faqGrid">
                 <div class="faq-item reveal" data-faq="1"><div class="question"><span class="q-number color-1">1</span><span>Что дарить?</span><span class="arrow">▼</span></div><div class="answer">Сразу после свадьбы мы улетаем, так что <span class="hl-pink">не сможем увезти</span> ничего тяжелее <span class="hl-yellow">купюр</span>.<br>Если вы хотели подарить цветы, то придумайте, пожалуйста, <span class="hl-mint">что-то другое весёлое</span>. Потому что цветы мы тоже <span class="hl-pink">не сможем увезти</span>.</div></div>
                 <div class="faq-item reveal" data-faq="2"><div class="question"><span class="q-number color-2">2</span><span>Что надевать нельзя?</span><span class="arrow">▼</span></div><div class="answer"><span class="hl-red">Ярко-красный</span>, <span class="hl-dark">тёмно-зелёный</span> и, естественно, <span class="hl-mint">белый</span>.</div></div>
@@ -519,14 +529,13 @@
     <!-- КВИЗ -->
     <section id="quiz-section">
         <div class="container">
-            <p class="section-label reveal">Проверь себя</p>
             <h2 class="craft-title reveal"><span class="letter letter-color-1" style="--rot:-1deg;--y:-2px;">П</span><span class="letter letter-color-2" style="--rot:2deg;--y:3px;">р</span><span class="letter letter-color-3" style="--rot:-2deg;--y:-1px;">о</span><span class="letter letter-color-4" style="--rot:1deg;--y:2px;">в</span><span class="letter letter-color-5" style="--rot:-1deg;--y:-3px;">е</span><span class="letter letter-color-6" style="--rot:2deg;--y:1px;">р</span><span class="letter letter-color-7" style="--rot:-2deg;--y:-2px;">ь</span> <span class="letter letter-color-8" style="--rot:1deg;--y:3px;">с</span><span class="letter letter-color-1" style="--rot:-2deg;--y:-2px;">в</span><span class="letter letter-color-2" style="--rot:1deg;--y:2px;">о</span><span class="letter letter-color-3" style="--rot:-1deg;--y:-1px;">и</span> <span class="letter letter-color-9" style="--rot:2deg;--y:1px;">з</span><span class="letter letter-color-10" style="--rot:-2deg;--y:-3px;">н</span><span class="letter letter-color-1" style="--rot:1deg;--y:2px;">а</span><span class="letter letter-color-2" style="--rot:-1deg;--y:-1px;">н</span><span class="letter letter-color-3" style="--rot:2deg;--y:3px;">и</span><span class="letter letter-color-4" style="--rot:-2deg;--y:-2px;">я</span></h2>
             <div class="quiz-block">
                 <div class="quiz-question reveal"><h3>1. Какого числа свадьба? (не подглядывать!)</h3><div class="quiz-options"><span class="quiz-option">16 октября</span><span class="quiz-option" data-correct="true">17 октября</span><span class="quiz-option">22 марта</span><span class="quiz-option">16 сентября</span></div></div>
                 <div class="quiz-question reveal"><h3>2. В чём вы придёте?</h3><div class="quiz-options"><span class="quiz-option">Голый/голая</span><span class="quiz-option">Как Настя</span><span class="quiz-option" data-correct="true">В чём-то из референсов</span><span class="quiz-option">Ярко-красное</span></div></div>
                 <div class="quiz-question reveal"><h3>3. Где проходит свадьба?</h3><div class="quiz-options"><span class="quiz-option">Цой</span><span class="quiz-option">Чайф</span><span class="quiz-option">Фейс</span><span class="quiz-option" data-correct="true">Высоцкий</span></div></div>
                 <div class="quiz-question reveal"><h3>4. Как думаете, кто делал этот сайт?</h3><div class="quiz-options"><span class="quiz-option" data-correct="true">Стас</span><span class="quiz-option" data-correct="true">Конечно, Стас</span><span class="quiz-option" data-correct="true">Станислав</span><span class="quiz-option" data-correct="true">Ну не Настя</span></div></div>
-                <div class="quiz-question reveal"><h3>5. Куда мы полетим на медовый месяц?</h3><div class="quiz-options"><span class="quiz-option">Дурацкая Турция</span><span class="quiz-option">Дорогущая Италия</span><span class="quiz-option">Душные Мальдивы</span><span class="quiz-option" data-correct="true">Куда надо</span></div></div>
+                <div class="quiz-question reveal"><h3>5. Куда мы полетим на медовый месяц?</h3><div class="quiz-options"><span class="quiz-option">Дурацкая Турция</span><span class="quiz-option">Дорогущая Италия</span><span class="quiz-option">Душные Мальдивы</span><span class="quiz-option" data-correct="true" id="japanOption">Куда надо</span></div></div>
             </div>
         </div>
     </section>
@@ -566,13 +575,8 @@
         const heroHeart = document.getElementById('heroHeart');
         const heartClickSound = new Audio('assets/audio/click-sound.mp3');
         heroHeart.addEventListener('click', function() {
-            if (!heartClickSound.paused) {
-                heartClickSound.pause();
-                heartClickSound.currentTime = 0;
-            } else {
-                heartClickSound.currentTime = 0;
-                heartClickSound.play().catch(() => {});
-            }
+            if (!heartClickSound.paused) { heartClickSound.pause(); heartClickSound.currentTime = 0; }
+            else { heartClickSound.currentTime = 0; heartClickSound.play().catch(() => {}); }
             this.style.transform = 'scale(0.93)'; this.style.transition = 'transform 0.1s ease';
             setTimeout(() => { this.style.transform = 'scale(1.03)'; }, 100);
             setTimeout(() => { this.style.transform = 'scale(1)'; }, 200);
@@ -581,10 +585,7 @@
         // VENUE
         const venueFrame = document.getElementById('venueFrame');
         let isSpinningFast = false;
-        venueFrame.addEventListener('click', function() {
-            isSpinningFast = !isSpinningFast;
-            this.classList.toggle('speed');
-        });
+        venueFrame.addEventListener('click', function() { isSpinningFast = !isSpinningFast; this.classList.toggle('speed'); });
 
         // TIMER
         const targetDate = new Date('2026-10-17T15:00:00').getTime();
@@ -599,27 +600,18 @@
         updateTimer(); setInterval(updateTimer, 1000);
         document.getElementById('scrollDown').addEventListener('click', () => document.getElementById('venue').scrollIntoView({ behavior: 'smooth' }));
 
-        // SCROLL TOP BUTTON
+        // SCROLL TOP
         const btnScrollTop = document.getElementById('btnScrollTop');
-        window.addEventListener('scroll', () => {
-            btnScrollTop.classList.toggle('visible', window.scrollY > 500);
-        });
+        window.addEventListener('scroll', () => btnScrollTop.classList.toggle('visible', window.scrollY > 500));
         btnScrollTop.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
 
-        // MUSIC (with fade-in)
+        // MUSIC
         let stasAudio = null, nastyaAudio = null, stasPlaying = false, nastyaPlaying = false;
         const stasBtn = document.getElementById('stasMusicBtn'), nastyaBtn = document.getElementById('nastyaMusicBtn'), offBtn = document.getElementById('musicOffBtn');
         function fadeIn(audio, duration = 2000) {
-            audio.volume = 0;
-            audio.play().catch(() => {});
-            let vol = 0;
-            const step = 0.05;
-            const interval = duration / (1 / step);
-            const fadeInterval = setInterval(() => {
-                vol += step;
-                if (vol >= 0.3) { vol = 0.3; clearInterval(fadeInterval); }
-                audio.volume = vol;
-            }, interval);
+            audio.volume = 0; audio.play().catch(() => {}); let vol = 0;
+            const step = 0.05, interval = duration / (1 / step);
+            const fadeInterval = setInterval(() => { vol += step; if (vol >= 0.3) { vol = 0.3; clearInterval(fadeInterval); } audio.volume = vol; }, interval);
         }
         function stopAllMusic() {
             if (stasAudio) { stasAudio.pause(); stasAudio.currentTime = 0; }
@@ -642,13 +634,8 @@
         // RSVP
         const rsvpExtra = document.getElementById('rsvpExtra'), rsvpYes = document.getElementById('rsvpYes'), rsvpNo = document.getElementById('rsvpNo');
         const soundYes = new Audio('assets/audio/yes-sound.mp3');
-        const soundNoList = [
-            new Audio('assets/audio/no-sound-1.mp3'),
-            new Audio('assets/audio/no-sound-2.mp3'),
-            new Audio('assets/audio/no-sound-3.mp3')
-                            ];
+        const soundNoList = [new Audio('assets/audio/no-sound-1.mp3'), new Audio('assets/audio/no-sound-2.mp3'), new Audio('assets/audio/no-sound-3.mp3')];
         let soundNoIndex = 0;
-        
         rsvpYes.addEventListener('click', function() {
             this.classList.add('active'); rsvpNo.classList.remove('active'); rsvpExtra.classList.add('visible');
             soundYes.currentTime = 0; soundYes.play().catch(() => {});
@@ -656,23 +643,19 @@
             setTimeout(() => rsvpExtra.scrollIntoView({ behavior:'smooth', block:'center' }), 300);
         });
         rsvpNo.addEventListener('click', function() {
-    this.classList.add('active'); rsvpYes.classList.remove('active'); rsvpExtra.classList.remove('visible');
-    const currentNoSound = soundNoList[soundNoIndex];
-    currentNoSound.currentTime = 0;
-    currentNoSound.play().catch(() => {});
-    soundNoIndex = (soundNoIndex + 1) % soundNoList.length;
-    alert('Спасибо, что сообщили! Будем скучать');
-});
+            this.classList.add('active'); rsvpYes.classList.remove('active'); rsvpExtra.classList.remove('visible');
+            const currentNoSound = soundNoList[soundNoIndex];
+            currentNoSound.currentTime = 0; currentNoSound.play().catch(() => {});
+            soundNoIndex = (soundNoIndex + 1) % soundNoList.length;
+        });
+
         // CONFETTI
         function spawnConfetti() {
             const colors = ['#FF8CA8','#7EC8E3','#B8A6E0','#F9B87A','#8CD4B5','#F5D76E','#F7B7C8'];
             for (let i = 0; i < 40; i++) {
-                const piece = document.createElement('div');
-                piece.className = 'confetti-piece';
-                piece.style.left = '50%';
-                piece.style.top = '45%';
-                piece.style.width = (Math.random() * 10 + 6) + 'px';
-                piece.style.height = (Math.random() * 10 + 6) + 'px';
+                const piece = document.createElement('div'); piece.className = 'confetti-piece';
+                piece.style.left = '50%'; piece.style.top = '45%';
+                piece.style.width = (Math.random() * 10 + 6) + 'px'; piece.style.height = (Math.random() * 10 + 6) + 'px';
                 piece.style.background = colors[Math.floor(Math.random() * colors.length)];
                 piece.style.borderRadius = Math.random() > 0.5 ? '50%' : '2px';
                 piece.style.setProperty('--x', (Math.random() * 300 - 150) + 'px');
@@ -683,7 +666,7 @@
             }
         }
 
-        // DRINK SOUNDS
+        // DRINK SOUNDS (исправлено!)
         const drinkSounds = {
             wine: new Audio('assets/audio/drink-wine.mp3'),
             sparkling: new Audio('assets/audio/drink-sparkling.mp3'),
@@ -691,21 +674,14 @@
             no: new Audio('assets/audio/drink-no.mp3')
         };
         document.querySelectorAll('#drinkButtons .radio-btn').forEach(btn => {
-            btn.addEventListener('click', function() {
-                const input = this.querySelector('input');
-                const value = input.value;
-                if (drinkSounds[value]) {
-                    if (!drinkSounds[value].paused) {
-                        drinkSounds[value].pause();
-                        drinkSounds[value].currentTime = 0;
-                    } else {
-                        drinkSounds[value].currentTime = 0;
-                        drinkSounds[value].play().catch(() => {});
-                    }
-                }
-                // Dim others if "no" is checked
+            btn.addEventListener('click', function(e) {
+                const value = this.dataset.drink;
+                if (!value || !drinkSounds[value]) return;
+                if (!drinkSounds[value].paused) { drinkSounds[value].pause(); drinkSounds[value].currentTime = 0; }
+                else { drinkSounds[value].currentTime = 0; drinkSounds[value].play().catch(() => {}); }
                 if (value === 'no') {
-                    const checked = input.checked;
+                    const input = this.querySelector('input');
+                    const checked = input ? input.checked : !this.classList.contains('dimmed');
                     document.querySelectorAll('#drinkButtons .radio-btn').forEach(b => {
                         if (b.dataset.drink !== 'no') b.classList.toggle('dimmed', checked);
                     });
@@ -744,7 +720,6 @@
             const photos = dresscodePhotos[this.dataset.color] || [];
             document.getElementById('dresscodePhotos').innerHTML = photos.length ? photos.map(src => `<img src="${src}" alt="Образ" />`).join('') : '<span class="photo-placeholder">Фото скоро появятся</span>';
         }));
-
         const menPhotos = { option1: ['assets/images/dresscode/men-1.jpg','assets/images/dresscode/men-2.jpg'], option2: ['assets/images/dresscode/men-alt-1.jpg','assets/images/dresscode/men-alt-2.jpg'] };
         document.getElementById('menOption1').addEventListener('click', function() {
             document.querySelectorAll('.men-btn').forEach(b => b.classList.remove('active')); this.classList.add('active');
@@ -761,30 +736,33 @@
         document.getElementById('closeModal').addEventListener('click', () => photoModal.style.display = 'none');
         photoModal.addEventListener('click', e => { if (e.target === photoModal) photoModal.style.display = 'none'; });
 
-        // FAQ with dimming
+        // FAQ
         const faqGrid = document.getElementById('faqGrid');
         const faqBossSound = new Audio('assets/audio/faq-boss.mp3');
-document.querySelectorAll('.faq-item').forEach(item => item.addEventListener('click', function() {
-    const faqNumber = this.dataset.faq;
-    if (faqNumber === '5') {
-        faqBossSound.currentTime = 0;
-        faqBossSound.play().catch(() => {});
-    }
+        document.querySelectorAll('.faq-item').forEach(item => item.addEventListener('click', function() {
+            const faqNumber = this.dataset.faq;
+            if (faqNumber === '5') { faqBossSound.currentTime = 0; faqBossSound.play().catch(() => {}); }
             const wasOpen = this.classList.contains('open');
-            // Close all
             document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
-            // Toggle current
             if (!wasOpen) this.classList.add('open');
-            // Dim others
-            const anyOpen = document.querySelector('.faq-item.open') !== null;
-            faqGrid.classList.toggle('has-active', anyOpen);
+            faqGrid.classList.toggle('has-active', document.querySelector('.faq-item.open') !== null);
         }));
 
         // QUIZ
+        const japanOption = document.getElementById('japanOption');
         document.querySelectorAll('.quiz-option').forEach(opt => opt.addEventListener('click', function() {
             const isCorrect = this.dataset.correct === 'true';
-            this.classList.add(isCorrect ? 'correct' : 'wrong');
-            setTimeout(() => this.classList.remove('correct', 'wrong'), 800);
+            if (isCorrect) {
+                this.classList.add('correct');
+                if (this === japanOption) { this.innerHTML = '<strong>ЯПОНИЯ</strong>'; }
+                spawnConfetti();
+            } else {
+                this.classList.add('wrong');
+            }
+            setTimeout(() => {
+                this.classList.remove('correct', 'wrong');
+                if (this === japanOption) { this.textContent = 'Куда надо'; }
+            }, 800);
         }));
 
         console.log('💍 Свадебный сайт загружен!');

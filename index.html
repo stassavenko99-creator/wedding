@@ -12,15 +12,8 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
     
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        html {
-            scroll-behavior: smooth;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
 
         body {
             font-family: 'Quicksand', sans-serif;
@@ -32,17 +25,7 @@
             position: relative;
         }
 
-        .rubik {
-            font-family: 'Rubik Bubbles', cursive;
-        }
-
-        .container {
-            max-width: 600px;
-            margin: 0 auto;
-            padding: 0 20px;
-            position: relative;
-            z-index: 10;
-        }
+        .container { max-width: 600px; margin: 0 auto; padding: 0 20px; position: relative; z-index: 10; }
 
         section {
             min-height: 100vh;
@@ -56,1079 +39,269 @@
         }
 
         .bg-grain {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            pointer-events: none;
-            z-index: 0;
-            opacity: 0.035;
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+            pointer-events: none; z-index: 0; opacity: 0.035;
             background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='1'/%3E%3C/svg%3E");
-            background-repeat: repeat;
-            background-size: 300px 300px;
+            background-repeat: repeat; background-size: 300px 300px;
         }
 
-        .blob-layer {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            pointer-events: none;
-            z-index: 0;
-        }
-
-        .blob {
-            position: absolute;
-            border-radius: 50%;
-            filter: blur(80px);
-            opacity: 0.35;
-            will-change: transform;
-        }
-
+        .blob-layer { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; pointer-events: none; z-index: 0; }
+        .blob { position: absolute; border-radius: 50%; filter: blur(80px); opacity: 0.35; will-change: transform; }
         .blob-1 { width: 600px; height: 600px; top: -200px; right: -150px; background: radial-gradient(circle, #F5D6E0, #F0C4D8); opacity: 0.25; }
         .blob-2 { width: 500px; height: 500px; bottom: -150px; left: -150px; background: radial-gradient(circle, #D4E8F5, #C5DFF0); opacity: 0.2; }
         .blob-3 { width: 350px; height: 350px; top: 30%; left: -100px; background: radial-gradient(circle, #E8D5F0, #DCC5EC); opacity: 0.15; }
         .blob-4 { width: 400px; height: 400px; bottom: 20%; right: -120px; background: radial-gradient(circle, #F5E0C8, #F0D4B8); opacity: 0.15; }
         .blob-5 { width: 250px; height: 250px; top: 60%; left: 30%; background: radial-gradient(circle, #E8F0D4, #DCE8C5); opacity: 0.1; }
 
-        .deco-layer {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            pointer-events: none;
-            z-index: 0;
-            overflow: hidden;
-        }
-
-        .wave-line {
-            position: absolute;
-            fill: none;
-            stroke-width: 1.5;
-            opacity: 0.08;
-        }
-
-        .dot-group {
-            position: absolute;
-            display: flex;
-            gap: 12px;
-            opacity: 0.06;
-        }
+        .deco-layer { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; pointer-events: none; z-index: 0; overflow: hidden; }
+        .wave-line { position: absolute; fill: none; stroke-width: 1.5; opacity: 0.08; }
+        .dot-group { position: absolute; display: flex; gap: 12px; opacity: 0.06; }
         .dot-group .dot { width: 6px; height: 6px; border-radius: 50%; background: #4A3F3A; }
         .dot-group .dot-big { width: 12px; height: 12px; }
-
         .star-deco { position: absolute; color: #4A3F3A; opacity: 0.06; font-size: 1.8rem; line-height: 1; }
         .heart-deco { position: absolute; color: #F7B7C8; opacity: 0.06; font-size: 2rem; line-height: 1; }
+        .arc-deco { position: absolute; border: 1.5px solid rgba(74, 63, 58, 0.06); border-radius: 50%; opacity: 0.06; }
+        .stroke-deco { position: absolute; width: 80px; height: 4px; border-radius: 4px; background: rgba(74, 63, 58, 0.04); transform: rotate(var(--rot, 0deg)); }
+        .doodle-deco { position: absolute; opacity: 0.04; font-size: 3rem; line-height: 1; color: #4A3F3A; font-family: 'Quicksand', sans-serif; }
 
-        .arc-deco {
-            position: absolute;
-            border: 1.5px solid rgba(74, 63, 58, 0.06);
-            border-radius: 50%;
-            opacity: 0.06;
-        }
-
-        .stroke-deco {
-            position: absolute;
-            width: 80px;
-            height: 4px;
-            border-radius: 4px;
-            background: rgba(74, 63, 58, 0.04);
-            transform: rotate(var(--rot, 0deg));
-        }
-
-        .doodle-deco {
-            position: absolute;
-            opacity: 0.04;
-            font-size: 3rem;
-            line-height: 1;
-            color: #4A3F3A;
-            font-family: 'Quicksand', sans-serif;
-        }
-
-        .deco-1 { top: 5%; left: 3%; }
-        .deco-2 { top: 8%; right: 6%; }
-        .deco-3 { top: 15%; left: 12%; }
-        .deco-4 { top: 20%; right: 15%; }
-        .deco-5 { top: 28%; left: 5%; }
-        .deco-6 { top: 40%; right: 4%; }
-        .deco-7 { top: 45%; left: 8%; }
-        .deco-8 { top: 50%; right: 12%; }
-        .deco-9 { top: 55%; left: 3%; }
-        .deco-10 { top: 60%; right: 6%; }
-        .deco-11 { top: 70%; left: 10%; }
-        .deco-12 { top: 75%; right: 5%; }
-        .deco-13 { top: 82%; left: 4%; }
-        .deco-14 { top: 88%; right: 8%; }
-        .deco-15 { top: 92%; left: 15%; }
-        .deco-16 { top: 18%; left: 45%; }
-        .deco-17 { top: 35%; right: 25%; }
-        .deco-18 { top: 65%; left: 40%; }
-        .deco-19 { top: 48%; left: 22%; }
-        .deco-20 { top: 78%; left: 55%; }
+        .deco-1 { top: 5%; left: 3%; } .deco-2 { top: 8%; right: 6%; } .deco-3 { top: 15%; left: 12%; }
+        .deco-4 { top: 20%; right: 15%; } .deco-5 { top: 28%; left: 5%; } .deco-6 { top: 40%; right: 4%; }
+        .deco-7 { top: 45%; left: 8%; } .deco-8 { top: 50%; right: 12%; } .deco-9 { top: 55%; left: 3%; }
+        .deco-10 { top: 60%; right: 6%; } .deco-11 { top: 70%; left: 10%; } .deco-12 { top: 75%; right: 5%; }
+        .deco-13 { top: 82%; left: 4%; } .deco-14 { top: 88%; right: 8%; } .deco-15 { top: 92%; left: 15%; }
+        .deco-16 { top: 18%; left: 45%; } .deco-17 { top: 35%; right: 25%; } .deco-18 { top: 65%; left: 40%; }
+        .deco-19 { top: 48%; left: 22%; } .deco-20 { top: 78%; left: 55%; }
 
         .craft-title {
-            font-family: 'Rubik Bubbles', cursive;
-            font-weight: 400;
-            line-height: 1.2;
-            text-align: center;
-            margin-bottom: 10px;
-            font-size: clamp(2.2rem, 7vw, 3.8rem);
+            font-family: 'Rubik Bubbles', cursive; font-weight: 400; line-height: 1.2;
+            text-align: center; margin-bottom: 10px; font-size: clamp(2.2rem, 7vw, 3.8rem);
         }
+        .craft-title .letter { display: inline-block; transform: rotate(var(--rot, 0deg)) translateY(var(--y, 0px)); }
+        .craft-title .line-break { display: block; margin-top: -5px; }
 
-        .craft-title .letter {
-            display: inline-block;
-            transform: rotate(var(--rot, 0deg)) translateY(var(--y, 0px));
-        }
-
-        .craft-title .line-break {
-            display: block;
-            margin-top: -5px;
-        }
-
-        .letter-color-1 { color: #FF8CA8; }
-        .letter-color-2 { color: #7EC8E3; }
-        .letter-color-3 { color: #B8A6E0; }
-        .letter-color-4 { color: #F9B87A; }
-        .letter-color-5 { color: #8CD4B5; }
-        .letter-color-6 { color: #F5D76E; }
-        .letter-color-7 { color: #FF8CA8; }
-        .letter-color-8 { color: #7EC8E3; }
-        .letter-color-9 { color: #B8A6E0; }
+        .letter-color-1 { color: #FF8CA8; } .letter-color-2 { color: #7EC8E3; } .letter-color-3 { color: #B8A6E0; }
+        .letter-color-4 { color: #F9B87A; } .letter-color-5 { color: #8CD4B5; } .letter-color-6 { color: #F5D76E; }
+        .letter-color-7 { color: #FF8CA8; } .letter-color-8 { color: #7EC8E3; } .letter-color-9 { color: #B8A6E0; }
         .letter-color-10 { color: #F9B87A; }
 
         .section-label {
-            font-family: 'Quicksand', sans-serif;
-            font-size: 0.75rem;
-            font-weight: 300;
-            color: #C4B5AD;
-            text-transform: uppercase;
-            letter-spacing: 4px;
-            text-align: center;
-            margin-bottom: 4px;
+            font-family: 'Quicksand', sans-serif; font-size: 0.75rem; font-weight: 300;
+            color: #C4B5AD; text-transform: uppercase; letter-spacing: 4px; text-align: center; margin-bottom: 4px;
         }
 
-        .music-controls {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            z-index: 1000;
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-        }
-
+        .music-controls { position: fixed; top: 20px; right: 20px; z-index: 1000; display: flex; flex-direction: column; gap: 8px; }
         .music-btn {
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(4px);
-            border: 1.5px solid rgba(74, 63, 58, 0.15);
-            border-radius: 40px;
-            padding: 10px 20px;
-            font-family: 'Quicksand', sans-serif;
-            font-size: 0.75rem;
-            font-weight: 600;
-            color: #4A3F3A;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            transition: all 0.3s ease;
-            min-width: 130px;
-            justify-content: center;
+            background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(4px);
+            border: 1.5px solid rgba(74, 63, 58, 0.15); border-radius: 40px; padding: 10px 20px;
+            font-family: 'Quicksand', sans-serif; font-size: 0.75rem; font-weight: 600; color: #4A3F3A;
+            cursor: pointer; display: flex; align-items: center; gap: 8px;
+            transition: all 0.3s ease; min-width: 130px; justify-content: center;
         }
-
-        .music-btn .music-icon { font-size: 1rem; color: #F7B7C8; }
-        .music-btn:hover {
-            transform: scale(1.04);
-            background: rgba(255, 255, 255, 0.15);
-            border-color: #F7B7C8;
-        }
-        .music-btn.active {
-            background: #F7B7C8;
-            color: white;
-            border-color: #F7B7C8;
-        }
-        .music-btn.active .music-icon { color: white; }
+        .music-btn .music-icon { font-size: 1rem; }
+        .music-btn:hover { transform: scale(1.04); background: rgba(255, 255, 255, 0.15); }
+        .music-btn.active { color: white; }
         .music-btn.music-off.active { background: #C4B5AD; border-color: #C4B5AD; }
 
-        #hero {
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            padding: 40px 20px 30px;
-            position: relative;
-            z-index: 2;
-        }
+        #stasMusicBtn .music-icon { color: #7EC8E3; }
+        #stasMusicBtn { border-color: rgba(126, 200, 227, 0.25); }
+        #stasMusicBtn:hover { border-color: #7EC8E3; background: rgba(126, 200, 227, 0.1); }
+        #stasMusicBtn.active { background: #7EC8E3; border-color: #7EC8E3; color: white; }
+        #stasMusicBtn.active .music-icon { color: white; }
+
+        #nastyaMusicBtn .music-icon { color: #F7B7C8; }
+        #nastyaMusicBtn { border-color: rgba(247, 183, 200, 0.25); }
+        #nastyaMusicBtn:hover { border-color: #F7B7C8; background: rgba(247, 183, 200, 0.1); }
+        #nastyaMusicBtn.active { background: #F7B7C8; border-color: #F7B7C8; color: white; }
+        #nastyaMusicBtn.active .music-icon { color: white; }
+
+        #hero { min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 40px 20px 30px; position: relative; z-index: 2; }
 
         .heart-frame {
-            width: 567px;
-            height: 567px;
-            margin: 0 auto 16px;
-            position: relative;
-            z-index: 2;
-            cursor: pointer;
-            transition: transform 0.15s ease;
+            width: 567px; height: 567px; margin: 0 auto 16px;
+            position: relative; z-index: 2; cursor: pointer; transition: transform 0.15s ease;
         }
-
-        .heart-frame:active {
-            transform: scale(0.96);
-        }
-
-        .heart-svg {
-            width: 100%;
-            height: 100%;
-            display: block;
-        }
+        .heart-frame:active { transform: scale(0.96); }
+        .heart-svg { width: 100%; height: 100%; display: block; }
+        .heart-svg image { clip-path: url(#heartClip); }
 
         .hero-names {
-            font-family: 'Rubik Bubbles', cursive;
-            font-size: clamp(2.5rem, 7vw, 4.5rem);
-            font-weight: 400;
-            line-height: 1.3;
-            position: relative;
-            z-index: 2;
-            margin-bottom: 2px;
+            font-family: 'Rubik Bubbles', cursive; font-size: clamp(2.5rem, 7vw, 4.5rem);
+            font-weight: 400; line-height: 1.3; position: relative; z-index: 2; margin-bottom: 2px;
         }
-
         .hero-names .name-group { display: inline-block; }
-        .hero-names .amp {
-            font-size: 0.5em;
-            display: inline-block;
-            margin: 0 6px;
-            color: #C4B5AD;
-        }
-
-        .hero-names .letter {
-            display: inline-block;
-            transform: rotate(var(--rot, 0deg)) translateY(var(--y, 0px));
-        }
+        .hero-names .amp { font-size: 0.5em; display: inline-block; margin: 0 6px; color: #C4B5AD; }
+        .hero-names .letter { display: inline-block; transform: rotate(var(--rot, 0deg)) translateY(var(--y, 0px)); }
 
         .hero-date {
-            font-family: 'Quicksand', sans-serif;
-            font-size: 1.2rem;
-            font-weight: 600;
-            letter-spacing: 4px;
-            text-transform: uppercase;
-            position: relative;
-            z-index: 2;
-            margin-bottom: 10px;
-            background: rgba(255,255,255,0.3);
-            padding: 8px 24px;
-            border-radius: 40px;
-            backdrop-filter: blur(8px);
-            border: 1px solid rgba(255,255,255,0.2);
+            font-family: 'Quicksand', sans-serif; font-size: 1.2rem; font-weight: 600;
+            letter-spacing: 4px; text-transform: uppercase; position: relative; z-index: 2;
+            margin-bottom: 10px; background: rgba(255,255,255,0.3); padding: 8px 24px;
+            border-radius: 40px; backdrop-filter: blur(8px); border: 1px solid rgba(255,255,255,0.2);
         }
 
         .hero-click-hint {
-            font-size: 0.85rem;
-            color: #F7B7C8;
-            font-weight: 600;
-            margin-bottom: 6px;
-            letter-spacing: 2px;
-            position: relative;
-            z-index: 2;
+            font-size: 0.85rem; color: #F7B7C8; font-weight: 600;
+            margin-bottom: 6px; letter-spacing: 2px; position: relative; z-index: 2;
         }
 
         .calendar-mini {
-            display: grid;
-            grid-template-columns: repeat(7, 1fr);
-            gap: 6px;
-            max-width: 360px;
-            margin: 10px auto 18px;
-            position: relative;
-            z-index: 2;
-            width: 100%;
+            display: grid; grid-template-columns: repeat(7, 1fr); gap: 6px;
+            max-width: 360px; margin: 10px auto 18px; position: relative; z-index: 2; width: 100%;
         }
-
         .calendar-mini .day {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 50%;
-            font-size: 0.9rem;
-            font-weight: 500;
-            background: transparent;
-            color: #4A3F3A;
-            padding: 6px 0;
-            aspect-ratio: 1;
+            display: flex; align-items: center; justify-content: center; border-radius: 50%;
+            font-size: 0.9rem; font-weight: 500; background: transparent; color: #4A3F3A; padding: 6px 0; aspect-ratio: 1;
         }
-
-        .calendar-mini .day.weekday {
-            font-size: 0.6rem;
-            font-weight: 600;
-            color: #C4B5AD;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
+        .calendar-mini .day.weekday { font-size: 0.6rem; font-weight: 600; color: #C4B5AD; text-transform: uppercase; letter-spacing: 0.5px; }
         .calendar-mini .day.wedding {
-            position: relative;
-            background: #F7B7C8;
-            color: white;
-            font-weight: 700;
-            font-size: 1rem;
-            box-shadow: 0 4px 20px rgba(247, 183, 200, 0.3);
-            animation: pulseCircle 2s ease-in-out infinite;
+            position: relative; background: #F7B7C8; color: white; font-weight: 700; font-size: 1rem;
+            box-shadow: 0 4px 20px rgba(247, 183, 200, 0.3); animation: pulseCircle 2s ease-in-out infinite;
         }
+        @keyframes pulseCircle { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.08); } }
 
-        @keyframes pulseCircle {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.08); }
-        }
+        .scroll-down { position: relative; z-index: 2; margin-top: 6px; cursor: pointer; animation: bounceArrow 2s ease-in-out infinite; }
+        .scroll-down svg { display: block; margin: 0 auto; width: 28px; height: 40px; }
+        .scroll-down svg path { stroke: #F7B7C8; stroke-width: 2.5; opacity: 0.7; transition: opacity 0.3s ease; }
+        .scroll-down:hover svg path { opacity: 1; }
+        @keyframes bounceArrow { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(8px); } }
 
-        .scroll-down {
-            position: relative;
-            z-index: 2;
-            margin-top: 6px;
-            cursor: pointer;
-            animation: bounceArrow 2s ease-in-out infinite;
-        }
-
-        .scroll-down svg {
-            display: block;
-            margin: 0 auto;
-            width: 28px;
-            height: 40px;
-        }
-
-        .scroll-down svg path {
-            stroke: #F7B7C8;
-            stroke-width: 2.5;
-            opacity: 0.7;
-            transition: opacity 0.3s ease;
-        }
-
-        .scroll-down:hover svg path {
-            opacity: 1;
-        }
-
-        @keyframes bounceArrow {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(8px); }
-        }
-
-        #venue {
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 60px 20px;
-            position: relative;
-            z-index: 2;
-        }
-
-        .venue-content {
-            text-align: center;
-            max-width: 500px;
-            width: 100%;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
+        #venue { min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 60px 20px; position: relative; z-index: 2; }
+        .venue-content { text-align: center; max-width: 500px; width: 100%; display: flex; flex-direction: column; align-items: center; }
         .venue-photo-frame {
-            width: 340px;
-            height: 340px;
-            margin: 0 auto 12px;
-            position: relative;
-            border-radius: 50%;
-            overflow: hidden;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.06);
-            cursor: pointer;
-            animation: rotateVenue 25s linear infinite;
-            transition: animation-duration 0.5s ease;
+            width: 340px; height: 340px; margin: 0 auto 12px; position: relative;
+            border-radius: 50%; overflow: hidden; box-shadow: 0 20px 60px rgba(0,0,0,0.06);
+            cursor: pointer; animation: rotateVenue 25s linear infinite; transition: animation-duration 0.5s ease;
         }
+        .venue-photo-frame img { width: 100%; height: 100%; object-fit: cover; display: block; }
+        .venue-photo-frame.speed { animation-duration: 0.83s; }
+        @keyframes rotateVenue { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
 
-        .venue-photo-frame img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            display: block;
-        }
+        .venue-hint { font-size: 0.85rem; color: #F7B7C8; font-weight: 600; margin-bottom: 6px; letter-spacing: 2px; }
+        .venue-content h2 { font-family: 'Rubik Bubbles', cursive; font-size: clamp(2rem, 6vw, 3.5rem); font-weight: 400; color: #4A3F3A; margin-top: 16px; }
+        .venue-content h2 .letter { display: inline-block; transform: rotate(var(--rot, 0deg)) translateY(var(--y, 0px)); }
+        .venue-content .sub { font-size: 1.2rem; font-weight: 300; color: #6B5F5A; }
+        .venue-content .address { font-size: 0.9rem; color: #8B7F7A; margin-top: 4px; font-weight: 300; }
+        .venue-content .map-link { display: inline-block; margin-top: 12px; color: #F7B7C8; text-decoration: none; font-weight: 600; font-size: 0.95rem; border-bottom: 2px solid #F7B7C8; padding-bottom: 4px; transition: all 0.3s; }
+        .venue-content .map-link:hover { color: #4A3F3A; border-color: #4A3F3A; }
 
-        .venue-photo-frame.speed {
-            animation-duration: 0.83s;
-        }
-
-        @keyframes rotateVenue {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
-        }
-
-        .venue-hint {
-            font-size: 0.85rem;
-            color: #F7B7C8;
-            font-weight: 600;
-            margin-bottom: 6px;
-            letter-spacing: 2px;
-        }
-
-        .venue-content h2 {
-            font-family: 'Rubik Bubbles', cursive;
-            font-size: clamp(2rem, 6vw, 3.5rem);
-            font-weight: 400;
-            color: #4A3F3A;
-            margin-top: 16px;
-        }
-
-        .venue-content h2 .letter {
-            display: inline-block;
-            transform: rotate(var(--rot, 0deg)) translateY(var(--y, 0px));
-        }
-
-        .venue-content .sub {
-            font-size: 1.2rem;
-            font-weight: 300;
-            color: #6B5F5A;
-        }
-
-        .venue-content .address {
-            font-size: 0.9rem;
-            color: #8B7F7A;
-            margin-top: 4px;
-            font-weight: 300;
-        }
-
-        .venue-content .map-link {
-            display: inline-block;
-            margin-top: 12px;
-            color: #F7B7C8;
-            text-decoration: none;
-            font-weight: 600;
-            font-size: 0.95rem;
-            border-bottom: 2px solid #F7B7C8;
-            padding-bottom: 4px;
-            transition: all 0.3s;
-        }
-
-        .venue-content .map-link:hover {
-            color: #4A3F3A;
-            border-color: #4A3F3A;
-        }
-
-        #schedule {
-            position: relative;
-            z-index: 2;
-            background: transparent;
-        }
-
-        .schedule-list {
-            display: flex;
-            flex-direction: column;
-            gap: 14px;
-            max-width: 500px;
-            margin: 0 auto;
-        }
-
-        .schedule-item {
-            display: flex;
-            align-items: flex-start;
-            gap: 18px;
-            padding: 20px 24px;
-            background: rgba(255, 255, 255, 0.5);
-            backdrop-filter: blur(10px);
-            border-radius: 30px;
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            transition: all 0.3s ease;
-        }
-
+        #schedule { position: relative; z-index: 2; background: transparent; }
+        .schedule-list { display: flex; flex-direction: column; gap: 14px; max-width: 500px; margin: 0 auto; }
+        .schedule-item { display: flex; align-items: flex-start; gap: 18px; padding: 20px 24px; background: rgba(255, 255, 255, 0.5); backdrop-filter: blur(10px); border-radius: 30px; border: 1px solid rgba(255, 255, 255, 0.3); transition: all 0.3s ease; }
         .schedule-item-alt { border-color: rgba(243, 181, 106, 0.15); }
-
-        .schedule-item .time {
-            font-family: 'Rubik Bubbles', cursive;
-            font-size: 2.2rem;
-            font-weight: 400;
-            color: #F7B7C8;
-            min-width: 80px;
-            line-height: 1.2;
-        }
-
-        .schedule-item .event {
-            font-family: 'Rubik Bubbles', cursive;
-            font-size: 1.4rem;
-            font-weight: 400;
-            text-align: left;
-            line-height: 1.3;
-        }
-
-        .schedule-item .event .word {
-            display: inline-block;
-        }
-
-        .schedule-item .event .line-break {
-            display: block;
-            margin-top: 2px;
-        }
-
-        .schedule-item .event small {
-            display: block;
-            font-family: 'Quicksand', sans-serif;
-            font-weight: 300;
-            font-size: 0.85rem;
-            color: #6B5F5A;
-            margin-top: 4px;
-        }
-
-        .schedule-item .event .important {
-            color: #D4686A;
-            font-weight: 600;
-        }
+        .schedule-item .time { font-family: 'Rubik Bubbles', cursive; font-size: 2.2rem; font-weight: 400; color: #F7B7C8; min-width: 80px; line-height: 1.2; }
+        .schedule-item .event { font-family: 'Rubik Bubbles', cursive; font-size: 1.4rem; font-weight: 400; text-align: left; line-height: 1.3; }
+        .schedule-item .event .word { display: inline-block; }
+        .schedule-item .event .line-break { display: block; margin-top: 2px; }
+        .schedule-item .event small { display: block; font-family: 'Quicksand', sans-serif; font-weight: 300; font-size: 0.85rem; color: #6B5F5A; margin-top: 4px; }
+        .schedule-item .event .important { color: #D4686A; font-weight: 600; }
 
         #dresscode { position: relative; z-index: 2; background: transparent; }
-
-        .dresscode-sub {
-            text-align: center;
-            font-size: 1rem;
-            color: #6B5F5A;
-            margin-bottom: 22px;
-        }
-
-        .color-palette {
-            display: flex;
-            gap: 12px;
-            justify-content: center;
-            flex-wrap: wrap;
-            margin-bottom: 18px;
-        }
-
-        .color-dot {
-            width: 52px;
-            height: 52px;
-            border-radius: 50%;
-            border: 3px solid rgba(255, 255, 255, 0.6);
-            box-shadow: 0 4px 15px rgba(0,0,0,0.03);
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .color-dot:hover {
-            transform: scale(1.08);
-            border-color: white;
-            box-shadow: 0 8px 25px rgba(0,0,0,0.06);
-        }
+        .dresscode-sub { text-align: center; font-size: 1rem; color: #6B5F5A; margin-bottom: 22px; }
+        .color-palette { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; margin-bottom: 18px; }
+        .color-dot { width: 52px; height: 52px; border-radius: 50%; border: 3px solid rgba(255, 255, 255, 0.6); box-shadow: 0 4px 15px rgba(0,0,0,0.03); cursor: pointer; transition: all 0.3s ease; }
+        .color-dot:hover { transform: scale(1.08); border-color: white; box-shadow: 0 8px 25px rgba(0,0,0,0.06); }
         .color-dot.active { transform: scale(1.08); border-color: white; }
-
-        .dresscode-photos {
-            min-height: 100px;
-            background: rgba(255, 255, 255, 0.4);
-            backdrop-filter: blur(8px);
-            border-radius: 28px;
-            padding: 16px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 12px;
-            flex-wrap: wrap;
-            margin-bottom: 18px;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            transition: all 0.3s ease;
-        }
-
+        .dresscode-photos { min-height: 100px; background: rgba(255, 255, 255, 0.4); backdrop-filter: blur(8px); border-radius: 28px; padding: 16px; display: flex; align-items: center; justify-content: center; gap: 12px; flex-wrap: wrap; margin-bottom: 18px; border: 1px solid rgba(255, 255, 255, 0.2); transition: all 0.3s ease; }
         .dresscode-photos .photo-placeholder { color: #C4B5AD; font-size: 0.85rem; }
-        .dresscode-photos img {
-            max-width: 48%;
-            max-height: 180px;
-            border-radius: 20px;
-            object-fit: cover;
-            cursor: pointer;
-        }
-
-        .men-buttons {
-            display: flex;
-            gap: 10px;
-            justify-content: center;
-            flex-wrap: wrap;
-            margin-bottom: 14px;
-        }
-
-        .men-btn {
-            padding: 10px 22px;
-            border: 1px solid rgba(74, 63, 58, 0.08);
-            border-radius: 40px;
-            background: rgba(255, 255, 255, 0.5);
-            backdrop-filter: blur(8px);
-            font-family: 'Quicksand', sans-serif;
-            font-size: 0.85rem;
-            font-weight: 500;
-            color: #4A3F3A;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .men-btn:hover {
-            border-color: #F7B7C8;
-            background: rgba(255, 255, 255, 0.8);
-            transform: translateY(-2px);
-        }
-        .men-btn.active {
-            border-color: #F7B7C8;
-            background: #F7B7C8;
-            color: white;
-        }
-
-        .men-photos {
-            min-height: 100px;
-            background: rgba(255, 255, 255, 0.4);
-            backdrop-filter: blur(8px);
-            border-radius: 28px;
-            padding: 16px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            transition: all 0.3s ease;
-            flex-direction: row;
-            flex-wrap: wrap;
-            gap: 12px;
-        }
-
+        .dresscode-photos img { max-width: 48%; max-height: 180px; border-radius: 20px; object-fit: cover; cursor: pointer; }
+        .men-buttons { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin-bottom: 14px; }
+        .men-btn { padding: 10px 22px; border: 1px solid rgba(74, 63, 58, 0.08); border-radius: 40px; background: rgba(255, 255, 255, 0.5); backdrop-filter: blur(8px); font-family: 'Quicksand', sans-serif; font-size: 0.85rem; font-weight: 500; color: #4A3F3A; cursor: pointer; transition: all 0.3s ease; }
+        .men-btn:hover { border-color: #F7B7C8; background: rgba(255, 255, 255, 0.8); transform: translateY(-2px); }
+        .men-btn.active { border-color: #F7B7C8; background: #F7B7C8; color: white; }
+        .men-photos { min-height: 100px; background: rgba(255, 255, 255, 0.4); backdrop-filter: blur(8px); border-radius: 28px; padding: 16px; display: flex; align-items: center; justify-content: center; border: 1px solid rgba(255, 255, 255, 0.2); transition: all 0.3s ease; flex-direction: row; flex-wrap: wrap; gap: 12px; }
         .men-photos .photo-placeholder { color: #C4B5AD; font-size: 0.85rem; }
-        .men-photos img {
-            max-width: 48%;
-            max-height: 180px;
-            border-radius: 20px;
-            object-fit: cover;
-            cursor: pointer;
-        }
-
-        .men-photos .note {
-            font-size: 0.85rem;
-            color: #6B5F5A;
-            font-weight: 300;
-            text-align: center;
-            padding: 8px 16px;
-            background: rgba(255,255,255,0.3);
-            border-radius: 20px;
-            border: 1px solid rgba(243, 181, 106, 0.2);
-            width: 100%;
-        }
+        .men-photos img { max-width: 48%; max-height: 180px; border-radius: 20px; object-fit: cover; cursor: pointer; }
+        .men-photos .note { font-size: 0.85rem; color: #6B5F5A; font-weight: 300; text-align: center; padding: 8px 16px; background: rgba(255,255,255,0.3); border-radius: 20px; border: 1px solid rgba(243, 181, 106, 0.2); width: 100%; }
 
         #faq { position: relative; z-index: 2; background: transparent; }
-
-        .faq-grid {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            max-width: 550px;
-            margin: 0 auto;
-        }
-
-        .faq-item {
-            background: rgba(255, 255, 255, 0.4);
-            backdrop-filter: blur(10px);
-            border-radius: 28px;
-            padding: 16px 22px;
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            cursor: pointer;
-            transition: all 0.4s ease;
-        }
-
-        .faq-item:hover {
-            background: rgba(255, 255, 255, 0.7);
-            transform: translateY(-2px);
-        }
-
-        .faq-item .question {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            font-weight: 600;
-            font-size: 1rem;
-        }
-
-        .faq-item .question .q-number {
-            font-weight: 700;
-            font-size: 0.8rem;
-            min-width: 24px;
-        }
-
-        .faq-item .question .q-number.color-1 { color: #FF8CA8; }
-        .faq-item .question .q-number.color-2 { color: #7EC8E3; }
-        .faq-item .question .q-number.color-3 { color: #B8A6E0; }
-        .faq-item .question .q-number.color-4 { color: #F9B87A; }
+        .faq-grid { display: flex; flex-direction: column; gap: 10px; max-width: 550px; margin: 0 auto; }
+        .faq-item { background: rgba(255, 255, 255, 0.4); backdrop-filter: blur(10px); border-radius: 28px; padding: 16px 22px; border: 1px solid rgba(255, 255, 255, 0.3); cursor: pointer; transition: all 0.4s ease; }
+        .faq-item:hover { background: rgba(255, 255, 255, 0.7); transform: translateY(-2px); }
+        .faq-item .question { display: flex; align-items: center; gap: 12px; font-weight: 600; font-size: 1rem; }
+        .faq-item .question .q-number { font-weight: 700; font-size: 0.8rem; min-width: 24px; }
+        .faq-item .question .q-number.color-1 { color: #FF8CA8; } .faq-item .question .q-number.color-2 { color: #7EC8E3; }
+        .faq-item .question .q-number.color-3 { color: #B8A6E0; } .faq-item .question .q-number.color-4 { color: #F9B87A; }
         .faq-item .question .q-number.color-5 { color: #8CD4B5; }
-
-        .faq-item .question .arrow {
-            margin-left: auto;
-            transition: transform 0.4s ease;
-            color: #C4B5AD;
-            font-size: 0.8rem;
-        }
-
+        .faq-item .question .arrow { margin-left: auto; transition: transform 0.4s ease; color: #C4B5AD; font-size: 0.8rem; }
         .faq-item.open .question .arrow { transform: rotate(180deg); }
-
-        .faq-item .answer {
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.5s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.4s ease, margin 0.3s ease;
-            opacity: 0;
-            color: #6B5F5A;
-            font-weight: 300;
-            line-height: 1.7;
-            padding: 0 8px;
-            font-size: 0.95rem;
-        }
-
-        .faq-item.open .answer {
-            max-height: 400px;
-            opacity: 1;
-            margin-top: 10px;
-            padding: 6px 8px 2px;
-        }
-
-        .faq-item .answer .hl-pink { color: #FF8CA8; font-weight: 600; }
-        .faq-item .answer .hl-blue { color: #7EC8E3; font-weight: 600; }
-        .faq-item .answer .hl-lavender { color: #B8A6E0; font-weight: 600; }
-        .faq-item .answer .hl-peach { color: #F9B87A; font-weight: 600; }
-        .faq-item .answer .hl-mint { color: #8CD4B5; font-weight: 600; }
-        .faq-item .answer .hl-yellow { color: #F5D76E; font-weight: 600; }
-        .faq-item .answer .hl-red { color: #FF6B6B; font-weight: 600; }
-        .faq-item .answer .hl-dark { color: #5D4E6D; font-weight: 600; }
+        .faq-item .answer { max-height: 0; overflow: hidden; transition: max-height 0.5s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.4s ease, margin 0.3s ease; opacity: 0; color: #6B5F5A; font-weight: 300; line-height: 1.7; padding: 0 8px; font-size: 0.95rem; }
+        .faq-item.open .answer { max-height: 500px; opacity: 1; margin-top: 10px; padding: 6px 8px 2px; }
+        .faq-item .answer .hl-pink { color: #FF8CA8; font-weight: 600; } .faq-item .answer .hl-blue { color: #7EC8E3; font-weight: 600; }
+        .faq-item .answer .hl-lavender { color: #B8A6E0; font-weight: 600; } .faq-item .answer .hl-peach { color: #F9B87A; font-weight: 600; }
+        .faq-item .answer .hl-mint { color: #8CD4B5; font-weight: 600; } .faq-item .answer .hl-yellow { color: #F5D76E; font-weight: 600; }
+        .faq-item .answer .hl-red { color: #FF6B6B; font-weight: 600; } .faq-item .answer .hl-dark { color: #5D4E6D; font-weight: 600; }
 
         #rsvp { position: relative; z-index: 2; background: transparent; }
-
-        .rsvp-note {
-            text-align: center;
-            font-size: 0.9rem;
-            color: #6B5F5A;
-            margin-bottom: 24px;
-            font-weight: 300;
-            padding: 12px 16px;
-            background: rgba(247, 183, 200, 0.04);
-            border-radius: 20px;
-            border: 1px solid rgba(247, 183, 200, 0.06);
-        }
-
-        .rsvp-form {
-            max-width: 500px;
-            margin: 0 auto;
-            display: flex;
-            flex-direction: column;
-            gap: 16px;
-        }
-
-        .form-group {
-            display: flex;
-            flex-direction: column;
-            gap: 6px;
-        }
-
-        .form-group label {
-            font-size: 0.85rem;
-            font-weight: 600;
-            color: #4A3F3A;
-        }
-
-        .form-group input,
-        .form-group textarea {
-            padding: 14px 18px;
-            border: 1px solid rgba(74, 63, 58, 0.06);
-            border-radius: 20px;
-            font-family: 'Quicksand', sans-serif;
-            font-size: 0.95rem;
-            background: rgba(255, 255, 255, 0.5);
-            backdrop-filter: blur(8px);
-            transition: all 0.3s ease;
-            color: #4A3F3A;
-        }
-
-        .form-group input:focus,
-        .form-group textarea:focus {
-            outline: none;
-            border-color: #F7B7C8;
-            background: rgba(255, 255, 255, 0.8);
-            box-shadow: 0 4px 20px rgba(247, 183, 200, 0.05);
-        }
-
+        .rsvp-note { text-align: center; font-size: 0.9rem; color: #6B5F5A; margin-bottom: 24px; font-weight: 300; padding: 12px 16px; background: rgba(247, 183, 200, 0.04); border-radius: 20px; border: 1px solid rgba(247, 183, 200, 0.06); }
+        .rsvp-form { max-width: 500px; margin: 0 auto; display: flex; flex-direction: column; gap: 16px; }
+        .form-group { display: flex; flex-direction: column; gap: 6px; }
+        .form-group label { font-size: 0.85rem; font-weight: 600; color: #4A3F3A; }
+        .form-group input, .form-group textarea { padding: 14px 18px; border: 1px solid rgba(74, 63, 58, 0.06); border-radius: 20px; font-family: 'Quicksand', sans-serif; font-size: 0.95rem; background: rgba(255, 255, 255, 0.5); backdrop-filter: blur(8px); transition: all 0.3s ease; color: #4A3F3A; }
+        .form-group input:focus, .form-group textarea:focus { outline: none; border-color: #F7B7C8; background: rgba(255, 255, 255, 0.8); box-shadow: 0 4px 20px rgba(247, 183, 200, 0.05); }
         .form-group textarea { height: 80px; resize: vertical; }
-
-        .rsvp-extra {
-            display: none;
-            animation: fadeInUp 0.5s ease;
-        }
-
+        .rsvp-extra { display: none; animation: fadeInUp 0.5s ease; }
         .rsvp-extra.visible { display: block; }
-
-        @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .radio-group {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-        }
-
-        .radio-group-horizontal {
-            flex-direction: row;
-            flex-wrap: wrap;
-        }
-
-        .radio-btn {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            padding: 10px 16px;
-            border: 1px solid rgba(74, 63, 58, 0.06);
-            border-radius: 20px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            background: rgba(255, 255, 255, 0.3);
-            font-size: 0.9rem;
-        }
-
-        .radio-btn:hover {
-            transform: scale(1.02);
-        }
-
-        .radio-btn input[type="radio"], .radio-btn input[type="checkbox"] {
-            display: none;
-        }
-
-        .radio-btn:has(input:checked) {
-            border-color: currentColor;
-            background: currentColor;
-            color: white;
-        }
-
-        .radio-btn.color-pink { color: #FF8CA8; border-color: #FF8CA8; }
-        .radio-btn.color-pink:has(input:checked) { background: #FF8CA8; color: white; }
-
-        .radio-btn.color-blue { color: #7EC8E3; border-color: #7EC8E3; }
-        .radio-btn.color-blue:has(input:checked) { background: #7EC8E3; color: white; }
-
-        .radio-btn.color-lavender { color: #B8A6E0; border-color: #B8A6E0; }
-        .radio-btn.color-lavender:has(input:checked) { background: #B8A6E0; color: white; }
-
-        .radio-btn.color-peach { color: #F9B87A; border-color: #F9B87A; }
-        .radio-btn.color-peach:has(input:checked) { background: #F9B87A; color: white; }
-
-        .radio-btn.color-mint { color: #8CD4B5; border-color: #8CD4B5; }
-        .radio-btn.color-mint:has(input:checked) { background: #8CD4B5; color: white; }
-
-        .radio-btn.color-yellow { color: #F5D76E; border-color: #F5D76E; }
-        .radio-btn.color-yellow:has(input:checked) { background: #F5D76E; color: white; }
-
+        @keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        .radio-group { display: flex; flex-direction: column; gap: 8px; }
+        .radio-group-horizontal { flex-direction: row; flex-wrap: wrap; }
+        .radio-btn { display: flex; align-items: center; gap: 10px; padding: 10px 16px; border: 1px solid rgba(74, 63, 58, 0.06); border-radius: 20px; cursor: pointer; transition: all 0.3s ease; background: rgba(255, 255, 255, 0.3); font-size: 0.9rem; }
+        .radio-btn:hover { transform: scale(1.02); }
+        .radio-btn input[type="radio"], .radio-btn input[type="checkbox"] { display: none; }
+        .radio-btn:has(input:checked) { border-color: currentColor; background: currentColor; color: white; }
+        .radio-btn.color-pink { color: #FF8CA8; border-color: #FF8CA8; } .radio-btn.color-pink:has(input:checked) { background: #FF8CA8; color: white; }
+        .radio-btn.color-blue { color: #7EC8E3; border-color: #7EC8E3; } .radio-btn.color-blue:has(input:checked) { background: #7EC8E3; color: white; }
+        .radio-btn.color-lavender { color: #B8A6E0; border-color: #B8A6E0; } .radio-btn.color-lavender:has(input:checked) { background: #B8A6E0; color: white; }
+        .radio-btn.color-peach { color: #F9B87A; border-color: #F9B87A; } .radio-btn.color-peach:has(input:checked) { background: #F9B87A; color: white; }
+        .radio-btn.color-mint { color: #8CD4B5; border-color: #8CD4B5; } .radio-btn.color-mint:has(input:checked) { background: #8CD4B5; color: white; }
         .radio-btn-small { padding: 8px 14px; font-size: 0.8rem; }
 
-        .btn-submit {
-            padding: 16px;
-            background: linear-gradient(135deg, #F7B7C8, #F3B56A);
-            color: white;
-            border: none;
-            border-radius: 40px;
-            font-family: 'Quicksand', sans-serif;
-            font-size: 1rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.4s ease;
-            box-shadow: 0 8px 30px rgba(247, 183, 200, 0.12);
-            margin-top: 8px;
-        }
+        .btn-submit { padding: 16px; background: linear-gradient(135deg, #F7B7C8, #F3B56A); color: white; border: none; border-radius: 40px; font-family: 'Quicksand', sans-serif; font-size: 1rem; font-weight: 600; cursor: pointer; transition: all 0.4s ease; box-shadow: 0 8px 30px rgba(247, 183, 200, 0.12); margin-top: 8px; }
+        .btn-submit:hover { transform: scale(1.02) translateY(-2px); box-shadow: 0 12px 40px rgba(247, 183, 200, 0.18); }
 
-        .btn-submit:hover {
-            transform: scale(1.02) translateY(-2px);
-            box-shadow: 0 12px 40px rgba(247, 183, 200, 0.18);
-        }
-
-        .btn-rsvp-yes {
-            padding: 14px 28px;
-            border: 1px solid #8CD4B5;
-            border-radius: 40px;
-            background: rgba(255, 255, 255, 0.3);
-            backdrop-filter: blur(8px);
-            font-family: 'Quicksand', sans-serif;
-            font-size: 1rem;
-            font-weight: 600;
-            color: #4A3F3A;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .btn-rsvp-yes:hover {
-            background: #8CD4B5;
-            color: white;
-            transform: scale(1.04);
-        }
+        .btn-rsvp-yes { padding: 14px 28px; border: 1px solid #8CD4B5; border-radius: 40px; background: rgba(255, 255, 255, 0.3); backdrop-filter: blur(8px); font-family: 'Quicksand', sans-serif; font-size: 1rem; font-weight: 600; color: #4A3F3A; cursor: pointer; transition: all 0.3s ease; }
+        .btn-rsvp-yes:hover { background: #8CD4B5; color: white; transform: scale(1.04); }
         .btn-rsvp-yes.active { background: #8CD4B5; color: white; }
-
-        .btn-rsvp-no {
-            padding: 14px 28px;
-            border: 1px solid #F7B7C8;
-            border-radius: 40px;
-            background: rgba(255, 255, 255, 0.3);
-            backdrop-filter: blur(8px);
-            font-family: 'Quicksand', sans-serif;
-            font-size: 1rem;
-            font-weight: 600;
-            color: #4A3F3A;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .btn-rsvp-no:hover {
-            background: #F7B7C8;
-            color: white;
-            transform: scale(1.04);
-        }
+        .btn-rsvp-no { padding: 14px 28px; border: 1px solid #F7B7C8; border-radius: 40px; background: rgba(255, 255, 255, 0.3); backdrop-filter: blur(8px); font-family: 'Quicksand', sans-serif; font-size: 1rem; font-weight: 600; color: #4A3F3A; cursor: pointer; transition: all 0.3s ease; }
+        .btn-rsvp-no:hover { background: #F7B7C8; color: white; transform: scale(1.04); }
         .btn-rsvp-no.active { background: #F7B7C8; color: white; }
+        .rsvp-buttons { display: flex; gap: 12px; justify-content: center; margin: 8px 0; }
 
-        .rsvp-buttons {
-            display: flex;
-            gap: 12px;
-            justify-content: center;
-            margin: 8px 0;
-        }
+        .contacts-block { text-align: center; padding: 24px 20px; background: rgba(247, 183, 200, 0.08); border-radius: 24px; border: 1px solid rgba(247, 183, 200, 0.12); margin-top: 8px; }
+        .contacts-block .contacts-title { font-size: 0.9rem; font-weight: 600; color: #4A3F3A; margin-bottom: 8px; }
+        .contacts-block .contacts-name { font-size: 1.2rem; font-weight: 700; color: #8CD4B5; }
+        .contacts-block .contacts-phone { font-size: 1.1rem; font-weight: 600; margin: 6px 0; }
+        .contacts-block .contacts-phone a { color: #F9B87A; text-decoration: none; cursor: pointer; }
+        .contacts-block .contacts-telegram { margin-top: 8px; }
+        .contacts-block .contacts-telegram a { display: inline-block; padding: 10px 22px; background: #7EC8E3; color: white; border-radius: 40px; text-decoration: none; font-weight: 600; font-size: 0.9rem; transition: all 0.3s; }
+        .contacts-block .contacts-telegram a:hover { background: #5DAFCF; transform: scale(1.03); }
 
-        .contacts-block {
-            text-align: center;
-            padding: 24px 20px;
-            background: rgba(247, 183, 200, 0.08);
-            border-radius: 24px;
-            border: 1px solid rgba(247, 183, 200, 0.12);
-            margin-top: 8px;
-        }
+        #quiz-section { position: relative; z-index: 2; background: transparent; }
+        .quiz-block { max-width: 550px; margin: 0 auto; }
+        .quiz-question { margin-bottom: 24px; }
+        .quiz-question h3 { font-family: 'Rubik Bubbles', cursive; font-size: 1.2rem; font-weight: 400; margin-bottom: 12px; color: #4A3F3A; }
+        .quiz-options { display: flex; flex-wrap: wrap; gap: 10px; }
+        .quiz-option { padding: 12px 20px; border: 1.5px solid rgba(74, 63, 58, 0.1); border-radius: 40px; background: rgba(255, 255, 255, 0.4); backdrop-filter: blur(8px); font-family: 'Quicksand', sans-serif; font-size: 0.9rem; font-weight: 500; color: #4A3F3A; cursor: pointer; transition: all 0.3s ease; }
+        .quiz-option:hover { border-color: #F7B7C8; background: rgba(255, 255, 255, 0.7); transform: translateY(-2px); }
+        .quiz-option.correct { background: #8CD4B5; color: white; border-color: #8CD4B5; }
+        .quiz-option.wrong { background: #FF8CA8; color: white; border-color: #FF8CA8; }
 
-        .contacts-block .contacts-title {
-            font-size: 0.9rem;
-            font-weight: 600;
-            color: #4A3F3A;
-            margin-bottom: 8px;
-        }
+        #timer-section { position: relative; z-index: 2; min-height: 40vh; padding: 40px 0 60px; background: transparent; }
+        .timer { display: flex; gap: 12px; justify-content: center; flex-wrap: nowrap; }
+        .timer-unit { text-align: center; background: rgba(255, 255, 255, 0.4); backdrop-filter: blur(10px); padding: 12px 14px; border-radius: 20px; min-width: 55px; border: 1px solid rgba(247, 183, 200, 0.05); }
+        .timer-unit .number { font-family: 'Rubik Bubbles', cursive; font-size: clamp(1.5rem, 3.5vw, 2.2rem); font-weight: 400; color: #4A3F3A; }
+        .timer-unit .label { font-size: 0.6rem; text-transform: uppercase; letter-spacing: 2px; color: #C4B5AD; margin-top: 2px; }
 
-        .contacts-block .contacts-name {
-            font-size: 1.2rem;
-            font-weight: 700;
-            color: #F7B7C8;
-        }
-
-        .contacts-block .contacts-phone {
-            font-size: 1.1rem;
-            font-weight: 600;
-            color: #4A3F3A;
-        }
-
-        .contacts-block .contacts-phone a {
-            color: #4A3F3A;
-            text-decoration: none;
-        }
-
-        #timer-section {
-            position: relative;
-            z-index: 2;
-            min-height: 60vh;
-            padding: 60px 0 80px;
-            background: transparent;
-        }
-
-        .timer {
-            display: flex;
-            gap: 16px;
-            justify-content: center;
-            flex-wrap: wrap;
-        }
-
-        .timer-unit {
-            text-align: center;
-            background: rgba(255, 255, 255, 0.4);
-            backdrop-filter: blur(10px);
-            padding: 16px 20px;
-            border-radius: 24px;
-            min-width: 65px;
-            border: 1px solid rgba(247, 183, 200, 0.05);
-        }
-
-        .timer-unit .number {
-            font-family: 'Rubik Bubbles', cursive;
-            font-size: clamp(2rem, 4.5vw, 3rem);
-            font-weight: 400;
-            color: #4A3F3A;
-        }
-
-        .timer-unit .label {
-            font-size: 0.65rem;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            color: #C4B5AD;
-            margin-top: 4px;
-        }
-
-        footer {
-            background: rgba(255, 255, 255, 0.3);
-            backdrop-filter: blur(10px);
-            padding: 40px 20px 30px;
-            text-align: center;
-            border-top: 1px solid rgba(255, 255, 255, 0.2);
-            position: relative;
-            z-index: 2;
-        }
-
-        footer p {
-            font-family: 'Rubik Bubbles', cursive;
-            font-size: 1.6rem;
-            color: #4A3F3A;
-        }
-
+        footer { background: rgba(255, 255, 255, 0.3); backdrop-filter: blur(10px); padding: 40px 20px 30px; text-align: center; border-top: 1px solid rgba(255, 255, 255, 0.2); position: relative; z-index: 2; }
+        footer p { font-family: 'Rubik Bubbles', cursive; font-size: 1.6rem; color: #4A3F3A; }
         footer .heart-symbol { color: #F7B7C8; }
-        footer .sub {
-            font-family: 'Quicksand', sans-serif;
-            font-size: 0.85rem;
-            color: #C4B5AD;
-            margin-top: 4px;
-            font-weight: 300;
-        }
+        footer .sub { font-family: 'Quicksand', sans-serif; font-size: 0.85rem; color: #C4B5AD; margin-top: 4px; font-weight: 300; }
+        .footer-tags { margin-top: 10px; display: flex; justify-content: center; gap: 20px; font-size: 0.75rem; color: #C4B5AD; letter-spacing: 1px; }
 
-        .footer-tags {
-            margin-top: 10px;
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-            font-size: 0.75rem;
-            color: #C4B5AD;
-            letter-spacing: 1px;
-        }
+        .reveal { opacity: 0; transform: translateY(40px) scale(0.96); }
 
-        .reveal {
-            opacity: 0;
-            transform: translateY(40px) scale(0.96);
-        }
-
-        #photoModal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            background: rgba(0,0,0,0.92);
-            z-index: 9999;
-            justify-content: center;
-            align-items: center;
-        }
-
-        #photoModal img {
-            max-width: 92vw;
-            max-height: 92vh;
-            object-fit: contain;
-            border-radius: 16px;
-        }
-
-        #photoModal .close-modal {
-            position: absolute;
-            top: 20px;
-            right: 28px;
-            color: white;
-            font-size: 38px;
-            cursor: pointer;
-            z-index: 10000;
-            font-weight: 300;
-        }
+        #photoModal { display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.92); z-index: 9999; justify-content: center; align-items: center; }
+        #photoModal img { max-width: 92vw; max-height: 92vh; object-fit: contain; border-radius: 16px; }
+        #photoModal .close-modal { position: absolute; top: 20px; right: 28px; color: white; font-size: 38px; cursor: pointer; z-index: 10000; font-weight: 300; }
 
         @media (max-width: 480px) {
             section { padding: 50px 0 60px; }
@@ -1147,8 +320,10 @@
             .music-btn { padding: 8px 14px; font-size: 0.65rem; min-width: 100px; }
             .hero-date { font-size: 0.9rem; padding: 6px 16px; }
             .scroll-down svg { width: 22px; height: 32px; }
-            .venue-hint { font-size: 0.75rem; }
             .dresscode-photos img, .men-photos img { max-width: 100%; }
+            .timer-unit { min-width: 48px; padding: 10px 10px; }
+            .timer-unit .number { font-size: 1.3rem; }
+            .quiz-option { padding: 10px 16px; font-size: 0.8rem; }
         }
 
         @media (max-width: 768px) {
@@ -1168,42 +343,24 @@
 <body>
 
     <div class="bg-grain"></div>
-
     <div class="blob-layer">
-        <div class="blob blob-1" id="blob1"></div>
-        <div class="blob blob-2" id="blob2"></div>
-        <div class="blob blob-3" id="blob3"></div>
-        <div class="blob blob-4" id="blob4"></div>
+        <div class="blob blob-1" id="blob1"></div><div class="blob blob-2" id="blob2"></div>
+        <div class="blob blob-3" id="blob3"></div><div class="blob blob-4" id="blob4"></div>
         <div class="blob blob-5" id="blob5"></div>
     </div>
-
     <div class="deco-layer">
-        <svg class="wave-line deco-1" width="120" height="40" viewBox="0 0 120 40">
-            <path d="M0 20 Q15 0 30 20 T60 20 T90 20 T120 20" stroke="#4A3F3A" fill="none" stroke-width="1.5"/>
-        </svg>
-        <svg class="wave-line deco-11" width="150" height="30" viewBox="0 0 150 30">
-            <path d="M0 15 Q20 0 40 15 T80 15 T120 15 T150 15" stroke="#4A3F3A" fill="none" stroke-width="1.5"/>
-        </svg>
+        <svg class="wave-line deco-1" width="120" height="40" viewBox="0 0 120 40"><path d="M0 20 Q15 0 30 20 T60 20 T90 20 T120 20" stroke="#4A3F3A" fill="none" stroke-width="1.5"/></svg>
+        <svg class="wave-line deco-11" width="150" height="30" viewBox="0 0 150 30"><path d="M0 15 Q20 0 40 15 T80 15 T120 15 T150 15" stroke="#4A3F3A" fill="none" stroke-width="1.5"/></svg>
         <div class="dot-group deco-3"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="dot dot-big"></span></div>
         <div class="dot-group deco-13"><span class="dot dot-big"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span></div>
         <div class="dot-group deco-18"><span class="dot"></span><span class="dot dot-big"></span><span class="dot"></span></div>
-        <span class="star-deco deco-4">✦</span>
-        <span class="star-deco deco-8">✦</span>
-        <span class="star-deco deco-15">✦</span>
-        <span class="star-deco deco-19">✦</span>
-        <span class="heart-deco deco-5">♥</span>
-        <span class="heart-deco deco-9">♥</span>
-        <span class="heart-deco deco-14">♥</span>
-        <div class="arc-deco deco-2" style="width: 80px; height: 80px;"></div>
-        <div class="arc-deco deco-7" style="width: 60px; height: 60px;"></div>
-        <div class="arc-deco deco-12" style="width: 100px; height: 100px;"></div>
-        <div class="arc-deco deco-17" style="width: 50px; height: 50px;"></div>
-        <div class="stroke-deco deco-6" style="--rot: 15deg; width: 60px;"></div>
-        <div class="stroke-deco deco-10" style="--rot: -8deg; width: 80px;"></div>
-        <div class="stroke-deco deco-16" style="--rot: 25deg; width: 50px;"></div>
-        <div class="stroke-deco deco-20" style="--rot: -12deg; width: 70px;"></div>
-        <span class="doodle-deco deco-18" style="font-size: 1.2rem;">~ ~ ~</span>
-        <span class="doodle-deco deco-12" style="font-size: 1.5rem; opacity: 0.03;">✧</span>
+        <span class="star-deco deco-4">✦</span><span class="star-deco deco-8">✦</span><span class="star-deco deco-15">✦</span><span class="star-deco deco-19">✦</span>
+        <span class="heart-deco deco-5">♥</span><span class="heart-deco deco-9">♥</span><span class="heart-deco deco-14">♥</span>
+        <div class="arc-deco deco-2" style="width:80px;height:80px;"></div><div class="arc-deco deco-7" style="width:60px;height:60px;"></div>
+        <div class="arc-deco deco-12" style="width:100px;height:100px;"></div><div class="arc-deco deco-17" style="width:50px;height:50px;"></div>
+        <div class="stroke-deco deco-6" style="--rot:15deg;width:60px;"></div><div class="stroke-deco deco-10" style="--rot:-8deg;width:80px;"></div>
+        <div class="stroke-deco deco-16" style="--rot:25deg;width:50px;"></div><div class="stroke-deco deco-20" style="--rot:-12deg;width:70px;"></div>
+        <span class="doodle-deco deco-18" style="font-size:1.2rem;">~ ~ ~</span>
     </div>
 
     <div class="music-controls" id="musicControls">
@@ -1228,139 +385,37 @@
         </div>
 
         <h1 class="hero-names reveal">
-            <span class="name-group">
-                <span class="letter" style="--rot:-2deg;--y:-3px; color:#FF8CA8;">С</span>
-                <span class="letter" style="--rot:1deg;--y:2px; color:#7EC8E3;">т</span>
-                <span class="letter" style="--rot:-1deg;--y:-1px; color:#B8A6E0;">а</span>
-                <span class="letter" style="--rot:2deg;--y:4px; color:#F9B87A;">с</span>
-            </span>
-            <span class="amp"> &amp; </span>
-            <span class="name-group">
-                <span class="letter" style="--rot:-1deg;--y:-2px; color:#8CD4B5;">Н</span>
-                <span class="letter" style="--rot:2deg;--y:3px; color:#F5D76E;">а</span>
-                <span class="letter" style="--rot:-2deg;--y:-4px; color:#FF8CA8;">с</span>
-                <span class="letter" style="--rot:1deg;--y:1px; color:#7EC8E3;">т</span>
-                <span class="letter" style="--rot:-1deg;--y:-2px; color:#B8A6E0;">я</span>
-            </span>
+            <span class="name-group"><span class="letter" style="--rot:-2deg;--y:-3px;color:#FF8CA8;">С</span><span class="letter" style="--rot:1deg;--y:2px;color:#7EC8E3;">т</span><span class="letter" style="--rot:-1deg;--y:-1px;color:#B8A6E0;">а</span><span class="letter" style="--rot:2deg;--y:4px;color:#F9B87A;">с</span></span>
+            <span class="amp">&amp;</span>
+            <span class="name-group"><span class="letter" style="--rot:-1deg;--y:-2px;color:#8CD4B5;">Н</span><span class="letter" style="--rot:2deg;--y:3px;color:#F5D76E;">а</span><span class="letter" style="--rot:-2deg;--y:-4px;color:#FF8CA8;">с</span><span class="letter" style="--rot:1deg;--y:1px;color:#7EC8E3;">т</span><span class="letter" style="--rot:-1deg;--y:-2px;color:#B8A6E0;">я</span></span>
         </h1>
-
-        <p class="hero-date reveal">
-            <span style="color:#FF8CA8;">1</span><span style="color:#7EC8E3;">7</span>
-            <span style="color:#B8A6E0;">о</span><span style="color:#F9B87A;">к</span><span style="color:#8CD4B5;">т</span><span style="color:#F5D76E;">я</span><span style="color:#FF8CA8;">б</span><span style="color:#7EC8E3;">р</span><span style="color:#B8A6E0;">я</span>
-            <span style="color:#F9B87A;">2</span><span style="color:#8CD4B5;">0</span><span style="color:#F5D76E;">2</span><span style="color:#FF8CA8;">6</span>
-        </p>
-
+        <p class="hero-date reveal"><span style="color:#FF8CA8;">1</span><span style="color:#7EC8E3;">7</span> <span style="color:#B8A6E0;">о</span><span style="color:#F9B87A;">к</span><span style="color:#8CD4B5;">т</span><span style="color:#F5D76E;">я</span><span style="color:#FF8CA8;">б</span><span style="color:#7EC8E3;">р</span><span style="color:#B8A6E0;">я</span> <span style="color:#F9B87A;">2</span><span style="color:#8CD4B5;">0</span><span style="color:#F5D76E;">2</span><span style="color:#FF8CA8;">6</span></p>
         <div class="calendar-mini reveal">
             <span class="day weekday">Пн</span><span class="day weekday">Вт</span><span class="day weekday">Ср</span><span class="day weekday">Чт</span><span class="day weekday">Пт</span><span class="day weekday">Сб</span><span class="day weekday">Вс</span>
             <span class="day">12</span><span class="day">13</span><span class="day">14</span><span class="day">15</span><span class="day">16</span><span class="day wedding">17</span><span class="day">18</span>
         </div>
-
-        <div class="scroll-down" id="scrollDown">
-            <svg width="28" height="40" viewBox="0 0 40 60">
-                <path d="M20 5 L20 50 M10 40 L20 55 L30 40" stroke="#F7B7C8" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round" opacity="0.7"/>
-            </svg>
-        </div>
+        <div class="scroll-down" id="scrollDown"><svg width="28" height="40" viewBox="0 0 40 60"><path d="M20 5 L20 50 M10 40 L20 55 L30 40" stroke="#F7B7C8" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round" opacity="0.7"/></svg></div>
     </section>
 
     <!-- МЕСТО -->
     <section id="venue">
         <div class="venue-content reveal">
-            <p class="venue-hint">нажми на нас</p>
-            <div class="venue-photo-frame" id="venueFrame">
-                <img src="assets/images/venue-photo.jpg" alt="Отель Высоцкий" />
-            </div>
-            <h2>
-                <span class="letter letter-color-1" style="--rot:-1deg;--y:-2px;">О</span>
-                <span class="letter letter-color-2" style="--rot:2deg;--y:3px;">т</span>
-                <span class="letter letter-color-3" style="--rot:-2deg;--y:-1px;">е</span>
-                <span class="letter letter-color-4" style="--rot:1deg;--y:2px;">л</span>
-                <span class="letter letter-color-5" style="--rot:-1deg;--y:-2px;">ь</span>
-                <span class="letter letter-color-1" style="--rot:2deg;--y:1px;"> </span>
-                <span class="letter letter-color-6" style="--rot:-2deg;--y:-2px;">В</span>
-                <span class="letter letter-color-7" style="--rot:1deg;--y:3px;">ы</span>
-                <span class="letter letter-color-8" style="--rot:-1deg;--y:-1px;">с</span>
-                <span class="letter letter-color-9" style="--rot:2deg;--y:2px;">о</span>
-                <span class="letter letter-color-10" style="--rot:-1deg;--y:-2px;">ц</span>
-                <span class="letter letter-color-1" style="--rot:1deg;--y:1px;">к</span>
-                <span class="letter letter-color-2" style="--rot:-2deg;--y:-3px;">и</span>
-                <span class="letter letter-color-3" style="--rot:2deg;--y:2px;">й</span>
-            </h2>
+            <div class="venue-photo-frame" id="venueFrame"><img src="assets/images/venue-photo.jpg" alt="Отель Высоцкий" /></div>
+            <h2><span class="letter letter-color-1" style="--rot:-1deg;--y:-2px;">О</span><span class="letter letter-color-2" style="--rot:2deg;--y:3px;">т</span><span class="letter letter-color-3" style="--rot:-2deg;--y:-1px;">е</span><span class="letter letter-color-4" style="--rot:1deg;--y:2px;">л</span><span class="letter letter-color-5" style="--rot:-1deg;--y:-2px;">ь</span><span class="letter letter-color-1" style="--rot:2deg;--y:1px;"> </span><span class="letter letter-color-6" style="--rot:-2deg;--y:-2px;">В</span><span class="letter letter-color-7" style="--rot:1deg;--y:3px;">ы</span><span class="letter letter-color-8" style="--rot:-1deg;--y:-1px;">с</span><span class="letter letter-color-9" style="--rot:2deg;--y:2px;">о</span><span class="letter letter-color-10" style="--rot:-1deg;--y:-2px;">ц</span><span class="letter letter-color-1" style="--rot:1deg;--y:1px;">к</span><span class="letter letter-color-2" style="--rot:-2deg;--y:-3px;">и</span><span class="letter letter-color-3" style="--rot:2deg;--y:2px;">й</span></h2>
             <p class="sub">ресторан «Влади» · зал «Соната»</p>
             <p class="address">ул. Малышева, 51</p>
-            <a href="https://yandex.ru/maps/?ll=60.614557,56.836057&z=17&pt=60.614557,56.836057" target="_blank" class="map-link">Открыть карту →</a>
+            <a href="https://yandex.ru/maps/-/CTvuyE5i" target="_blank" class="map-link">Открыть карту →</a>
         </div>
     </section>
 
     <!-- ПЛАН ДНЯ -->
     <section id="schedule">
         <div class="container">
-            <h2 class="craft-title reveal">
-                <span class="letter letter-color-2" style="--rot:-1deg;--y:-2px;">П</span>
-                <span class="letter letter-color-3" style="--rot:2deg;--y:3px;">л</span>
-                <span class="letter letter-color-4" style="--rot:-2deg;--y:-1px;">а</span>
-                <span class="letter letter-color-5" style="--rot:1deg;--y:2px;">н</span>
-                <span class="letter letter-color-1" style="--rot:-1deg;--y:-3px;"> </span>
-                <span class="letter letter-color-6" style="--rot:2deg;--y:1px;">д</span>
-                <span class="letter letter-color-7" style="--rot:-2deg;--y:-2px;">н</span>
-                <span class="letter letter-color-8" style="--rot:1deg;--y:3px;">я</span>
-            </h2>
-            
+            <h2 class="craft-title reveal"><span class="letter letter-color-2" style="--rot:-1deg;--y:-2px;">П</span><span class="letter letter-color-3" style="--rot:2deg;--y:3px;">л</span><span class="letter letter-color-4" style="--rot:-2deg;--y:-1px;">а</span><span class="letter letter-color-5" style="--rot:1deg;--y:2px;">н</span><span class="letter letter-color-1" style="--rot:-1deg;--y:-3px;"> </span><span class="letter letter-color-6" style="--rot:2deg;--y:1px;">д</span><span class="letter letter-color-7" style="--rot:-2deg;--y:-2px;">н</span><span class="letter letter-color-8" style="--rot:1deg;--y:3px;">я</span></h2>
             <div class="schedule-list">
-                <div class="schedule-item reveal">
-                    <span class="time">16:00</span>
-                    <div class="event">
-                        <span class="letter letter-color-1" style="--rot:-1deg;--y:-1px;">Ф</span>
-                        <span class="letter letter-color-2" style="--rot:1deg;--y:2px;">у</span>
-                        <span class="letter letter-color-3" style="--rot:-2deg;--y:-2px;">р</span>
-                        <span class="letter letter-color-4" style="--rot:2deg;--y:1px;">ш</span>
-                        <span class="letter letter-color-5" style="--rot:-1deg;--y:-1px;">е</span>
-                        <span class="letter letter-color-6" style="--rot:1deg;--y:3px;">т</span>
-                        <small><span class="important">НЕ ОПАЗДЫВАТЬ</span></small>
-                    </div>
-                </div>
-
-                <div class="schedule-item schedule-item-alt reveal">
-                    <span class="time">16:30</span>
-                    <div class="event">
-                        <span class="word">
-                            <span class="letter letter-color-3" style="--rot:-2deg;--y:-2px;">В</span>
-                            <span class="letter letter-color-4" style="--rot:1deg;--y:2px;">ы</span>
-                            <span class="letter letter-color-5" style="--rot:-1deg;--y:-1px;">е</span>
-                            <span class="letter letter-color-6" style="--rot:2deg;--y:3px;">з</span>
-                            <span class="letter letter-color-7" style="--rot:-2deg;--y:-2px;">д</span>
-                            <span class="letter letter-color-8" style="--rot:1deg;--y:1px;">н</span>
-                            <span class="letter letter-color-1" style="--rot:-1deg;--y:-1px;">а</span>
-                            <span class="letter letter-color-2" style="--rot:2deg;--y:2px;">я</span>
-                        </span>
-                        <span class="line-break">
-                            <span class="letter letter-color-4" style="--rot:1deg;--y:1px;">р</span>
-                            <span class="letter letter-color-5" style="--rot:-2deg;--y:-1px;">е</span>
-                            <span class="letter letter-color-6" style="--rot:2deg;--y:3px;">г</span>
-                            <span class="letter letter-color-7" style="--rot:-1deg;--y:-2px;">и</span>
-                            <span class="letter letter-color-8" style="--rot:1deg;--y:1px;">с</span>
-                            <span class="letter letter-color-1" style="--rot:-2deg;--y:-1px;">т</span>
-                            <span class="letter letter-color-2" style="--rot:2deg;--y:2px;">р</span>
-                            <span class="letter letter-color-3" style="--rot:-1deg;--y:-2px;">а</span>
-                            <span class="letter letter-color-4" style="--rot:1deg;--y:1px;">ц</span>
-                            <span class="letter letter-color-5" style="--rot:-2deg;--y:-1px;">и</span>
-                            <span class="letter letter-color-6" style="--rot:2deg;--y:3px;">я</span>
-                        </span>
-                        <small></small>
-                    </div>
-                </div>
-
-                <div class="schedule-item reveal">
-                    <span class="time">17:00</span>
-                    <div class="event">
-                        <span class="letter letter-color-5" style="--rot:-1deg;--y:-2px;">Б</span>
-                        <span class="letter letter-color-6" style="--rot:2deg;--y:1px;">а</span>
-                        <span class="letter letter-color-7" style="--rot:-2deg;--y:-1px;">н</span>
-                        <span class="letter letter-color-8" style="--rot:1deg;--y:3px;">к</span>
-                        <span class="letter letter-color-1" style="--rot:-1deg;--y:-2px;">е</span>
-                        <span class="letter letter-color-2" style="--rot:2deg;--y:1px;">т</span>
-                        <small></small>
-                    </div>
-                </div>
+                <div class="schedule-item reveal"><span class="time">16:00</span><div class="event"><span class="letter letter-color-1" style="--rot:-1deg;--y:-1px;">Ф</span><span class="letter letter-color-2" style="--rot:1deg;--y:2px;">у</span><span class="letter letter-color-3" style="--rot:-2deg;--y:-2px;">р</span><span class="letter letter-color-4" style="--rot:2deg;--y:1px;">ш</span><span class="letter letter-color-5" style="--rot:-1deg;--y:-1px;">е</span><span class="letter letter-color-6" style="--rot:1deg;--y:3px;">т</span><small><span class="important">НЕ ОПАЗДЫВАТЬ</span></small></div></div>
+                <div class="schedule-item schedule-item-alt reveal"><span class="time">16:30</span><div class="event"><span class="word"><span class="letter letter-color-3" style="--rot:-2deg;--y:-2px;">В</span><span class="letter letter-color-4" style="--rot:1deg;--y:2px;">ы</span><span class="letter letter-color-5" style="--rot:-1deg;--y:-1px;">е</span><span class="letter letter-color-6" style="--rot:2deg;--y:3px;">з</span><span class="letter letter-color-7" style="--rot:-2deg;--y:-2px;">д</span><span class="letter letter-color-8" style="--rot:1deg;--y:1px;">н</span><span class="letter letter-color-1" style="--rot:-1deg;--y:-1px;">а</span><span class="letter letter-color-2" style="--rot:2deg;--y:2px;">я</span></span><span class="line-break"><span class="letter letter-color-4" style="--rot:1deg;--y:1px;">р</span><span class="letter letter-color-5" style="--rot:-2deg;--y:-1px;">е</span><span class="letter letter-color-6" style="--rot:2deg;--y:3px;">г</span><span class="letter letter-color-7" style="--rot:-1deg;--y:-2px;">и</span><span class="letter letter-color-8" style="--rot:1deg;--y:1px;">с</span><span class="letter letter-color-1" style="--rot:-2deg;--y:-1px;">т</span><span class="letter letter-color-2" style="--rot:2deg;--y:2px;">р</span><span class="letter letter-color-3" style="--rot:-1deg;--y:-2px;">а</span><span class="letter letter-color-4" style="--rot:1deg;--y:1px;">ц</span><span class="letter letter-color-5" style="--rot:-2deg;--y:-1px;">и</span><span class="letter letter-color-6" style="--rot:2deg;--y:3px;">я</span></span><small></small></div></div>
+                <div class="schedule-item reveal"><span class="time">17:00</span><div class="event"><span class="letter letter-color-5" style="--rot:-1deg;--y:-2px;">Б</span><span class="letter letter-color-6" style="--rot:2deg;--y:1px;">а</span><span class="letter letter-color-7" style="--rot:-2deg;--y:-1px;">н</span><span class="letter letter-color-8" style="--rot:1deg;--y:3px;">к</span><span class="letter letter-color-1" style="--rot:-1deg;--y:-2px;">е</span><span class="letter letter-color-2" style="--rot:2deg;--y:1px;">т</span><small></small></div></div>
             </div>
         </div>
     </section>
@@ -1368,39 +423,21 @@
     <!-- ДРЕСС-КОД -->
     <section id="dresscode">
         <div class="container">
-            <h2 class="craft-title reveal">
-                <span class="letter letter-color-3" style="--rot:-1deg;--y:-2px;">Д</span>
-                <span class="letter letter-color-4" style="--rot:2deg;--y:3px;">р</span>
-                <span class="letter letter-color-5" style="--rot:-2deg;--y:-1px;">е</span>
-                <span class="letter letter-color-6" style="--rot:1deg;--y:2px;">с</span>
-                <span class="letter letter-color-7" style="--rot:-1deg;--y:-3px;">с</span>
-                <span class="letter letter-color-8" style="--rot:2deg;--y:1px;">-</span>
-                <span class="letter letter-color-1" style="--rot:-2deg;--y:-2px;">к</span>
-                <span class="letter letter-color-2" style="--rot:1deg;--y:3px;">о</span>
-                <span class="letter letter-color-9" style="--rot:-1deg;--y:-1px;">д</span>
-            </h2>
-            
+            <h2 class="craft-title reveal"><span class="letter letter-color-3" style="--rot:-1deg;--y:-2px;">Д</span><span class="letter letter-color-4" style="--rot:2deg;--y:3px;">р</span><span class="letter letter-color-5" style="--rot:-2deg;--y:-1px;">е</span><span class="letter letter-color-6" style="--rot:1deg;--y:2px;">с</span><span class="letter letter-color-7" style="--rot:-1deg;--y:-3px;">с</span><span class="letter letter-color-8" style="--rot:2deg;--y:1px;">-</span><span class="letter letter-color-1" style="--rot:-2deg;--y:-2px;">к</span><span class="letter letter-color-2" style="--rot:1deg;--y:3px;">о</span><span class="letter letter-color-9" style="--rot:-1deg;--y:-1px;">д</span></h2>
             <p class="dresscode-sub reveal">Пастельные, дофаминовые оттенки</p>
-
             <div class="color-palette reveal">
-                <div class="color-dot" data-color="pink" style="background: #FF8CA8;"></div>
-                <div class="color-dot" data-color="blue" style="background: #7EC8E3;"></div>
-                <div class="color-dot" data-color="lavender" style="background: #B8A6E0;"></div>
-                <div class="color-dot" data-color="peach" style="background: #F9B87A;"></div>
-                <div class="color-dot" data-color="mint" style="background: #8CD4B5;"></div>
+                <div class="color-dot" data-color="pink" style="background:#FF8CA8;"></div>
+                <div class="color-dot" data-color="blue" style="background:#7EC8E3;"></div>
+                <div class="color-dot" data-color="lavender" style="background:#B8A6E0;"></div>
+                <div class="color-dot" data-color="peach" style="background:#F9B87A;"></div>
+                <div class="color-dot" data-color="mint" style="background:#8CD4B5;"></div>
             </div>
-
-            <div class="dresscode-photos reveal" id="dresscodePhotos">
-                <span class="photo-placeholder">Нажми на цвет</span>
-            </div>
-
+            <div class="dresscode-photos reveal" id="dresscodePhotos"><span class="photo-placeholder">Нажми на цвет</span></div>
             <div class="men-buttons reveal">
                 <button class="men-btn" id="menOption1">Мужчины, по возможности так</button>
                 <button class="men-btn" id="menOption2">Если возможности нет</button>
             </div>
-            <div class="men-photos reveal" id="menPhotos">
-                <span class="photo-placeholder">Нажми на вариант</span>
-            </div>
+            <div class="men-photos reveal" id="menPhotos"><span class="photo-placeholder">Нажми на вариант</span></div>
         </div>
     </section>
 
@@ -1408,84 +445,13 @@
     <section id="faq">
         <div class="container">
             <p class="section-label reveal">Важные мелочи</p>
-            <h2 class="craft-title reveal">
-                <span class="letter letter-color-4" style="--rot:-1deg;--y:-2px;">О</span>
-                <span class="letter letter-color-5" style="--rot:2deg;--y:3px;">т</span>
-                <span class="letter letter-color-6" style="--rot:-2deg;--y:-1px;">в</span>
-                <span class="letter letter-color-7" style="--rot:1deg;--y:2px;">е</span>
-                <span class="letter letter-color-8" style="--rot:-1deg;--y:-3px;">т</span>
-                <span class="letter letter-color-1" style="--rot:2deg;--y:1px;">ы</span>
-                <span class="line-break">
-                    <span class="letter letter-color-2" style="--rot:-2deg;--y:-2px;">н</span>
-                    <span class="letter letter-color-3" style="--rot:1deg;--y:3px;">а</span>
-                    <span class="letter letter-color-9" style="--rot:2deg;--y:2px;"> </span>
-                    <span class="letter letter-color-10" style="--rot:-1deg;--y:-2px;">в</span>
-                    <span class="letter letter-color-1" style="--rot:1deg;--y:1px;">о</span>
-                    <span class="letter letter-color-2" style="--rot:-2deg;--y:-3px;">п</span>
-                    <span class="letter letter-color-3" style="--rot:2deg;--y:2px;">р</span>
-                    <span class="letter letter-color-4" style="--rot:-1deg;--y:-1px;">о</span>
-                    <span class="letter letter-color-5" style="--rot:1deg;--y:3px;">с</span>
-                    <span class="letter letter-color-6" style="--rot:-2deg;--y:-2px;">ы</span>
-                </span>
-            </h2>
-
+            <h2 class="craft-title reveal"><span class="letter letter-color-4" style="--rot:-1deg;--y:-2px;">О</span><span class="letter letter-color-5" style="--rot:2deg;--y:3px;">т</span><span class="letter letter-color-6" style="--rot:-2deg;--y:-1px;">в</span><span class="letter letter-color-7" style="--rot:1deg;--y:2px;">е</span><span class="letter letter-color-8" style="--rot:-1deg;--y:-3px;">т</span><span class="letter letter-color-1" style="--rot:2deg;--y:1px;">ы</span><span class="line-break"><span class="letter letter-color-2" style="--rot:-2deg;--y:-2px;">н</span><span class="letter letter-color-3" style="--rot:1deg;--y:3px;">а</span><span class="letter letter-color-9" style="--rot:2deg;--y:2px;"> </span><span class="letter letter-color-10" style="--rot:-1deg;--y:-2px;">в</span><span class="letter letter-color-1" style="--rot:1deg;--y:1px;">о</span><span class="letter letter-color-2" style="--rot:-2deg;--y:-3px;">п</span><span class="letter letter-color-3" style="--rot:2deg;--y:2px;">р</span><span class="letter letter-color-4" style="--rot:-1deg;--y:-1px;">о</span><span class="letter letter-color-5" style="--rot:1deg;--y:3px;">с</span><span class="letter letter-color-6" style="--rot:-2deg;--y:-2px;">ы</span></span></h2>
             <div class="faq-grid">
-                <div class="faq-item reveal" data-faq="1">
-                    <div class="question">
-                        <span class="q-number color-1">1</span>
-                        <span>Что дарить?</span>
-                        <span class="arrow">▼</span>
-                    </div>
-                    <div class="answer">
-                        Сразу после свадьбы мы улетаем, так что не сможем увезти ничего тяжелее купюр.<br>
-                        Если вы хотели подарить цветы, то придумайте, пожалуйста, что-то другое весёлое. Потому что цветы мы тоже не сможем увезти.
-                    </div>
-                </div>
-
-                <div class="faq-item reveal" data-faq="2">
-                    <div class="question">
-                        <span class="q-number color-2">2</span>
-                        <span>Что надевать нельзя?</span>
-                        <span class="arrow">▼</span>
-                    </div>
-                    <div class="answer">
-                        <span class="hl-red">Ярко-красный</span>, <span class="hl-dark">тёмно-зелёный</span> и, естественно, <span class="hl-mint">белый</span>.
-                    </div>
-                </div>
-
-                <div class="faq-item reveal" data-faq="3">
-                    <div class="question">
-                        <span class="q-number color-3">3</span>
-                        <span>Как добраться?</span>
-                        <span class="arrow">▼</span>
-                    </div>
-                    <div class="answer">
-                        <span class="hl-lavender">(для иногородних)</span> Сначала прилететь/приехать в Екатеринбург.<br>
-                        <span class="hl-lavender">Отель Высоцкий</span> в центре Екатеринбурга. Подъезд к отелю — с улицы Ленина.
-                    </div>
-                </div>
-
-                <div class="faq-item reveal" data-faq="4">
-                    <div class="question">
-                        <span class="q-number color-4">4</span>
-                        <span>Можно ли с детьми?</span>
-                        <span class="arrow">▼</span>
-                    </div>
-                    <div class="answer">
-                        Пожалуйста, <span class="hl-pink">не берите детей</span> — этот вечер мы проводим во взрослой компании.
-                    </div>
-                </div>
-
-                <div class="faq-item reveal" data-faq="5">
-                    <div class="question">
-                        <span class="q-number color-5">5</span>
-                        <span>Кто в семье будет главный?</span>
-                        <span class="arrow">▼</span>
-                    </div>
-                    <div class="answer">
-                        <span class="hl-yellow">Типа Стас</span>
-                    </div>
-                </div>
+                <div class="faq-item reveal" data-faq="1"><div class="question"><span class="q-number color-1">1</span><span>Что дарить?</span><span class="arrow">▼</span></div><div class="answer">Сразу после свадьбы мы улетаем, так что <span class="hl-pink">не сможем увезти</span> ничего тяжелее <span class="hl-yellow">купюр</span>.<br>Если вы хотели подарить цветы, то придумайте, пожалуйста, <span class="hl-mint">что-то другое весёлое</span>. Потому что цветы мы тоже <span class="hl-pink">не сможем увезти</span>.</div></div>
+                <div class="faq-item reveal" data-faq="2"><div class="question"><span class="q-number color-2">2</span><span>Что надевать нельзя?</span><span class="arrow">▼</span></div><div class="answer"><span class="hl-red">Ярко-красный</span>, <span class="hl-dark">тёмно-зелёный</span> и, естественно, <span class="hl-mint">белый</span>.</div></div>
+                <div class="faq-item reveal" data-faq="3"><div class="question"><span class="q-number color-3">3</span><span>Как добраться?</span><span class="arrow">▼</span></div><div class="answer"><span class="hl-lavender">(опционально)</span> Прилететь в Екатеринбург.<br>Потом приехать в отель Высоцкий и подняться на <span class="hl-peach">37 этаж</span>.<br>Подъезд к отелю — с улицы Ленина.</div></div>
+                <div class="faq-item reveal" data-faq="4"><div class="question"><span class="q-number color-4">4</span><span>Можно ли с детьми?</span><span class="arrow">▼</span></div><div class="answer">Пожалуйста, <span class="hl-pink">не берите детей</span> — этот вечер мы проводим во взрослой компании.</div></div>
+                <div class="faq-item reveal" data-faq="5"><div class="question"><span class="q-number color-5">5</span><span>Кто в семье будет главный?</span><span class="arrow">▼</span></div><div class="answer"><span class="hl-pink">Т</span><span class="hl-blue">и</span><span class="hl-lavender">п</span><span class="hl-peach">а</span> <span class="hl-mint">С</span><span class="hl-yellow">т</span><span class="hl-pink">а</span><span class="hl-blue">с</span></div></div>
             </div>
         </div>
     </section>
@@ -1494,107 +460,29 @@
     <section id="rsvp">
         <div class="container">
             <p class="section-label reveal">Ждём вас!</p>
-            <h2 class="craft-title reveal">
-                <span class="letter letter-color-5" style="--rot:-1deg;--y:-2px;">П</span>
-                <span class="letter letter-color-6" style="--rot:2deg;--y:3px;">о</span>
-                <span class="letter letter-color-7" style="--rot:-2deg;--y:-1px;">д</span>
-                <span class="letter letter-color-8" style="--rot:1deg;--y:2px;">т</span>
-                <span class="letter letter-color-1" style="--rot:-1deg;--y:-3px;">в</span>
-                <span class="letter letter-color-2" style="--rot:2deg;--y:1px;">е</span>
-                <span class="letter letter-color-3" style="--rot:-2deg;--y:-2px;">р</span>
-                <span class="letter letter-color-4" style="--rot:1deg;--y:3px;">д</span>
-                <span class="letter letter-color-9" style="--rot:-1deg;--y:-1px;">и</span>
-                <span class="letter letter-color-10" style="--rot:2deg;--y:2px;">т</span>
-                <span class="letter letter-color-1" style="--rot:-1deg;--y:-2px;">е</span>
-            </h2>
-            
-            <p class="rsvp-note reveal">
-                Пожалуйста, заполните анкету — это поможет нам лучше подготовиться к вашему приезду. Даже если вы не сможете прийти, нам важно знать, что вы посмотрели приглашение.
-            </p>
-
+            <h2 class="craft-title reveal"><span class="letter letter-color-5" style="--rot:-1deg;--y:-2px;">П</span><span class="letter letter-color-6" style="--rot:2deg;--y:3px;">о</span><span class="letter letter-color-7" style="--rot:-2deg;--y:-1px;">д</span><span class="letter letter-color-8" style="--rot:1deg;--y:2px;">т</span><span class="letter letter-color-1" style="--rot:-1deg;--y:-3px;">в</span><span class="letter letter-color-2" style="--rot:2deg;--y:1px;">е</span><span class="letter letter-color-3" style="--rot:-2deg;--y:-2px;">р</span><span class="letter letter-color-4" style="--rot:1deg;--y:3px;">д</span><span class="letter letter-color-9" style="--rot:-1deg;--y:-1px;">и</span><span class="letter letter-color-10" style="--rot:2deg;--y:2px;">т</span><span class="letter letter-color-1" style="--rot:-1deg;--y:-2px;">е</span></h2>
+            <p class="rsvp-note reveal">Пожалуйста, заполните анкету — это поможет нам лучше подготовиться к вашему приезду.</p>
             <form class="rsvp-form" id="rsvpForm">
-                <div class="form-group reveal">
-                    <label>Как вас зовут?</label>
-                    <input type="text" placeholder="Имя и фамилия" required id="rsvpName" />
-                </div>
-
+                <div class="form-group reveal"><label>Как вас зовут?</label><input type="text" placeholder="Имя и фамилия" required id="rsvpName" /></div>
                 <div class="rsvp-buttons reveal">
                     <button type="button" class="btn-rsvp-yes" id="rsvpYes">Да, буду</button>
                     <button type="button" class="btn-rsvp-no" id="rsvpNo">К сожалению, нет</button>
                 </div>
-
                 <div class="rsvp-extra" id="rsvpExtra">
-                    <div class="form-group">
-                        <label>Из какого вы города?</label>
-                        <input type="text" placeholder="Город" id="rsvpCity" />
-                    </div>
-
-                    <div class="form-group">
-                        <label>Что предпочитаете из еды?</label>
-                        <div class="radio-group radio-group-horizontal">
-                            <label class="radio-btn color-lavender radio-btn-small">
-                                <input type="radio" name="food" value="meat" />
-                                <span>Мясо</span>
-                            </label>
-                            <label class="radio-btn color-mint radio-btn-small">
-                                <input type="radio" name="food" value="vegan" />
-                                <span>Вегетарианское</span>
-                            </label>
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label>Что будете пить? (можно выбрать несколько)</label>
-                        <div class="radio-group radio-group-horizontal">
-                            <label class="radio-btn color-pink radio-btn-small">
-                                <input type="checkbox" name="drink" value="wine" />
-                                <span>Вино</span>
-                            </label>
-                            <label class="radio-btn color-blue radio-btn-small">
-                                <input type="checkbox" name="drink" value="sparkling" />
-                                <span>Игристое</span>
-                            </label>
-                            <label class="radio-btn color-lavender radio-btn-small">
-                                <input type="checkbox" name="drink" value="cocktails" />
-                                <span>Коктейли</span>
-                            </label>
-                            <label class="radio-btn color-peach radio-btn-small">
-                                <input type="checkbox" name="drink" value="strong" />
-                                <span>Крепкое</span>
-                            </label>
-                            <label class="radio-btn color-mint radio-btn-small">
-                                <input type="checkbox" name="drink" value="no" />
-                                <span>Не пью</span>
-                            </label>
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label>Любимые безалкогольные напитки</label>
-                        <input type="text" placeholder="Напишите ваши любимые напитки" id="rsvpNonAlco" />
-                    </div>
-
-                    <div class="form-group">
-                        <label>Телефон для связи</label>
-                        <input type="tel" placeholder="+7 (___) ___-__-__" required id="rsvpPhone" />
-                    </div>
-
-                    <div class="form-group">
-                        <label>Есть ли у вас аллергии или особенности питания?</label>
-                        <textarea placeholder="Напишите, если есть (необязательно)" id="rsvpAllergies"></textarea>
-                    </div>
-
+                    <div class="form-group"><label>Из какого вы города?</label><input type="text" placeholder="Город" id="rsvpCity" /></div>
+                    <div class="form-group"><label>Что предпочитаете из еды?</label><div class="radio-group radio-group-horizontal"><label class="radio-btn color-lavender radio-btn-small"><input type="radio" name="food" value="meat" /><span>Мясо</span></label><label class="radio-btn color-mint radio-btn-small"><input type="radio" name="food" value="vegan" /><span>Вегетарианское</span></label></div></div>
+                    <div class="form-group"><label>Что будете пить? (можно выбрать несколько)</label><div class="radio-group radio-group-horizontal" id="drinkButtons"><label class="radio-btn color-pink radio-btn-small"><input type="checkbox" name="drink" value="wine" /><span>Вино</span></label><label class="radio-btn color-blue radio-btn-small"><input type="checkbox" name="drink" value="sparkling" /><span>Игристое</span></label><label class="radio-btn color-peach radio-btn-small"><input type="checkbox" name="drink" value="strong" /><span>Крепкое</span></label><label class="radio-btn color-mint radio-btn-small"><input type="checkbox" name="drink" value="no" /><span>Не пью</span></label></div></div>
+                    <div class="form-group"><label>Любимые безалкогольные напитки</label><input type="text" placeholder="Напишите ваши любимые напитки" id="rsvpNonAlco" /></div>
+                    <div class="form-group"><label>Есть ли у вас аллергии или особенности питания?</label><textarea placeholder="Напишите, если есть (необязательно)" id="rsvpAllergies"></textarea></div>
+                    <div class="form-group"><label>Телефон для связи</label><input type="tel" placeholder="+7 (___) ___-__-__" required id="rsvpPhone" /></div>
                     <button type="submit" class="btn-submit">Отправить</button>
                 </div>
             </form>
-
-            <!-- КОНТАКТЫ -->
-            <div class="contacts-block reveal" style="margin-top: 24px;">
+            <div class="contacts-block reveal" style="margin-top:24px;">
                 <div class="contacts-title">Если будут вопросы — обращайтесь к нашему организатору</div>
                 <div class="contacts-name">Елена</div>
-                <div class="contacts-phone">
-                    <a href="tel:+79221462016">+7 922 146 20 16</a>
-                </div>
+                <div class="contacts-phone"><a href="tel:+79221462016" onclick="navigator.clipboard.writeText('+79221462016');alert('Номер скопирован!')">+7 922 146 20 16</a></div>
+                <div class="contacts-telegram"><a href="https://t.me/moroz_wedding" target="_blank">Связаться в Telegram</a></div>
             </div>
         </div>
     </section>
@@ -1603,166 +491,76 @@
     <section id="timer-section">
         <div class="container">
             <p class="section-label reveal">Скоро</p>
-            <h2 class="craft-title reveal">
-                <span class="letter letter-color-6" style="--rot:-1deg;--y:-2px;">Д</span>
-                <span class="letter letter-color-7" style="--rot:2deg;--y:3px;">о</span>
-                <span class="letter letter-color-8" style="--rot:-2deg;--y:-1px;"> </span>
-                <span class="letter letter-color-1" style="--rot:1deg;--y:2px;">н</span>
-                <span class="letter letter-color-2" style="--rot:-1deg;--y:-3px;">а</span>
-                <span class="letter letter-color-3" style="--rot:2deg;--y:1px;">ч</span>
-                <span class="letter letter-color-4" style="--rot:-2deg;--y:-2px;">а</span>
-                <span class="letter letter-color-5" style="--rot:1deg;--y:3px;">л</span>
-                <span class="letter letter-color-6" style="--rot:-1deg;--y:-1px;">а</span>
-            </h2>
-            <h2 class="craft-title reveal" style="margin-top: -15px;">
-                <span class="letter letter-color-7" style="--rot:2deg;--y:2px;">с</span>
-                <span class="letter letter-color-8" style="--rot:-2deg;--y:-2px;">в</span>
-                <span class="letter letter-color-1" style="--rot:1deg;--y:1px;">а</span>
-                <span class="letter letter-color-2" style="--rot:-1deg;--y:-3px;">д</span>
-                <span class="letter letter-color-3" style="--rot:2deg;--y:2px;">ь</span>
-                <span class="letter letter-color-4" style="--rot:-2deg;--y:-1px;">б</span>
-                <span class="letter letter-color-5" style="--rot:1deg;--y:3px;">ы</span>
-            </h2>
-            
+            <h2 class="craft-title reveal"><span class="letter letter-color-6" style="--rot:-1deg;--y:-2px;">Д</span><span class="letter letter-color-7" style="--rot:2deg;--y:3px;">о</span><span class="letter letter-color-8" style="--rot:-2deg;--y:-1px;"> </span><span class="letter letter-color-1" style="--rot:1deg;--y:2px;">н</span><span class="letter letter-color-2" style="--rot:-1deg;--y:-3px;">а</span><span class="letter letter-color-3" style="--rot:2deg;--y:1px;">ч</span><span class="letter letter-color-4" style="--rot:-2deg;--y:-2px;">а</span><span class="letter letter-color-5" style="--rot:1deg;--y:3px;">л</span><span class="letter letter-color-6" style="--rot:-1deg;--y:-1px;">а</span></h2>
+            <h2 class="craft-title reveal" style="margin-top:-15px;"><span class="letter letter-color-7" style="--rot:2deg;--y:2px;">с</span><span class="letter letter-color-8" style="--rot:-2deg;--y:-2px;">в</span><span class="letter letter-color-1" style="--rot:1deg;--y:1px;">а</span><span class="letter letter-color-2" style="--rot:-1deg;--y:-3px;">д</span><span class="letter letter-color-3" style="--rot:2deg;--y:2px;">ь</span><span class="letter letter-color-4" style="--rot:-2deg;--y:-1px;">б</span><span class="letter letter-color-5" style="--rot:1deg;--y:3px;">ы</span></h2>
             <div class="timer">
-                <div class="timer-unit reveal">
-                    <div class="number" id="days">00</div>
-                    <div class="label">дней</div>
-                </div>
-                <div class="timer-unit reveal">
-                    <div class="number" id="hours">00</div>
-                    <div class="label">часов</div>
-                </div>
-                <div class="timer-unit reveal">
-                    <div class="number" id="minutes">00</div>
-                    <div class="label">минут</div>
-                </div>
-                <div class="timer-unit reveal">
-                    <div class="number" id="seconds">00</div>
-                    <div class="label">секунд</div>
-                </div>
+                <div class="timer-unit reveal"><div class="number" id="days">00</div><div class="label">дней</div></div>
+                <div class="timer-unit reveal"><div class="number" id="hours">00</div><div class="label">часов</div></div>
+                <div class="timer-unit reveal"><div class="number" id="minutes">00</div><div class="label">минут</div></div>
+                <div class="timer-unit reveal"><div class="number" id="seconds">00</div><div class="label">секунд</div></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- КВИЗ -->
+    <section id="quiz-section">
+        <div class="container">
+            <p class="section-label reveal">Проверь себя</p>
+            <h2 class="craft-title reveal"><span class="letter letter-color-1" style="--rot:-1deg;--y:-2px;">П</span><span class="letter letter-color-2" style="--rot:2deg;--y:3px;">р</span><span class="letter letter-color-3" style="--rot:-2deg;--y:-1px;">о</span><span class="letter letter-color-4" style="--rot:1deg;--y:2px;">в</span><span class="letter letter-color-5" style="--rot:-1deg;--y:-3px;">е</span><span class="letter letter-color-6" style="--rot:2deg;--y:1px;">р</span><span class="letter letter-color-7" style="--rot:-2deg;--y:-2px;">ь</span><span class="line-break"><span class="letter letter-color-8" style="--rot:1deg;--y:3px;">с</span><span class="letter letter-color-1" style="--rot:-2deg;--y:-2px;">в</span><span class="letter letter-color-2" style="--rot:1deg;--y:2px;">о</span><span class="letter letter-color-3" style="--rot:-1deg;--y:-1px;">и</span><span class="letter letter-color-9" style="--rot:2deg;--y:1px;"> </span><span class="letter letter-color-10" style="--rot:-2deg;--y:-3px;">з</span><span class="letter letter-color-1" style="--rot:1deg;--y:2px;">н</span><span class="letter letter-color-2" style="--rot:-1deg;--y:-1px;">а</span><span class="letter letter-color-3" style="--rot:2deg;--y:3px;">н</span><span class="letter letter-color-4" style="--rot:-2deg;--y:-2px;">и</span><span class="letter letter-color-5" style="--rot:1deg;--y:1px;">я</span></span></h2>
+            <div class="quiz-block">
+                <div class="quiz-question reveal"><h3>1. Какого числа свадьба? (не подглядывать!)</h3><div class="quiz-options"><span class="quiz-option" data-correct="true">16 октября</span><span class="quiz-option">17 октября</span><span class="quiz-option">22 марта</span><span class="quiz-option">16 сентября</span></div></div>
+                <div class="quiz-question reveal"><h3>2. В чём вы придёте?</h3><div class="quiz-options"><span class="quiz-option">Голый/голая</span><span class="quiz-option">Как Настя</span><span class="quiz-option" data-correct="true">В чём-то из референсов</span><span class="quiz-option">Ярко-красное</span></div></div>
+                <div class="quiz-question reveal"><h3>3. Где проходит свадьба?</h3><div class="quiz-options"><span class="quiz-option">Цой</span><span class="quiz-option">Чайф</span><span class="quiz-option">Фейс</span><span class="quiz-option" data-correct="true">Высоцкий</span></div></div>
+                <div class="quiz-question reveal"><h3>4. Как думаете, кто делал этот сайт?</h3><div class="quiz-options"><span class="quiz-option" data-correct="true">Стас</span><span class="quiz-option" data-correct="true">Конечно, Стас</span><span class="quiz-option" data-correct="true">Станислав</span><span class="quiz-option" data-correct="true">Ну не Настя</span></div></div>
+                <div class="quiz-question reveal"><h3>5. Куда мы полетим на медовый месяц?</h3><div class="quiz-options"><span class="quiz-option">Дурацкая Турция</span><span class="quiz-option">Дорогущая Италия</span><span class="quiz-option">Душные Мальдивы</span><span class="quiz-option" data-correct="true">Куда надо</span></div></div>
             </div>
         </div>
     </section>
 
     <!-- FOOTER -->
     <footer>
-        <p>
-            <span class="letter letter-color-1" style="--rot:-1deg;--y:-2px;">С</span>
-            <span class="letter letter-color-2" style="--rot:2deg;--y:3px;">т</span>
-            <span class="letter letter-color-3" style="--rot:-2deg;--y:-1px;">а</span>
-            <span class="letter letter-color-4" style="--rot:1deg;--y:2px;">с</span>
-            <span class="heart-symbol"> ♥ </span>
-            <span class="letter letter-color-5" style="--rot:-1deg;--y:-2px;">Н</span>
-            <span class="letter letter-color-6" style="--rot:2deg;--y:3px;">а</span>
-            <span class="letter letter-color-7" style="--rot:-2deg;--y:-1px;">с</span>
-            <span class="letter letter-color-8" style="--rot:1deg;--y:2px;">т</span>
-            <span class="letter letter-color-9" style="--rot:-1deg;--y:-3px;">я</span>
-        </p>
+        <p><span class="letter letter-color-1" style="--rot:-1deg;--y:-2px;">С</span><span class="letter letter-color-2" style="--rot:2deg;--y:3px;">т</span><span class="letter letter-color-3" style="--rot:-2deg;--y:-1px;">а</span><span class="letter letter-color-4" style="--rot:1deg;--y:2px;">с</span><span class="heart-symbol"> ♥ </span><span class="letter letter-color-5" style="--rot:-1deg;--y:-2px;">Н</span><span class="letter letter-color-6" style="--rot:2deg;--y:3px;">а</span><span class="letter letter-color-7" style="--rot:-2deg;--y:-1px;">с</span><span class="letter letter-color-8" style="--rot:1deg;--y:2px;">т</span><span class="letter letter-color-9" style="--rot:-1deg;--y:-3px;">я</span></p>
         <p class="sub">17 октября 2026</p>
-        <div class="footer-tags">
-            <span>СтасНастя2026</span>
-        </div>
+        <div class="footer-tags"><span>СтасНастя2026</span></div>
     </footer>
 
-    <!-- МОДАЛЬНОЕ ОКНО -->
-    <div id="photoModal">
-        <span class="close-modal" id="closeModal">✕</span>
-        <img id="modalImage" src="" alt="Фото" />
-    </div>
+    <div id="photoModal"><span class="close-modal" id="closeModal">✕</span><img id="modalImage" src="" alt="Фото" /></div>
 
     <script>
         gsap.registerPlugin(ScrollTrigger);
+        document.querySelectorAll('.reveal').forEach(el => gsap.fromTo(el, { opacity: 0, y: 40, scale: 0.96 }, { opacity: 1, y: 0, scale: 1, duration: 1.2, ease: 'power3.out', scrollTrigger: { trigger: el, start: 'top 92%', end: 'top 20%', toggleActions: 'play none play reverse', once: false } }));
 
-        document.querySelectorAll('.reveal').forEach((el) => {
-            gsap.fromTo(el,
-                { opacity: 0, y: 40, scale: 0.96 },
-                {
-                    opacity: 1, y: 0, scale: 1,
-                    duration: 1.2, ease: 'power3.out',
-                    scrollTrigger: {
-                        trigger: el,
-                        start: 'top 92%',
-                        end: 'top 20%',
-                        toggleActions: 'play none play reverse',
-                        once: false
-                    }
-                }
-            );
-        });
+        const blobs = [document.getElementById('blob1'), document.getElementById('blob2'), document.getElementById('blob3'), document.getElementById('blob4'), document.getElementById('blob5')];
+        const blobAnimations = [{ x: 120, y: 80, duration: 18 }, { x: -100, y: 60, duration: 22 }, { x: 80, y: -100, duration: 14 }, { x: -140, y: 40, duration: 20 }, { x: 60, y: -60, duration: 16 }];
+        blobs.forEach((b, i) => { if (b) gsap.to(b, { x: blobAnimations[i].x, y: blobAnimations[i].y, duration: blobAnimations[i].duration, ease: 'sine.inOut', yoyo: true, repeat: -1 }); });
 
-        const blobs = [
-            document.getElementById('blob1'), document.getElementById('blob2'),
-            document.getElementById('blob3'), document.getElementById('blob4'),
-            document.getElementById('blob5')
-        ];
-        const blobAnimations = [
-            { x: 120, y: 80, duration: 18 }, { x: -100, y: 60, duration: 22 },
-            { x: 80, y: -100, duration: 14 }, { x: -140, y: 40, duration: 20 },
-            { x: 60, y: -60, duration: 16 }
-        ];
-        blobs.forEach((blob, i) => {
-            if (blob) {
-                gsap.to(blob, {
-                    x: blobAnimations[i].x, y: blobAnimations[i].y,
-                    duration: blobAnimations[i].duration,
-                    ease: 'sine.inOut', yoyo: true, repeat: -1
-                });
-            }
-        });
-
-        document.querySelectorAll('.deco-layer .wave-line, .deco-layer .star-deco, .deco-layer .heart-deco, .deco-layer .dot-group, .deco-layer .arc-deco, .deco-layer .stroke-deco, .deco-layer .doodle-deco').forEach((el, i) => {
-            const delay = (i % 5) * 0.3;
-            gsap.to(el, { y: -15, duration: 6 + (i % 4), ease: 'sine.inOut', yoyo: true, repeat: -1, delay });
-            if (el.classList.contains('star-deco') || el.classList.contains('heart-deco')) {
-                gsap.to(el, { rotation: 8, duration: 8 + (i % 3), ease: 'sine.inOut', yoyo: true, repeat: -1, delay: delay + 0.5 });
-            }
-        });
-
-        // HERO — эффект при нажатии на сердечко
         const heroHeart = document.getElementById('heroHeart');
         const heartClickSound = new Audio('assets/audio/click-sound.mp3');
         heroHeart.addEventListener('click', function() {
-            heartClickSound.currentTime = 0;
-            heartClickSound.play().catch(() => {});
-            this.style.transform = 'scale(0.93)';
-            this.style.transition = 'transform 0.1s ease';
+            heartClickSound.currentTime = 0; heartClickSound.play().catch(() => {});
+            this.style.transform = 'scale(0.93)'; this.style.transition = 'transform 0.1s ease';
             setTimeout(() => { this.style.transform = 'scale(1.03)'; }, 100);
             setTimeout(() => { this.style.transform = 'scale(1)'; }, 200);
         });
 
-        // МЕСТО
         const venueFrame = document.getElementById('venueFrame');
         let isSpinningFast = false;
         venueFrame.addEventListener('click', function() {
             isSpinningFast = !isSpinningFast;
             this.classList.toggle('speed');
-            heartClickSound.currentTime = 0;
-            heartClickSound.play().catch(() => {});
-            this.style.transform = 'scale(1.05)';
-            setTimeout(() => { this.style.transform = 'scale(1)'; }, 150);
         });
 
-        // ТАЙМЕР
         const targetDate = new Date('2026-10-17T15:00:00').getTime();
         function updateTimer() {
-            const now = Date.now();
-            const diff = targetDate - now;
-            if (diff <= 0) {
-                ['days','hours','minutes','seconds'].forEach(id => document.getElementById(id).textContent = '🎉');
-                return;
-            }
+            const diff = targetDate - Date.now();
+            if (diff <= 0) { ['days','hours','minutes','seconds'].forEach(id => document.getElementById(id).textContent = '🎉'); return; }
             document.getElementById('days').textContent = String(Math.floor(diff/(1000*60*60*24))).padStart(2,'0');
             document.getElementById('hours').textContent = String(Math.floor((diff%(1000*60*60*24))/(1000*60*60))).padStart(2,'0');
             document.getElementById('minutes').textContent = String(Math.floor((diff%(1000*60*60))/(1000*60))).padStart(2,'0');
             document.getElementById('seconds').textContent = String(Math.floor((diff%(1000*60))/1000)).padStart(2,'0');
         }
-        updateTimer();
-        setInterval(updateTimer, 1000);
-
-        document.getElementById('scrollDown').addEventListener('click', () => {
-            document.getElementById('venue').scrollIntoView({ behavior: 'smooth' });
-        });
+        updateTimer(); setInterval(updateTimer, 1000);
+        document.getElementById('scrollDown').addEventListener('click', () => document.getElementById('venue').scrollIntoView({ behavior: 'smooth' }));
 
         // МУЗЫКА
         let stasAudio = null, nastyaAudio = null, stasPlaying = false, nastyaPlaying = false;
@@ -1789,25 +587,39 @@
         const rsvpExtra = document.getElementById('rsvpExtra'), rsvpYes = document.getElementById('rsvpYes'), rsvpNo = document.getElementById('rsvpNo');
         const soundYes = new Audio('assets/audio/yes-sound.mp3'), soundNo = new Audio('assets/audio/no-sound.mp3');
         rsvpYes.addEventListener('click', function() {
-            this.classList.add('active'); rsvpNo.classList.remove('active');
-            rsvpExtra.classList.add('visible');
+            this.classList.add('active'); rsvpNo.classList.remove('active'); rsvpExtra.classList.add('visible');
             soundYes.currentTime = 0; soundYes.play().catch(()=>{});
             setTimeout(() => rsvpExtra.scrollIntoView({ behavior:'smooth', block:'center' }), 300);
         });
         rsvpNo.addEventListener('click', function() {
-            this.classList.add('active'); rsvpYes.classList.remove('active');
-            rsvpExtra.classList.remove('visible');
+            this.classList.add('active'); rsvpYes.classList.remove('active'); rsvpExtra.classList.remove('visible');
             soundNo.currentTime = 0; soundNo.play().catch(()=>{});
             alert('Спасибо, что сообщили! Будем скучать');
         });
 
-        // ОТПРАВКА В GOOGLE ТАБЛИЦУ
+        // ЗВУКИ НАПИТКОВ
+        const drinkSounds = {
+            wine: new Audio('assets/audio/drink-wine.mp3'),
+            sparkling: new Audio('assets/audio/drink-sparkling.mp3'),
+            strong: new Audio('assets/audio/drink-strong.mp3'),
+            no: new Audio('assets/audio/drink-no.mp3')
+        };
+        document.querySelectorAll('#drinkButtons .radio-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const input = this.querySelector('input');
+                const value = input.value;
+                if (drinkSounds[value]) {
+                    drinkSounds[value].currentTime = 0;
+                    drinkSounds[value].play().catch(()=>{});
+                }
+            });
+        });
+
+        // ОТПРАВКА В ТАБЛИЦУ
         document.getElementById('rsvpForm').addEventListener('submit', function(e) {
             e.preventDefault();
             const btn = this.querySelector('.btn-submit');
-            btn.textContent = 'Отправка...';
-            btn.style.background = 'linear-gradient(135deg, #C4B5AD, #B8A6E0)';
-
+            btn.textContent = 'Отправка...'; btn.style.background = 'linear-gradient(135deg, #C4B5AD, #B8A6E0)';
             const answers = {
                 name: document.getElementById('rsvpName').value,
                 attending: rsvpYes.classList.contains('active') ? 'Да' : 'Нет',
@@ -1818,88 +630,48 @@
                 phone: document.getElementById('rsvpPhone').value,
                 allergies: document.getElementById('rsvpAllergies').value
             };
-
-            // ⚠️ ВСТАВЬ СВОЮ ССЫЛКУ НИЖЕ
-            const SCRIPT_URL = 'https://script.google.com/macros/s/ТВОЙ_КОД/exec';
-
-            fetch(SCRIPT_URL, {
-                method: 'POST',
-                mode: 'no-cors',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(answers)
-            })
+            const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzQtWQOIddHxH23WPEupuqqS5J1h5vAdVn1prWm8WmP-kcNHa5vq5jHeWSzvD92mRyu3A/exec';
+            fetch(SCRIPT_URL, { method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(answers) })
             .then(() => {
-                btn.textContent = 'Отправлено!';
-                btn.style.background = 'linear-gradient(135deg, #8CD4B5, #7EC8E3)';
-                setTimeout(() => {
-                    btn.textContent = 'Отправить';
-                    btn.style.background = 'linear-gradient(135deg, #F7B7C8, #F3B56A)';
-                    this.reset();
-                    rsvpExtra.classList.remove('visible');
-                    rsvpYes.classList.remove('active');
-                    rsvpNo.classList.remove('active');
-                    alert('Спасибо! Мы будем ждать вас!');
-                }, 2000);
+                btn.textContent = 'Отправлено!'; btn.style.background = 'linear-gradient(135deg, #8CD4B5, #7EC8E3)';
+                setTimeout(() => { btn.textContent = 'Отправить'; btn.style.background = 'linear-gradient(135deg, #F7B7C8, #F3B56A)'; this.reset(); rsvpExtra.classList.remove('visible'); rsvpYes.classList.remove('active'); rsvpNo.classList.remove('active'); alert('Спасибо! Мы будем ждать вас!'); }, 2000);
             })
-            .catch(() => {
-                btn.textContent = 'Ошибка';
-                btn.style.background = 'linear-gradient(135deg, #FF8CA8, #FF6B6B)';
-                setTimeout(() => {
-                    btn.textContent = 'Отправить';
-                    btn.style.background = 'linear-gradient(135deg, #F7B7C8, #F3B56A)';
-                }, 2000);
-            });
+            .catch(() => { btn.textContent = 'Ошибка'; btn.style.background = 'linear-gradient(135deg, #FF8CA8, #FF6B6B)'; setTimeout(() => { btn.textContent = 'Отправить'; btn.style.background = 'linear-gradient(135deg, #F7B7C8, #F3B56A)'; }, 2000); });
         });
 
         // ДРЕСС-КОД
-        const dresscodePhotos = {
-            pink: ['assets/images/dresscode/pink-1.jpg','assets/images/dresscode/pink-2.jpg'],
-            blue: ['assets/images/dresscode/blue-1.jpg','assets/images/dresscode/blue-2.jpg'],
-            lavender: ['assets/images/dresscode/lavender-1.jpg','assets/images/dresscode/lavender-2.jpg'],
-            peach: ['assets/images/dresscode/peach-1.jpg','assets/images/dresscode/peach-2.jpg'],
-            mint: ['assets/images/dresscode/mint-1.jpg','assets/images/dresscode/mint-2.jpg']
-        };
-        document.querySelectorAll('.color-dot').forEach(dot => {
-            dot.addEventListener('click', function() {
-                document.querySelectorAll('.color-dot').forEach(d => d.classList.remove('active'));
-                this.classList.add('active');
-                const photos = dresscodePhotos[this.dataset.color] || [];
-                document.getElementById('dresscodePhotos').innerHTML = photos.length
-                    ? photos.map(src => `<img src="${src}" alt="Образ" />`).join('')
-                    : '<span class="photo-placeholder">Фото скоро появятся</span>';
-            });
-        });
+        const dresscodePhotos = { pink: ['assets/images/dresscode/pink-1.jpg','assets/images/dresscode/pink-2.jpg'], blue: ['assets/images/dresscode/blue-1.jpg','assets/images/dresscode/blue-2.jpg'], lavender: ['assets/images/dresscode/lavender-1.jpg','assets/images/dresscode/lavender-2.jpg'], peach: ['assets/images/dresscode/peach-1.jpg','assets/images/dresscode/peach-2.jpg'], mint: ['assets/images/dresscode/mint-1.jpg','assets/images/dresscode/mint-2.jpg'] };
+        document.querySelectorAll('.color-dot').forEach(dot => dot.addEventListener('click', function() {
+            document.querySelectorAll('.color-dot').forEach(d => d.classList.remove('active')); this.classList.add('active');
+            const photos = dresscodePhotos[this.dataset.color] || [];
+            document.getElementById('dresscodePhotos').innerHTML = photos.length ? photos.map(src => `<img src="${src}" alt="Образ" />`).join('') : '<span class="photo-placeholder">Фото скоро появятся</span>';
+        }));
 
-        // МУЖЧИНЫ
-        const menPhotos = {
-            option1: ['assets/images/dresscode/men-1.jpg','assets/images/dresscode/men-2.jpg'],
-            option2: ['assets/images/dresscode/men-alt-1.jpg','assets/images/dresscode/men-alt-2.jpg']
-        };
+        const menPhotos = { option1: ['assets/images/dresscode/men-1.jpg','assets/images/dresscode/men-2.jpg'], option2: ['assets/images/dresscode/men-alt-1.jpg','assets/images/dresscode/men-alt-2.jpg'] };
         document.getElementById('menOption1').addEventListener('click', function() {
-            document.querySelectorAll('.men-btn').forEach(b => b.classList.remove('active'));
-            this.classList.add('active');
+            document.querySelectorAll('.men-btn').forEach(b => b.classList.remove('active')); this.classList.add('active');
             document.getElementById('menPhotos').innerHTML = menPhotos.option1.map(src => `<img src="${src}" alt="Мужской образ" />`).join('');
         });
         document.getElementById('menOption2').addEventListener('click', function() {
-            document.querySelectorAll('.men-btn').forEach(b => b.classList.remove('active'));
-            this.classList.add('active');
-            document.getElementById('menPhotos').innerHTML = menPhotos.option2.map(src => `<img src="${src}" alt="Мужской образ" />`).join('')
-                + '<div class="note">только без ленты</div>';
+            document.querySelectorAll('.men-btn').forEach(b => b.classList.remove('active')); this.classList.add('active');
+            document.getElementById('menPhotos').innerHTML = menPhotos.option2.map(src => `<img src="${src}" alt="Мужской образ" />`).join('') + '<div class="note">только без ленты</div>';
         });
 
-        // МОДАЛЬНОЕ ОКНО
+        // МОДАЛКА
         const photoModal = document.getElementById('photoModal'), modalImage = document.getElementById('modalImage');
-        document.addEventListener('click', function(e) {
-            if (e.target.closest('.dresscode-photos img') || e.target.closest('.men-photos img')) {
-                modalImage.src = e.target.src;
-                photoModal.style.display = 'flex';
-            }
-        });
+        document.addEventListener('click', function(e) { if (e.target.closest('.dresscode-photos img') || e.target.closest('.men-photos img')) { modalImage.src = e.target.src; photoModal.style.display = 'flex'; } });
         document.getElementById('closeModal').addEventListener('click', () => photoModal.style.display = 'none');
         photoModal.addEventListener('click', e => { if (e.target === photoModal) photoModal.style.display = 'none'; });
 
         // FAQ
         document.querySelectorAll('.faq-item').forEach(item => item.addEventListener('click', function() { this.classList.toggle('open'); }));
+
+        // КВИЗ
+        document.querySelectorAll('.quiz-option').forEach(opt => opt.addEventListener('click', function() {
+            const isCorrect = this.dataset.correct === 'true';
+            this.classList.add(isCorrect ? 'correct' : 'wrong');
+            setTimeout(() => this.classList.remove('correct', 'wrong'), 800);
+        }));
 
         console.log('💍 Свадебный сайт загружен!');
     </script>

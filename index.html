@@ -641,7 +641,14 @@
 
         // RSVP
         const rsvpExtra = document.getElementById('rsvpExtra'), rsvpYes = document.getElementById('rsvpYes'), rsvpNo = document.getElementById('rsvpNo');
-        const soundYes = new Audio('assets/audio/yes-sound.mp3'), soundNo = new Audio('assets/audio/no-sound.mp3');
+        const soundYes = new Audio('assets/audio/yes-sound.mp3');
+        const soundNoList = [
+            new Audio('assets/audio/no-sound-1.mp3'),
+            new Audio('assets/audio/no-sound-2.mp3'),
+            new Audio('assets/audio/no-sound-3.mp3')
+                            ];
+        let soundNoIndex = 0;
+        
         rsvpYes.addEventListener('click', function() {
             this.classList.add('active'); rsvpNo.classList.remove('active'); rsvpExtra.classList.add('visible');
             soundYes.currentTime = 0; soundYes.play().catch(() => {});
@@ -649,11 +656,13 @@
             setTimeout(() => rsvpExtra.scrollIntoView({ behavior:'smooth', block:'center' }), 300);
         });
         rsvpNo.addEventListener('click', function() {
-            this.classList.add('active'); rsvpYes.classList.remove('active'); rsvpExtra.classList.remove('visible');
-            soundNo.currentTime = 0; soundNo.play().catch(() => {});
-            alert('Спасибо, что сообщили! Будем скучать');
-        });
-
+    this.classList.add('active'); rsvpYes.classList.remove('active'); rsvpExtra.classList.remove('visible');
+    const currentNoSound = soundNoList[soundNoIndex];
+    currentNoSound.currentTime = 0;
+    currentNoSound.play().catch(() => {});
+    soundNoIndex = (soundNoIndex + 1) % soundNoList.length;
+    alert('Спасибо, что сообщили! Будем скучать');
+});
         // CONFETTI
         function spawnConfetti() {
             const colors = ['#FF8CA8','#7EC8E3','#B8A6E0','#F9B87A','#8CD4B5','#F5D76E','#F7B7C8'];
@@ -754,7 +763,13 @@
 
         // FAQ with dimming
         const faqGrid = document.getElementById('faqGrid');
-        document.querySelectorAll('.faq-item').forEach(item => item.addEventListener('click', function() {
+        const faqBossSound = new Audio('assets/audio/faq-boss.mp3');
+document.querySelectorAll('.faq-item').forEach(item => item.addEventListener('click', function() {
+    const faqNumber = this.dataset.faq;
+    if (faqNumber === '5') {
+        faqBossSound.currentTime = 0;
+        faqBossSound.play().catch(() => {});
+    }
             const wasOpen = this.classList.contains('open');
             // Close all
             document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));

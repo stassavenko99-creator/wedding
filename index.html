@@ -300,6 +300,7 @@
             border-radius: 40px; background: rgba(255, 255, 255, 0.4); backdrop-filter: blur(8px);
             font-family: 'Quicksand', sans-serif; font-size: 0.9rem; font-weight: 600;
             color: #4A3F3A; cursor: pointer; transition: all 0.3s ease; position: relative;
+            -webkit-tap-highlight-color: transparent;
         }
         .quiz-option:hover { border-color: #F7B7C8; background: rgba(255, 255, 255, 0.7); transform: translateY(-2px); }
         .quiz-option.correct { background: #8CD4B5; color: white; border-color: #8CD4B5; animation: popCorrect 0.4s ease; }
@@ -346,7 +347,7 @@
         }
 
         @media (max-width: 480px) {
-            section { padding: 50px 0 60px; }
+            section { padding: 50px 0 60px; min-height: auto; }
             .hero-title-line, .hero-names { font-size: clamp(2rem, 6vw, 3rem); }
             .heart-frame { width: 280px; height: 280px; }
             .venue-photo-frame { width: 260px; height: 260px; }
@@ -367,6 +368,7 @@
             .timer-unit .number { font-size: 1.3rem; }
             .quiz-option { padding: 10px 16px; font-size: 0.8rem; }
             .btn-scroll-top { bottom: 20px; right: 20px; width: 38px; height: 38px; }
+            .container { padding: 0 16px; }
         }
 
         @media (max-width: 768px) {
@@ -451,7 +453,8 @@
             <div class="venue-photo-frame" id="venueFrame"><img src="assets/images/venue-photo.jpg" alt="Отель Высоцкий" /></div>
             <h2><span class="letter letter-color-1" style="--rot:-1deg;--y:-2px;">О</span><span class="letter letter-color-2" style="--rot:2deg;--y:3px;">т</span><span class="letter letter-color-3" style="--rot:-2deg;--y:-1px;">е</span><span class="letter letter-color-4" style="--rot:1deg;--y:2px;">л</span><span class="letter letter-color-5" style="--rot:-1deg;--y:-2px;">ь</span> <span class="letter letter-color-6" style="--rot:-2deg;--y:-2px;">В</span><span class="letter letter-color-7" style="--rot:1deg;--y:3px;">ы</span><span class="letter letter-color-8" style="--rot:-1deg;--y:-1px;">с</span><span class="letter letter-color-9" style="--rot:2deg;--y:2px;">о</span><span class="letter letter-color-10" style="--rot:-1deg;--y:-2px;">ц</span><span class="letter letter-color-1" style="--rot:1deg;--y:1px;">к</span><span class="letter letter-color-2" style="--rot:-2deg;--y:-3px;">и</span><span class="letter letter-color-3" style="--rot:2deg;--y:2px;">й</span></h2>
             <p class="sub">ресторан «Влади» · зал «Соната»</p>
-            <p class="address">ул. Малышева, 51</p>
+            <p class="address">ул. Малышева, 51 · 37 этаж</p>
+            <p class="address" style="margin-top:2px;">Подъезд к отелю — с улицы Малышева</p>
             <a href="https://yandex.ru/maps/-/CTvuyE5i" target="_blank" class="map-link">Открыть карту →</a>
         </div>
     </section>
@@ -478,7 +481,7 @@
                 <div class="color-dot" data-color="blue" style="background:#7EC8E3;"></div>
                 <div class="color-dot" data-color="lavender" style="background:#B8A6E0;"></div>
                 <div class="color-dot" data-color="peach" style="background:#F9B87A;"></div>
-                <div class="color-dot" data-color="mint" style="background:#8CD4B5;"></div>
+                <div class="color-dot" data-color="mint" style="background:#BFFF00;"></div>
             </div>
             <div class="dresscode-photos reveal" id="dresscodePhotos"><span class="photo-placeholder">Нажми на цвет</span></div>
             <div class="men-buttons reveal">
@@ -501,7 +504,7 @@
             <div class="faq-grid" id="faqGrid">
                 <div class="faq-item reveal" data-faq="1"><div class="question"><span class="q-number color-1">1</span><span>Что дарить?</span><span class="arrow">▼</span></div><div class="answer">Сразу после свадьбы мы улетаем, так что <span class="hl-pink">не сможем увезти</span> ничего тяжелее <span class="hl-yellow">купюр</span>.<br>Если вы хотели подарить цветы, то придумайте, пожалуйста, <span class="hl-mint">что-то другое весёлое</span>. Потому что цветы мы тоже <span class="hl-pink">не сможем увезти</span>.</div></div>
                 <div class="faq-item reveal" data-faq="2"><div class="question"><span class="q-number color-2">2</span><span>Что надевать нельзя?</span><span class="arrow">▼</span></div><div class="answer"><span class="hl-red">Ярко-красный</span>, <span class="hl-dark">тёмно-зелёный</span> и, естественно, <span class="hl-mint">белый</span>.</div></div>
-                <div class="faq-item reveal" data-faq="3"><div class="question"><span class="q-number color-3">3</span><span>Как добраться?</span><span class="arrow">▼</span></div><div class="answer"><span class="hl-lavender">(опционально)</span> Прилететь в Екатеринбург.<br>Потом приехать в отель Высоцкий и подняться на <span class="hl-peach">37 этаж</span>.<br>Подъезд к отелю — с улицы Ленина.</div></div>
+                <div class="faq-item reveal" data-faq="3"><div class="question"><span class="q-number color-3">3</span><span>Как добраться?</span><span class="arrow">▼</span></div><div class="answer"><span class="hl-lavender">(опционально)</span> Прилететь в Екатеринбург.<br>Потом приехать в отель Высоцкий и подняться на <span class="hl-peach">37 этаж</span>.<br>Подъезд к отелю — с улицы Малышева.</div></div>
                 <div class="faq-item reveal" data-faq="4"><div class="question"><span class="q-number color-4">4</span><span>Можно ли с детьми?</span><span class="arrow">▼</span></div><div class="answer">Пожалуйста, <span class="hl-pink">не берите детей</span> — этот вечер мы проводим во взрослой компании.</div></div>
                 <div class="faq-item reveal" data-faq="5"><div class="question"><span class="q-number color-5">5</span><span>Кто в семье будет главный?</span><span class="arrow">▼</span></div><div class="answer"><span class="hl-pink">Т</span><span class="hl-blue">и</span><span class="hl-lavender">п</span><span class="hl-peach">а</span> <span class="hl-mint">С</span><span class="hl-yellow">т</span><span class="hl-pink">а</span><span class="hl-blue">с</span></div></div>
             </div>
@@ -551,8 +554,7 @@
                 <div class="quiz-question reveal"><h3>1. Какого числа свадьба? (не подглядывать!)</h3><div class="quiz-options"><span class="quiz-option">16 октября</span><span class="quiz-option" data-correct="true">17 октября</span><span class="quiz-option">22 марта</span><span class="quiz-option">16 сентября</span></div></div>
                 <div class="quiz-question reveal"><h3>2. В чём вы придёте?</h3><div class="quiz-options"><span class="quiz-option">Голый/голая</span><span class="quiz-option">Как Настя</span><span class="quiz-option" data-correct="true">В чём-то из референсов</span><span class="quiz-option">Ярко-красное</span></div></div>
                 <div class="quiz-question reveal"><h3>3. Где проходит свадьба?</h3><div class="quiz-options"><span class="quiz-option">Цой</span><span class="quiz-option">Чайф</span><span class="quiz-option">Фейс</span><span class="quiz-option" data-correct="true">Высоцкий</span></div></div>
-                <div class="quiz-question reveal"><h3>4. Как думаете, кто делал этот сайт?</h3><div class="quiz-options"><span class="quiz-option" data-correct="true">Стас</span><span class="quiz-option" data-correct="true">Конечно, Стас</span><span class="quiz-option" data-correct="true">Станислав</span><span class="quiz-option" data-correct="true">Ну не Настя</span></div></div>
-                <div class="quiz-question reveal"><h3>5. Куда мы полетим на медовый месяц?</h3><div class="quiz-options"><span class="quiz-option">Дурацкая Турция</span><span class="quiz-option">Дорогущая Италия</span><span class="quiz-option">Душные Мальдивы</span><span class="quiz-option" data-correct="true" id="japanOption">Куда надо</span></div></div>
+                <div class="quiz-question reveal"><h3>4. Куда мы полетим на медовый месяц?</h3><div class="quiz-options"><span class="quiz-option">Дурацкая Турция</span><span class="quiz-option">Дорогущая Италия</span><span class="quiz-option">Душные Мальдивы</span><span class="quiz-option" data-correct="true" id="japanOption">Куда надо</span></div></div>
             </div>
         </div>
     </section>
@@ -602,7 +604,8 @@
         let isSpinningFast = false;
         venueFrame.addEventListener('click', function() { isSpinningFast = !isSpinningFast; this.classList.toggle('speed'); });
 
-        const targetDate = new Date('2026-10-17T15:00:00').getTime();
+        // ТАЙМЕР — Екатеринбург (UTC+5 круглый год, это +2 к Москве)
+        const targetDate = new Date('2026-10-17T15:00:00+05:00').getTime();
         function updateTimer() {
             const diff = targetDate - Date.now();
             if (diff <= 0) { ['days','hours','minutes','seconds'].forEach(id => document.getElementById(id).textContent = '🎉'); return; }
@@ -676,75 +679,57 @@
             }
         }
 
-        // DRINK SOUNDS (исправлено — с защитой от AbortError)
-        const drinkSounds = {
-            wine: new Audio('assets/audio/drink-wine.mp3'),
-            sparkling: new Audio('assets/audio/drink-sparkling.mp3'),
-            strong: new Audio('assets/audio/drink-strong.mp3'),
-            no: new Audio('assets/audio/drink-no.mp3')
-        };
-
-        // Предзагрузка всех звуков
-        Object.values(drinkSounds).forEach(audio => {
-            audio.preload = 'auto';
-            audio.load();
+        // DRINK SOUNDS — исправлено для телефона
+        const drinkSounds = {};
+        const drinkKeys = ['wine', 'sparkling', 'strong', 'no'];
+        drinkKeys.forEach(key => {
+            drinkSounds[key] = new Audio('assets/audio/drink-' + key + '.mp3');
+            drinkSounds[key].preload = 'auto';
+            drinkSounds[key].load();
         });
 
         document.querySelectorAll('#drinkButtons .radio-btn').forEach(btn => {
             btn.addEventListener('click', function(e) {
                 const value = this.dataset.drink;
-                console.log('Нажата кнопка напитка:', value);
-                if (!value || !drinkSounds[value]) {
-                    console.log('Звук не найден для:', value);
-                    return;
-                }
+                if (!value || !drinkSounds[value]) return;
                 
                 const sound = drinkSounds[value];
                 
-                // Если звук уже играет — останавливаем
                 if (!sound.paused) {
                     sound.pause();
                     sound.currentTime = 0;
-                    console.log('Остановлен звук:', value);
                     return;
                 }
                 
-                // Останавливаем все остальные звуки напитков
+                // Останавливаем все остальные
                 Object.values(drinkSounds).forEach(s => {
-                    if (s !== sound && !s.paused) {
-                        s.pause();
-                        s.currentTime = 0;
-                    }
+                    if (s !== sound && !s.paused) { s.pause(); s.currentTime = 0; }
                 });
                 
-                // Запускаем с защитой от AbortError
+                // Играем
                 sound.currentTime = 0;
                 const playPromise = sound.play();
-                
                 if (playPromise !== undefined) {
-                    playPromise
-                        .then(() => console.log('Играет звук:', value))
-                        .catch(err => {
-                            console.log('Ошибка воспроизведения, пробую ещё раз:', value, err.message);
-                            setTimeout(() => {
-                                sound.currentTime = 0;
-                                sound.play().catch(e => console.log('Повторная ошибка:', value, e.message));
-                            }, 100);
-                        });
+                    playPromise.catch(() => {
+                        setTimeout(() => { sound.currentTime = 0; sound.play().catch(() => {}); }, 50);
+                    });
                 }
                 
-                // Затемнение при выборе «Не пью»
+                // Затемнение при «Не пью»
                 if (value === 'no') {
                     const input = this.querySelector('input');
-                    const checked = input ? input.checked : !this.classList.contains('dimmed');
+                    const isChecked = input.checked;
                     document.querySelectorAll('#drinkButtons .radio-btn').forEach(b => {
-                        if (b.dataset.drink !== 'no') b.classList.toggle('dimmed', checked);
+                        if (b.dataset.drink !== 'no') {
+                            if (isChecked) { b.classList.add('dimmed'); }
+                            else { b.classList.remove('dimmed'); }
+                        }
                     });
                 }
             });
         });
 
-        // ОТПРАВКА В ТАБЛИЦУ (русские слова)
+        // ОТПРАВКА В ТАБЛИЦУ
         const drinkLabels = { wine: 'Вино', sparkling: 'Игристое', strong: 'Крепкое', no: 'Не пью' };
         const foodLabels = { meat: 'Мясо', vegan: 'Вегетарианское' };
         document.getElementById('rsvpForm').addEventListener('submit', function(e) {

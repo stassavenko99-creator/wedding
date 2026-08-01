@@ -265,7 +265,6 @@
         .radio-btn.color-peach { color: #F9B87A; border-color: #F9B87A; } .radio-btn.color-peach:has(input:checked) { background: #F9B87A; color: white; }
         .radio-btn.color-mint { color: #8CD4B5; border-color: #8CD4B5; } .radio-btn.color-mint:has(input:checked) { background: #8CD4B5; color: white; }
         .radio-btn-small { padding: 8px 14px; font-size: 0.8rem; }
-        .radio-btn.dimmed { opacity: 0.4; pointer-events: none; }
 
         .btn-submit { padding: 16px; background: linear-gradient(135deg, #F7B7C8, #F3B56A); color: white; border: none; border-radius: 40px; font-family: 'Quicksand', sans-serif; font-size: 1rem; font-weight: 600; cursor: pointer; transition: all 0.4s ease; box-shadow: 0 8px 30px rgba(247, 183, 200, 0.12); margin-top: 8px; }
         .btn-submit:hover { transform: scale(1.02) translateY(-2px); box-shadow: 0 12px 40px rgba(247, 183, 200, 0.18); }
@@ -452,9 +451,8 @@
         <div class="venue-content reveal">
             <div class="venue-photo-frame" id="venueFrame"><img src="assets/images/venue-photo.jpg" alt="Отель Высоцкий" /></div>
             <h2><span class="letter letter-color-1" style="--rot:-1deg;--y:-2px;">О</span><span class="letter letter-color-2" style="--rot:2deg;--y:3px;">т</span><span class="letter letter-color-3" style="--rot:-2deg;--y:-1px;">е</span><span class="letter letter-color-4" style="--rot:1deg;--y:2px;">л</span><span class="letter letter-color-5" style="--rot:-1deg;--y:-2px;">ь</span> <span class="letter letter-color-6" style="--rot:-2deg;--y:-2px;">В</span><span class="letter letter-color-7" style="--rot:1deg;--y:3px;">ы</span><span class="letter letter-color-8" style="--rot:-1deg;--y:-1px;">с</span><span class="letter letter-color-9" style="--rot:2deg;--y:2px;">о</span><span class="letter letter-color-10" style="--rot:-1deg;--y:-2px;">ц</span><span class="letter letter-color-1" style="--rot:1deg;--y:1px;">к</span><span class="letter letter-color-2" style="--rot:-2deg;--y:-3px;">и</span><span class="letter letter-color-3" style="--rot:2deg;--y:2px;">й</span></h2>
-            <p class="sub">ресторан «Влади» · зал «Соната»</p>
-            <p class="address">ул. Малышева, 51 · 37 этаж</p>
-            <p class="address" style="margin-top:2px;">Подъезд к отелю — с улицы Малышева</p>
+            <p class="sub">ресторан «Влади» · зал «Соната» · 37 этаж</p>
+            <p class="address">ул. Малышева, 51</p>
             <a href="https://yandex.ru/maps/-/CTvuyE5i" target="_blank" class="map-link">Открыть карту →</a>
         </div>
     </section>
@@ -480,8 +478,8 @@
                 <div class="color-dot" data-color="pink" style="background:#FF8CA8;"></div>
                 <div class="color-dot" data-color="blue" style="background:#7EC8E3;"></div>
                 <div class="color-dot" data-color="lavender" style="background:#B8A6E0;"></div>
-                <div class="color-dot" data-color="peach" style="background:#F9B87A;"></div>
-                <div class="color-dot" data-color="mint" style="background:#BFFF00;"></div>
+                <div class="color-dot" data-color="yellow1" style="background:#F3C62D;"></div>
+                <div class="color-dot" data-color="yellow2" style="background:#F5CA24;"></div>
             </div>
             <div class="dresscode-photos reveal" id="dresscodePhotos"><span class="photo-placeholder">Нажми на цвет</span></div>
             <div class="men-buttons reveal">
@@ -590,6 +588,44 @@
         const blobAnimations = [{ x: 120, y: 80, duration: 18 }, { x: -100, y: 60, duration: 22 }, { x: 80, y: -100, duration: 14 }, { x: -140, y: 40, duration: 20 }, { x: 60, y: -60, duration: 16 }];
         blobs.forEach((b, i) => { if (b) gsap.to(b, { x: blobAnimations[i].x, y: blobAnimations[i].y, duration: blobAnimations[i].duration, ease: 'sine.inOut', yoyo: true, repeat: -1 }); });
 
+        // ПРЕДЗАГРУЗКА ВСЕХ ЗВУКОВ ПРИ ПЕРВОМ КАСАНИИ (исправление для iPhone)
+        let soundsUnlocked = false;
+        const allSounds = [];
+        
+        // Собираем все звуки в один массив при первой загрузке
+        function collectAllSounds() {
+            if (soundsUnlocked) return;
+            
+            // Звук сердечка
+            allSounds.push(new Audio('assets/audio/click-sound.mp3'));
+            // Звуки RSVP
+            allSounds.push(new Audio('assets/audio/yes-sound.mp3'));
+            allSounds.push(new Audio('assets/audio/no-sound-1.mp3'));
+            allSounds.push(new Audio('assets/audio/no-sound-2.mp3'));
+            allSounds.push(new Audio('assets/audio/no-sound-3.mp3'));
+            // Звуки напитков
+            allSounds.push(new Audio('assets/audio/drink-wine.mp3'));
+            allSounds.push(new Audio('assets/audio/drink-sparkling.mp3'));
+            allSounds.push(new Audio('assets/audio/drink-strong.mp3'));
+            allSounds.push(new Audio('assets/audio/drink-no.mp3'));
+            // FAQ
+            allSounds.push(new Audio('assets/audio/faq-boss.mp3'));
+            // Музыка
+            allSounds.push(new Audio('assets/audio/stas-music.mp3'));
+            allSounds.push(new Audio('assets/audio/nastya-music.mp3'));
+            
+            // "Размораживаем" звуки
+            allSounds.forEach(s => {
+                s.volume = 0;
+                s.play().then(() => { s.pause(); s.currentTime = 0; s.volume = 1; }).catch(() => {});
+            });
+            
+            soundsUnlocked = true;
+        }
+        
+        document.addEventListener('click', collectAllSounds, { once: true });
+        document.addEventListener('touchstart', collectAllSounds, { once: true });
+
         const heroHeart = document.getElementById('heroHeart');
         const heartClickSound = new Audio('assets/audio/click-sound.mp3');
         heroHeart.addEventListener('click', function() {
@@ -604,7 +640,7 @@
         let isSpinningFast = false;
         venueFrame.addEventListener('click', function() { isSpinningFast = !isSpinningFast; this.classList.toggle('speed'); });
 
-        // ТАЙМЕР — Екатеринбург (UTC+5 круглый год, это +2 к Москве)
+        // ТАЙМЕР — Екатеринбург (UTC+5)
         const targetDate = new Date('2026-10-17T15:00:00+05:00').getTime();
         function updateTimer() {
             const diff = targetDate - Date.now();
@@ -679,14 +715,13 @@
             }
         }
 
-        // DRINK SOUNDS — исправлено для телефона
-        const drinkSounds = {};
-        const drinkKeys = ['wine', 'sparkling', 'strong', 'no'];
-        drinkKeys.forEach(key => {
-            drinkSounds[key] = new Audio('assets/audio/drink-' + key + '.mp3');
-            drinkSounds[key].preload = 'auto';
-            drinkSounds[key].load();
-        });
+        // DRINK SOUNDS — просто работают, без затемнения
+        const drinkSounds = {
+            wine: new Audio('assets/audio/drink-wine.mp3'),
+            sparkling: new Audio('assets/audio/drink-sparkling.mp3'),
+            strong: new Audio('assets/audio/drink-strong.mp3'),
+            no: new Audio('assets/audio/drink-no.mp3')
+        };
 
         document.querySelectorAll('#drinkButtons .radio-btn').forEach(btn => {
             btn.addEventListener('click', function(e) {
@@ -701,31 +736,12 @@
                     return;
                 }
                 
-                // Останавливаем все остальные
                 Object.values(drinkSounds).forEach(s => {
                     if (s !== sound && !s.paused) { s.pause(); s.currentTime = 0; }
                 });
                 
-                // Играем
                 sound.currentTime = 0;
-                const playPromise = sound.play();
-                if (playPromise !== undefined) {
-                    playPromise.catch(() => {
-                        setTimeout(() => { sound.currentTime = 0; sound.play().catch(() => {}); }, 50);
-                    });
-                }
-                
-                // Затемнение при «Не пью»
-                if (value === 'no') {
-                    const input = this.querySelector('input');
-                    const isChecked = input.checked;
-                    document.querySelectorAll('#drinkButtons .radio-btn').forEach(b => {
-                        if (b.dataset.drink !== 'no') {
-                            if (isChecked) { b.classList.add('dimmed'); }
-                            else { b.classList.remove('dimmed'); }
-                        }
-                    });
-                }
+                sound.play().catch(() => {});
             });
         });
 
@@ -759,7 +775,7 @@
             .catch(() => { btn.textContent = 'Ошибка'; btn.style.background = 'linear-gradient(135deg, #FF8CA8, #FF6B6B)'; setTimeout(() => { btn.textContent = 'Отправить'; btn.style.background = 'linear-gradient(135deg, #F7B7C8, #F3B56A)'; }, 2000); });
         });
 
-        const dresscodePhotos = { pink: ['assets/images/dresscode/pink-1.jpg','assets/images/dresscode/pink-2.jpg'], blue: ['assets/images/dresscode/blue-1.jpg','assets/images/dresscode/blue-2.jpg'], lavender: ['assets/images/dresscode/lavender-1.jpg','assets/images/dresscode/lavender-2.jpg'], peach: ['assets/images/dresscode/peach-1.jpg','assets/images/dresscode/peach-2.jpg'], mint: ['assets/images/dresscode/mint-1.jpg','assets/images/dresscode/mint-2.jpg'] };
+        const dresscodePhotos = { pink: ['assets/images/dresscode/pink-1.jpg','assets/images/dresscode/pink-2.jpg'], blue: ['assets/images/dresscode/blue-1.jpg','assets/images/dresscode/blue-2.jpg'], lavender: ['assets/images/dresscode/lavender-1.jpg','assets/images/dresscode/lavender-2.jpg'], yellow1: ['assets/images/dresscode/yellow1-1.jpg','assets/images/dresscode/yellow1-2.jpg'], yellow2: ['assets/images/dresscode/yellow2-1.jpg','assets/images/dresscode/yellow2-2.jpg'] };
         document.querySelectorAll('.color-dot').forEach(dot => dot.addEventListener('click', function() {
             document.querySelectorAll('.color-dot').forEach(d => d.classList.remove('active')); this.classList.add('active');
             const photos = dresscodePhotos[this.dataset.color] || [];

@@ -266,8 +266,13 @@
         .radio-btn.color-mint { color: #78a118; border-color: #78a118; } .radio-btn.color-mint:has(input:checked) { background: #78a118; color: white; }
         .radio-btn-small { padding: 8px 14px; font-size: 0.8rem; }
 
-        .btn-submit { padding: 16px; background: linear-gradient(135deg, #F7B7C8, #F3B56A); color: white; border: none; border-radius: 40px; font-family: 'Quicksand', sans-serif; font-size: 1rem; font-weight: 600; cursor: pointer; transition: all 0.4s ease; box-shadow: 0 8px 30px rgba(247, 183, 200, 0.12); margin-top: 8px; }
+        .btn-submit {
+            padding: 16px; background: linear-gradient(135deg, #F7B7C8, #F3B56A); color: white; border: none;
+            border-radius: 40px; font-family: 'Quicksand', sans-serif; font-size: 1rem; font-weight: 600;
+            cursor: pointer; transition: all 0.4s ease; box-shadow: 0 8px 30px rgba(247, 183, 200, 0.12); margin-top: 8px;
+        }
         .btn-submit:hover { transform: scale(1.02) translateY(-2px); box-shadow: 0 12px 40px rgba(247, 183, 200, 0.18); }
+        .btn-submit:disabled { background: #C4B5AD; cursor: not-allowed; box-shadow: none; }
 
         .btn-rsvp-yes { padding: 14px 28px; border: 1px solid #78a118; border-radius: 40px; background: rgba(255, 255, 255, 0.3); backdrop-filter: blur(8px); font-family: 'Quicksand', sans-serif; font-size: 1rem; font-weight: 600; color: #4A3F3A; cursor: pointer; transition: all 0.3s ease; }
         .btn-rsvp-yes:hover { background: #78a118; color: white; transform: scale(1.04); }
@@ -276,6 +281,17 @@
         .btn-rsvp-no:hover { background: #F7B7C8; color: white; transform: scale(1.04); }
         .btn-rsvp-no.active { background: #F7B7C8; color: white; }
         .rsvp-buttons { display: flex; gap: 12px; justify-content: center; margin: 8px 0; }
+
+        .btn-send-no {
+            display: none;
+            padding: 14px 28px; border: 1px solid #F7B7C8; border-radius: 40px;
+            background: #F7B7C8; color: white;
+            font-family: 'Quicksand', sans-serif; font-size: 1rem; font-weight: 600;
+            cursor: pointer; transition: all 0.3s ease; margin: 8px auto 0;
+        }
+        .btn-send-no.visible { display: block; }
+        .btn-send-no:hover { background: #e8969f; transform: scale(1.04); }
+        .btn-send-no:disabled { background: #C4B5AD; cursor: not-allowed; }
 
         .contacts-block { text-align: center; padding: 24px 20px; background: rgba(247, 183, 200, 0.08); border-radius: 24px; border: 1px solid rgba(247, 183, 200, 0.12); margin-top: 8px; }
         .contacts-block .contacts-title { font-size: 0.9rem; font-weight: 600; color: #4A3F3A; margin-bottom: 8px; }
@@ -529,6 +545,7 @@
                     <button type="button" class="btn-rsvp-yes" id="rsvpYes">Да, буду</button>
                     <button type="button" class="btn-rsvp-no" id="rsvpNo">К сожалению, нет</button>
                 </div>
+                <button type="button" class="btn-send-no" id="btnSendNo">Отправить</button>
                 <div class="rsvp-extra" id="rsvpExtra">
                     <div class="form-group"><label>Из какого вы города?</label><input type="text" placeholder="Город" id="rsvpCity" /></div>
                     <div class="form-group"><label>Что предпочитаете из еды?</label><div class="radio-group radio-group-horizontal"><label class="radio-btn color-lavender radio-btn-small"><input type="radio" name="food" value="meat" /><span>Мясо</span></label><label class="radio-btn color-mint radio-btn-small"><input type="radio" name="food" value="vegan" /><span>Вегетарианское</span></label></div></div>
@@ -665,9 +682,11 @@
         offBtn.addEventListener('click', function() { stopAllMusic(); this.classList.add('active'); });
 
         const rsvpExtra = document.getElementById('rsvpExtra'), rsvpYes = document.getElementById('rsvpYes'), rsvpNo = document.getElementById('rsvpNo');
+        const btnSendNo = document.getElementById('btnSendNo');
         const soundYes = new Audio('assets/audio/yes-sound.mp3');
         const soundNoList = [new Audio('assets/audio/no-sound-1.mp3'), new Audio('assets/audio/no-sound-2.mp3'), new Audio('assets/audio/no-sound-3.mp3')];
         let soundNoIndex = 0;
+        let noSent = false;
 
         const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzQtWQOIddHxH23WPEupuqqS5J1h5vAdVn1prWm8WmP-kcNHa5vq5jHeWSzvD92mRyu3A/exec';
 
@@ -680,18 +699,29 @@
         }
 
         rsvpYes.addEventListener('click', function() {
-            this.classList.add('active'); rsvpNo.classList.remove('active'); rsvpExtra.classList.add('visible');
+            this.classList.add('active'); rsvpNo.classList.remove('active');
+            rsvpExtra.classList.add('visible');
+            btnSendNo.classList.remove('visible'); noSent = false;
             soundYes.currentTime = 0; soundYes.play().catch(() => {});
             spawnConfetti();
             setTimeout(() => rsvpExtra.scrollIntoView({ behavior:'smooth', block:'center' }), 300);
         });
 
         rsvpNo.addEventListener('click', function() {
-            this.classList.add('active'); rsvpYes.classList.remove('active'); rsvpExtra.classList.remove('visible');
+            this.classList.add('active'); rsvpYes.classList.remove('active');
+            rsvpExtra.classList.remove('visible');
+            if (!noSent) btnSendNo.classList.add('visible');
             const currentNoSound = soundNoList[soundNoIndex];
             currentNoSound.currentTime = 0; currentNoSound.play().catch(() => {});
             soundNoIndex = (soundNoIndex + 1) % soundNoList.length;
-            // Отправка «не приду» в таблицу
+        });
+
+        btnSendNo.addEventListener('click', function() {
+            if (noSent) return;
+            noSent = true;
+            this.textContent = 'Отправлено!';
+            this.disabled = true;
+            this.style.background = '#C4B5AD';
             sendToTable({
                 name: document.getElementById('rsvpName').value || 'Не указано',
                 attending: 'Нет',
@@ -755,7 +785,7 @@
             };
             sendToTable(answers).then(() => {
                 btn.textContent = 'Отправлено!'; btn.style.background = 'linear-gradient(135deg, #78a118, #7EC8E3)';
-                setTimeout(() => { btn.textContent = 'Отправить'; btn.style.background = 'linear-gradient(135deg, #F7B7C8, #F3B56A)'; this.reset(); rsvpExtra.classList.remove('visible'); rsvpYes.classList.remove('active'); rsvpNo.classList.remove('active'); alert('Спасибо! Мы будем ждать вас!'); }, 2000);
+                setTimeout(() => { btn.textContent = 'Отправить'; btn.style.background = 'linear-gradient(135deg, #F7B7C8, #F3B56A)'; this.reset(); rsvpExtra.classList.remove('visible'); rsvpYes.classList.remove('active'); rsvpNo.classList.remove('active'); btnSendNo.classList.remove('visible'); noSent = false; alert('Спасибо! Мы будем ждать вас!'); }, 2000);
             }).catch(() => { btn.textContent = 'Ошибка'; btn.style.background = 'linear-gradient(135deg, #FF8CA8, #FF6B6B)'; setTimeout(() => { btn.textContent = 'Отправить'; btn.style.background = 'linear-gradient(135deg, #F7B7C8, #F3B56A)'; }, 2000); });
         });
 

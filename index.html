@@ -313,14 +313,6 @@
             align-items: center; justify-content: center;
             padding: 40px 20px; min-height: auto;
         }
-        .video-wrapper {
-            width: 100%; max-width: 500px; border-radius: 24px;
-            overflow: hidden; box-shadow: 0 10px 40px rgba(0,0,0,0.08);
-            margin-bottom: 20px;
-        }
-        .video-wrapper video {
-            width: 100%; display: block; border-radius: 24px;
-        }
 
         #timer-section { position: relative; z-index: 2; min-height: 40vh; padding: 40px 0 60px; background: transparent; }
         .timer { display: flex; gap: 12px; justify-content: center; flex-wrap: nowrap; }
@@ -573,7 +565,7 @@
         </div>
     </section>
 
-    <!-- ВИДЕО -->
+    <!-- БУДЕМ РАДЫ -->
     <section class="video-section">
         <div class="container">
             <h2 class="craft-title reveal" style="font-size: clamp(1.8rem, 5vw, 3rem); margin-bottom: 16px;">
@@ -583,9 +575,6 @@
                 <span class="letter" style="--rot:2deg;--y:-2px;color:#F9B87A;">в</span><span class="letter" style="--rot:-1deg;--y:2px;color:#78a118;">а</span><span class="letter" style="--rot:2deg;--y:-3px;color:#F5D76E;">с</span>
                 <span class="letter" style="--rot:-1deg;--y:1px;color:#FF8CA8;">в</span><span class="letter" style="--rot:2deg;--y:-2px;color:#7EC8E3;">и</span><span class="letter" style="--rot:-1deg;--y:3px;color:#B8A6E0;">д</span><span class="letter" style="--rot:2deg;--y:-1px;color:#F9B87A;">е</span><span class="letter" style="--rot:-1deg;--y:2px;color:#78a118;">т</span><span class="letter" style="--rot:2deg;--y:-3px;color:#F5D76E;">ь</span><span class="letter" style="--rot:-1deg;--y:1px;color:#FF8CA8;">!</span>
             </h2>
-            <div class="video-wrapper reveal">
-                <video src="assets/video/wedding-video.mp4" autoplay muted playsinline loop></video>
-            </div>
         </div>
     </section>
 
@@ -679,17 +668,35 @@
         const soundYes = new Audio('assets/audio/yes-sound.mp3');
         const soundNoList = [new Audio('assets/audio/no-sound-1.mp3'), new Audio('assets/audio/no-sound-2.mp3'), new Audio('assets/audio/no-sound-3.mp3')];
         let soundNoIndex = 0;
+
+        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzQtWQOIddHxH23WPEupuqqS5J1h5vAdVn1prWm8WmP-kcNHa5vq5jHeWSzvD92mRyu3A/exec';
+
+        function sendToTable(answers) {
+            return fetch(SCRIPT_URL, {
+                method: 'POST', mode: 'no-cors',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(answers)
+            }).catch(() => {});
+        }
+
         rsvpYes.addEventListener('click', function() {
             this.classList.add('active'); rsvpNo.classList.remove('active'); rsvpExtra.classList.add('visible');
             soundYes.currentTime = 0; soundYes.play().catch(() => {});
             spawnConfetti();
             setTimeout(() => rsvpExtra.scrollIntoView({ behavior:'smooth', block:'center' }), 300);
         });
+
         rsvpNo.addEventListener('click', function() {
             this.classList.add('active'); rsvpYes.classList.remove('active'); rsvpExtra.classList.remove('visible');
             const currentNoSound = soundNoList[soundNoIndex];
             currentNoSound.currentTime = 0; currentNoSound.play().catch(() => {});
             soundNoIndex = (soundNoIndex + 1) % soundNoList.length;
+            // Отправка «не приду» в таблицу
+            sendToTable({
+                name: document.getElementById('rsvpName').value || 'Не указано',
+                attending: 'Нет',
+                city: '', food: '', drinks: '', nonAlco: '', phone: '', allergies: ''
+            });
         });
 
         function spawnConfetti() {
@@ -738,7 +745,7 @@
             const russianFood = foodLabels[rawFood] || rawFood;
             const answers = {
                 name: document.getElementById('rsvpName').value,
-                attending: rsvpYes.classList.contains('active') ? 'Да' : 'Нет',
+                attending: 'Да',
                 city: document.getElementById('rsvpCity').value,
                 food: russianFood,
                 drinks: russianDrinks,
@@ -746,13 +753,10 @@
                 phone: document.getElementById('rsvpPhone').value,
                 allergies: document.getElementById('rsvpAllergies').value
             };
-            const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzQtWQOIddHxH23WPEupuqqS5J1h5vAdVn1prWm8WmP-kcNHa5vq5jHeWSzvD92mRyu3A/exec';
-            fetch(SCRIPT_URL, { method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(answers) })
-            .then(() => {
+            sendToTable(answers).then(() => {
                 btn.textContent = 'Отправлено!'; btn.style.background = 'linear-gradient(135deg, #78a118, #7EC8E3)';
                 setTimeout(() => { btn.textContent = 'Отправить'; btn.style.background = 'linear-gradient(135deg, #F7B7C8, #F3B56A)'; this.reset(); rsvpExtra.classList.remove('visible'); rsvpYes.classList.remove('active'); rsvpNo.classList.remove('active'); alert('Спасибо! Мы будем ждать вас!'); }, 2000);
-            })
-            .catch(() => { btn.textContent = 'Ошибка'; btn.style.background = 'linear-gradient(135deg, #FF8CA8, #FF6B6B)'; setTimeout(() => { btn.textContent = 'Отправить'; btn.style.background = 'linear-gradient(135deg, #F7B7C8, #F3B56A)'; }, 2000); });
+            }).catch(() => { btn.textContent = 'Ошибка'; btn.style.background = 'linear-gradient(135deg, #FF8CA8, #FF6B6B)'; setTimeout(() => { btn.textContent = 'Отправить'; btn.style.background = 'linear-gradient(135deg, #F7B7C8, #F3B56A)'; }, 2000); });
         });
 
         const dresscodePhotos = {
@@ -793,7 +797,6 @@
             faqGrid.classList.toggle('has-active', document.querySelector('.faq-item.open') !== null);
         }));
 
-        // ЗВУКИ КВИЗА
         const quizCorrectSound = new Audio('assets/audio/quiz-correct.mp3');
         const quizWrongSound = new Audio('assets/audio/quiz-wrong.mp3');
 
@@ -816,19 +819,6 @@
                 if (this === japanOption) { this.textContent = 'Куда надо'; }
             }, 800);
         }));
-
-        // АВТОЗАПУСК ВИДЕО при появлении в зоне видимости
-        const video = document.querySelector('.video-wrapper video');
-        if (video) {
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        video.play().catch(() => {});
-                    }
-                });
-            }, { threshold: 0.5 });
-            observer.observe(video);
-        }
 
         console.log('💍 Свадебный сайт загружен!');
     </script>
